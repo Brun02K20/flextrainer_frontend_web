@@ -1,0 +1,15 @@
+.login-modal-header {
+    background-color: red;
+}
+
+.btn-close {
+    color: white
+}
+
+.login-modal-header closeButton {
+    color: white
+}
+
+.login-modal-title {
+    color: white
+}

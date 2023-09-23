@@ -1,0 +1,109 @@
+#header-navbar-bienvenida {
+    background-color: rgb(224, 117, 117);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+.logo-bienvenida-navbar {
+    width: 15%;
+    height: 15%;
+}
+
+#navbar-collapse-bienvenida {
+    justify-content: end;
+}
+
+.user-bienvenida {
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+}
+
+#user-icon-bienvenida {
+    font-size: 2rem;
+    color: white; 
+    margin-left: 8px; 
+    cursor: pointer
+}
+
+.dropdown-user-bienvenida {
+    top: 110%;
+}
+
+.centered-image-bienvenida {
+    display: flex;
+    justify-content: center;
+    /* Centra horizontalmente */
+    align-items: center;
+    /* Centra verticalmente */
+    height: 73.7vh;
+    /* Establece la altura al 73.7% del viewport para que la imagen se ajuste al centro de la pantalla, ni yo se como hice pa que ande */
+}
+
+.icon-text-container {
+    display: flex;
+    align-items: center;
+    /* Alinea verticalmente los elementos en el centro */
+}
+
+#opciones-responsive-dropdown-bienvenida-1, #opciones-responsive-dropdown-bienvenida-2 {
+    display: none
+}
+
+.button-bienvenida {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+
+#footer-bienvenida {
+    background-color: darkred;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%
+}
+
+.footer-bienvenida-link-socialNetwork {
+    color: white
+}
+
+/* si esta en dispositivos cuyo ancho sea menor a 420px, en vez de ejecutarse los estilos de arriba, se ejecutan 
+estos, para los selectores aca indicados */
+@media (max-width: 420px) {
+    .user-bienvenida {
+        display: none
+    }
+
+    #user-icon-bienvenida {
+        margin-left: 265%;
+    }
+
+    .logo-bienvenida-navbar {
+        width: 50%
+    }
+
+    .footer-bienvenida-link-socialNetwork {
+        display: none
+    }
+
+    #opciones-responsive-dropdown-bienvenida-1 {
+        display: inline-block;
+        color: red;
+        font-weight: 700;
+    }
+
+    #opciones-responsive-dropdown-bienvenida-2 {
+        display: block
+    }
+
+    #navbar-collapse-bienvenida {
+        justify-content: start;
+    }
+}
+
+#basic-nav-dropdown.dropdown-toggle.nav-link::after {
+    content: none
+}

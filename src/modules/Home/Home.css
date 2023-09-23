@@ -1,0 +1,65 @@
+/* estilos en cascada, recordar que siempre van de arriba hacia abajo en funcion de la ubicacion de los componentes
+en el respectivo archivo .js */
+#header-navbar-home {
+    background-color: rgb(224, 117, 117); /* color de fondo, se lo puede configurar, o incluso almacenar en variables*/
+    width: 100%; /* ancho total de la pantalla */
+    /* fijando el header en la parte superior de la pantalla */
+    position: fixed; 
+    top: 0;
+    right: 0;
+}
+
+.logo-home-navbar {
+    width: 15%;
+    height: 15%;
+}
+
+.login-button-home {
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+}
+
+.centered-image-home {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 100vh; /* Establece la altura al 73.7% del viewport para que la imagen se ajuste al centro de la pantalla */
+}
+
+.icon-text-container {
+    display: flex;
+    align-items: center;
+    /* Alinea verticalmente los elementos en el centro */
+}
+
+.icon-text-container i {
+    margin-right: 8px;
+    /* Espacio entre el icono y el texto, puedes ajustarlo según tus preferencias */
+}
+
+#footer-home {
+    background-color: darkred;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%
+}
+
+.footer-home-link-socialNetwork {
+    color: white
+}
+
+@media (max-width: 420px) {
+    .login-button-home {
+        display: none
+    }
+
+    .logo-home-navbar {
+        width: 50%
+    }
+
+    .footer-home-link-socialNetwork {
+        display: none
+    }
+}
