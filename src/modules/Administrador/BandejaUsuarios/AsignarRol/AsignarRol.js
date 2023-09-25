@@ -17,7 +17,7 @@ const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol }) => {
     // especificado en la H.U.
     const [rolElegido, setRolElegido] = useState('');
 
-    // funcionalidades y propiedades necesarias para la gestion del formulario de inicio de sesion
+    // funcionalidades y propiedades necesarias para la gestion del formulario
     const { handleSubmit, control, formState: { errors }, setValue } = useForm();
 
     // cada vez que el usuario cambie el rol elegido, se ejecuta este efecto, seteando el rol elegido 

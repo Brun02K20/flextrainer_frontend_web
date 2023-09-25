@@ -14,6 +14,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 
 // importar componentes desarrollados por mi
 import { AsignarRol } from './AsignarRol/AsignarRol';
+import { EliminarUsuario } from './EliminarUsuario/EliminarUsuario';
 
 // lo mismo, declaro componente y explicito props que va a recibir
 const BandejaUsuarios = () => {
@@ -200,6 +201,11 @@ const BandejaUsuarios = () => {
     const [showModalAsignarRol, setShowModalAsignarRol] = useState(false);
     const handleCloseAsignarRol = () => setShowModalAsignarRol(false);
     const handleShowAsignarRol = () => setShowModalAsignarRol(true);
+
+    // gestion del modal de Eliminar Usuario
+    const [showModalEliminarUsuario, setShowModalEliminarUsuario] = useState(false);
+    const handleCloseEliminarUsuario = () => setShowModalEliminarUsuario(false);
+    const handleShowEliminarUsuario = () => setShowModalEliminarUsuario(true);
 
     // renderizando todo (NOTA: ESTARIA BUENO MODULAR ESTA SECCION, EN VARIOS ARCHIVOS)
     return (
@@ -418,7 +424,7 @@ const BandejaUsuarios = () => {
                                                         </Tooltip>
                                                     }
                                                 >
-                                                    <Button variant="secondary" style={{ backgroundColor: 'red', border: 'none', borderRadius: '50%', margin: '2px' }}>
+                                                    <Button variant="secondary" style={{ backgroundColor: 'red', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => handleShowEliminarUsuario()}>
                                                         <i className="bi bi-x" style={{ fontSize: '16px' }}></i>
                                                     </Button>
                                                 </OverlayTrigger>
@@ -462,6 +468,11 @@ const BandejaUsuarios = () => {
             <AsignarRol
                 showModalAsignarRol={showModalAsignarRol}
                 handleCloseAsignarRol={handleCloseAsignarRol}
+            />
+
+            <EliminarUsuario
+                showModalEliminarUsuario={showModalEliminarUsuario}
+                handleCloseEliminarUsuario={handleCloseEliminarUsuario}
             />
         </>
     );

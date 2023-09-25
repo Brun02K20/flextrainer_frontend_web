@@ -1,0 +1,17 @@
+.deleteUser-modal-header {
+    background-color: red;
+}
+
+.deleteUser-modal-header closeButton {
+    color: white
+}
+
+.deleteUser-modal-title {
+    color: white
+}
+
+.deleteUser-alertText {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+}
