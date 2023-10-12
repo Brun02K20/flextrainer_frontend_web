@@ -72,7 +72,7 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
                 <div className="d-flex justify-content-between">
                     {/* boton alojado a la izquierda */}
                     <div className="text-center" style={{ marginRight: '10%', position: 'relative', top: '-200%', left: '-36%' }}>
-                        <Button className="btn-left button-bienvenida" style={{ backgroundColor: 'red', border: 'none' }} >
+                        <Button className="btn-left button-bienvenida" style={{ backgroundColor: 'red', border: 'none' }} onClick={() => navigate('/maquinas')}>
                             <i className="bi bi-database" style={{ fontSize: '32px' }}></i>
                         </Button>
                         <p>Ver Equipamiento</p>
@@ -80,10 +80,10 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
 
                     {/* boton alojado a la derecha */}
                     <div className="text-center" style={{ marginLeft: '10%', position: 'relative', top: '-200%', right: '-36%' }}>
-                        <Button className="btn-right button-bienvenida" style={{ backgroundColor: 'red', border: 'none' }}>
-                            <i className="bi bi-person-arms-up" style={{ fontSize: '32px' }}></i>
+                        <Button className="btn-right button-bienvenida" style={{ backgroundColor: 'red', border: 'none' }} onClick={() => navigate('/planesPorAlumnos')}>
+                            <i className="bi bi-archive-fill" style={{ fontSize: '32px' }}></i>
                         </Button>
-                        <p>Ver Ejercicios</p>
+                        <p>Planes por Alumno</p>
                     </div>
                 </div>
             </Container>

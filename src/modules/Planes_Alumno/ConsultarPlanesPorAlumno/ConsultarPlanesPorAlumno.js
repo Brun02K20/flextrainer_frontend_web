@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'; // importando React y funcio
 import { useNavigate } from 'react-router-dom'; // importando funcion de navegacion entre componentes de react-router-dom
 import { useForm, Controller } from 'react-hook-form'; // importando funcionalidades necesarias para la gestion de formularios
 
+
 // importando componentes de react-bootstrap necesarios
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
@@ -12,14 +13,43 @@ import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
-// importar componentes desarrollados por mi
-import { AsignarRol } from './AsignarRol/AsignarRol';
-import { EliminarUsuario } from './EliminarUsuario/EliminarUsuario';
+const ConsultarPlanesPorAlumno = () => {
 
-// lo mismo, declaro componente y explicito props que va a recibir
-const BandejaUsuarios = () => {
-    // declaro la funcion de navegacion 
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // declaro la funcion de navegacion
+
+    // despues cambiar esto por una api y traer los datos que correspondan, esto es todo hardcodeado
+    const data = [
+        {
+            dni: 1,
+            nombre: 'a',
+            apellido: 'a',
+            plan: '1'
+        },
+        {
+            dni: 2,
+            nombre: 'a',
+            apellido: 'a',
+            plan: '1'
+        },
+        {
+            dni: 3,
+            nombre: 'a',
+            apellido: 'a',
+            plan: '1'
+        },
+        {
+            dni: 4,
+            nombre: 'a',
+            apellido: 'a',
+            plan: '1'
+        },
+        {
+            dni: 5,
+            nombre: 'a',
+            apellido: 'a',
+            plan: '1'
+        },
+    ]
 
     // declaro las funcionalidades necesarias para gestionar formularios, en este caso, tendremos un formulario de
     // busqueda, que se utilizara como un filtrador de datos
@@ -28,150 +58,10 @@ const BandejaUsuarios = () => {
     // funcion que se va a ejecutar en cuanto el usuario pulse BUSCAR, enviando los datos ingresados en los filtros
     // al backend
     const onSubmit = async (data) => {
-        data.dadosBaja = dadosBaja;
-        data.dni = parseInt(data.dni);
         console.log(data);
     };
 
-    //gestion del boton volver, por ahora solo lo lleva a la pantalla de bienvenida
-    const handleBack = () => {
-        navigate('/bienvenida');
-    };
-
-    // declarando las columnas de la tabla, esto se podria llevar a un archivo aparte y cambiar por los nombres que corresponden
-    const columns = [
-        {
-            dataField: 'id',
-            text: 'ID',
-        },
-        {
-            dataField: 'name',
-            text: 'Nombre',
-        },
-        {
-            dataField: 'email',
-            text: 'Email',
-        },
-        {
-            dataField: 'phone',
-            text: 'Teléfono',
-        },
-        {
-            dataField: 'city',
-            text: 'Ciudad',
-        },
-    ];
-
-    // despues cambiar esto por una api y traer los datos que correspondan, esto es todo hardcodeado
-    const data = [
-        {
-            id: 1,
-            name: 'a',
-            email: 'a',
-            phone: '1',
-            city: 'a'
-        },
-        {
-            id: 2,
-            name: 'a',
-            email: 'a',
-            phone: '1',
-            city: 'a'
-        },
-        {
-            id: 3,
-            name: 'a',
-            email: 'a',
-            phone: '1',
-            city: 'a'
-        },
-        {
-            id: 4,
-            name: 'a',
-            email: 'a',
-            phone: '1',
-            city: 'a'
-        },
-        {
-            id: 5,
-            name: 'a',
-            email: 'a',
-            phone: '1',
-            city: 'a'
-        },
-        {
-            id: 6,
-            name: 'a',
-            email: 'a',
-            phone: '1',
-            city: 'a'
-        },
-        {
-            id: 7,
-            name: 'a',
-            email: 'a',
-            phone: '1',
-            city: 'a'
-        },
-        {
-            id: 8,
-            name: 'a',
-            email: 'a',
-            phone: '1',
-            city: 'a'
-        },
-        {
-            id: 9,
-            name: 'a',
-            email: 'a',
-            phone: '1',
-            city: 'a'
-        },
-        {
-            id: 10,
-            name: 'a',
-            email: 'a',
-            phone: '1',
-            city: 'a'
-        },
-        {
-            id: 11,
-            name: 'a',
-            email: 'a',
-            phone: '1',
-            city: 'a'
-        },
-        {
-            id: 12,
-            name: 'a',
-            email: 'a',
-            phone: '1',
-            city: 'a'
-        },
-        {
-            id: 13,
-            name: 'a',
-            email: 'a',
-            phone: '1',
-            city: 'a'
-        },
-        {
-            id: 14,
-            name: 'a',
-            email: 'a',
-            phone: '1',
-            city: 'a'
-        },
-        {
-            id: 15,
-            name: 'a',
-            email: 'a',
-            phone: '1',
-            city: 'a'
-        },
-    ];
-
-
+    const [dadosBaja, setDadosBaja] = useState(false); // para saber si incluir a los dados de baja o no en la busqueda por filtros
     // gestion de la grilla, temas de paginacion
     const [currentPage, setCurrentPage] = useState(1); // que pagina se esta mostrando en el momento
     const [itemsPerPage, setItemsPerPage] = useState(10); // Inicialmente mostrar 10 filas por página
@@ -194,30 +84,16 @@ const BandejaUsuarios = () => {
         setCurrentPage(1); // Reiniciar a la primera página cuando cambia el número de elementos por página
     };
 
-    const [dadosBaja, setDadosBaja] = useState(false); // para saber si incluir a los dados de baja o no en la busqueda por filtros
+    // funcion que se va a ejecutar si el usuario pulsa el boton volver, redirigiendolo, en este caso, a la pantalla de bienvenida
+    const handleBack = () => {
+        navigate('/bienvenida')
+    }
 
-    // GESTION DE MODALES
-    // gestion del modal de Rol
-    const [showModalAsignarRol, setShowModalAsignarRol] = useState(false);
-    const handleCloseAsignarRol = () => setShowModalAsignarRol(false);
-    const handleShowAsignarRol = () => setShowModalAsignarRol(true);
-
-    // gestion del modal de Eliminar Usuario
-    const [showModalEliminarUsuario, setShowModalEliminarUsuario] = useState(false);
-    const handleCloseEliminarUsuario = () => setShowModalEliminarUsuario(false);
-    const handleShowEliminarUsuario = () => setShowModalEliminarUsuario(true);
-
-    // gestion del modal de Ver Usuario
-    const [showModalVerUser, setShowModalVerUser] = useState(false);
-    const handleCloseVerUser = () => setShowModalVerUser(false);
-    const handleShowVerUser = () => setShowModalVerUser(true);
-
-    // renderizando todo (NOTA: ESTARIA BUENO MODULAR ESTA SECCION, EN VARIOS ARCHIVOS)
     return (
         <>
             <Navbar style={{ backgroundColor: 'red' }}>
                 <Container>
-                    <Navbar.Brand style={{ color: 'white', fontWeight: 'bold' }}>Consultar Usuarios</Navbar.Brand>
+                    <Navbar.Brand style={{ color: 'white', fontWeight: 'bold' }}>Consultar Planes Por Alumno</Navbar.Brand>
                 </Container>
             </Navbar>
 
@@ -284,45 +160,6 @@ const BandejaUsuarios = () => {
                                             {errors.apellido && <p>{errors.apellido.message}</p>}
                                         </Form.Group>
                                     </div>
-                                    <div className="col-md-6">
-                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                            <Form.Label>Género</Form.Label>
-                                            <Controller
-                                                name="genero"
-                                                control={control}
-                                                rules={{ required: 'Este campo es requerido' }}
-                                                render={({ field }) => (
-                                                    <Form.Select aria-label="select-genero-busqueda-usuarios" {...field}>
-                                                        <option value='0'>Sin Elegir</option>
-                                                        <option value="Masculino">Masculino</option>
-                                                        <option value="Femenino">Femenino</option>
-                                                        <option value="X">X</option>
-                                                    </Form.Select>
-                                                )}
-                                            />
-                                            {errors.genero && <p>{errors.genero.message}</p>}
-                                        </Form.Group>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                                            <Form.Label>Rol</Form.Label>
-                                            <Controller
-                                                name="rol"
-                                                control={control}
-                                                rules={{ required: 'Este campo es requerido' }}
-                                                render={({ field }) => (
-                                                    <Form.Select aria-label="select-rol-busqueda-usuarios" {...field}>
-                                                        <option value='0'>Sin Elegir</option>
-                                                        <option value="Alumno">Alumno</option>
-                                                        <option value="Entrenador">Entrenador</option>
-                                                        <option value="Sin Asignar">Sin Asignar</option>
-                                                    </Form.Select>
-                                                )}
-                                            />
-                                            {errors.rol && <p>{errors.rol.message}</p>}
-                                        </Form.Group>
-                                    </div>
-
                                     <div className='col-md-6'>
                                         <Form.Check
                                             type='checkbox'
@@ -353,7 +190,7 @@ const BandejaUsuarios = () => {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
-                        <p>Usuarios Encontrados</p>
+                        <p>Planes Encontrados</p>
                         <div>
                             <div className="mb-3">
                                 Filas por página:{' '}
@@ -373,39 +210,27 @@ const BandejaUsuarios = () => {
                                         <th>DNI</th>
                                         <th>Nombres</th>
                                         <th>Apellidos</th>
-                                        <th>Rol</th>
+                                        <th>Plan</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {currentData.map((row) => (
-                                        <tr key={row.id}>
-                                            <td>{row.id}</td>
-                                            <td>{row.name}</td>
-                                            <td>{row.email}</td>
-                                            <td>{row.phone}</td>
+                                    {currentData.map((row, index) => (
+                                        <tr key={index + 1}>
+                                            <td>{row.dni}</td>
+                                            <td>{row.nombre}</td>
+                                            <td>{row.apellido}</td>
+                                            <td>{row.plan}</td>
                                             <td className="d-flex justify-content-between">
                                                 <OverlayTrigger
                                                     placement='top'
                                                     overlay={
                                                         <Tooltip id='intentandoesto'>
-                                                            <strong>Asignar rol</strong>.
+                                                            <strong>Ver Detalle</strong>.
                                                         </Tooltip>
                                                     }
                                                 >
-                                                    <Button variant="secondary" style={{ backgroundColor: 'blue', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => handleShowAsignarRol()}>
-                                                        <i className="bi bi-person-circle" style={{ fontSize: '16px' }}></i>
-                                                    </Button>
-                                                </OverlayTrigger>
-                                                <OverlayTrigger
-                                                    placement='top'
-                                                    overlay={
-                                                        <Tooltip id='intentandoesto'>
-                                                            <strong>Ver Usuario</strong>.
-                                                        </Tooltip>
-                                                    }
-                                                >
-                                                    <Button variant="secondary" style={{ backgroundColor: '#EAD85A', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => navigate(`/verUsuario/${row.id}`)} >
+                                                    <Button variant="secondary" style={{ backgroundColor: '#EAD85A', border: 'none', borderRadius: '50%', margin: '2px' }}>
                                                         <i className="bi bi-eye" style={{ fontSize: '16px' }}></i>
                                                     </Button>
                                                 </OverlayTrigger>
@@ -413,23 +238,11 @@ const BandejaUsuarios = () => {
                                                     placement='top'
                                                     overlay={
                                                         <Tooltip id='intentandoesto'>
-                                                            <strong>Modificar Usuario</strong>.
+                                                            <strong>Eliminar Plan</strong>.
                                                         </Tooltip>
                                                     }
                                                 >
-                                                    <Button variant="secondary" style={{ backgroundColor: '#55E14E', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => navigate(`/modificarUsuario/${row.id}`)}>
-                                                        <i className="bi bi-pencil-square" style={{ fontSize: '16px' }}></i>
-                                                    </Button>
-                                                </OverlayTrigger>
-                                                <OverlayTrigger
-                                                    placement='top'
-                                                    overlay={
-                                                        <Tooltip id='intentandoesto'>
-                                                            <strong>Eliminar Usuario</strong>.
-                                                        </Tooltip>
-                                                    }
-                                                >
-                                                    <Button variant="secondary" style={{ backgroundColor: 'red', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => handleShowEliminarUsuario()}>
+                                                    <Button variant="secondary" style={{ backgroundColor: 'red', border: 'none', borderRadius: '50%', margin: '2px' }}>
                                                         <i className="bi bi-x" style={{ fontSize: '16px' }}></i>
                                                     </Button>
                                                 </OverlayTrigger>
@@ -469,18 +282,8 @@ const BandejaUsuarios = () => {
                     Volver
                 </Button>
             </div>
-
-            <AsignarRol
-                showModalAsignarRol={showModalAsignarRol}
-                handleCloseAsignarRol={handleCloseAsignarRol}
-            />
-
-            <EliminarUsuario
-                showModalEliminarUsuario={showModalEliminarUsuario}
-                handleCloseEliminarUsuario={handleCloseEliminarUsuario}
-            />
         </>
-    );
-};
+    )
+}
 
-export { BandejaUsuarios };
+export { ConsultarPlanesPorAlumno }

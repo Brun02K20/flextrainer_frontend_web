@@ -5,12 +5,27 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
-// importo componentes desarrollados por nosotros
+// IMPORTO COMPONENTES DESARROLLADOS
+// importacion del Home
 import { Home } from './modules/Home/Home.js';
 import { Bienvenida } from './modules/Bienvenida/Bienvenida.js';
+
+// importacion de las funcionalidades de usuarios
 import { BandejaUsuarios } from './modules/Administrador/BandejaUsuarios/BandejaUsuarios.js';
 import { CrearUsuario } from './modules/CrearUsuario/CrearUsuario.js';
 
+// importacion de componentes del modulo de maquinas
+import { ConsultarMaquinas } from './modules/Maquinas/ConsultarMaquinas/ConsultarMaquinas.js';
+import { VerDetalleMaquina } from './modules/Maquinas/VerDetalleMaquina/VerDetalleMaquina.js';
+
+// importacion de componentes del modulo de ejercicios
+import { VerDetalleEjercicio } from './modules/Ejercicios/VerDetalleEjercicio/VerDetalleEjercicio.js';
+import { ConsultarPlanesPorAlumno } from './modules/Planes_Alumno/ConsultarPlanesPorAlumno/ConsultarPlanesPorAlumno.js';
+import { ModificarUsuario } from './modules/Administrador/BandejaUsuarios/ModificarUsuario/ModificarUsuario.js';
+import { VerDetalleUsuario } from './modules/Administrador/BandejaUsuarios/VerDetalleUsuario/VerDetalleUsuario.js';
+
+
+// declaro la funcion principal de la aplicacion
 function App() {
   // gestion del usuario en sesion a traves de un estado (en un futuro posiblemente cambiar esto por auth y JWT)
   const [usuarioEnSesion, setUsuarioEnSesion] = useState({});
@@ -70,9 +85,55 @@ function App() {
         />
 
         <Route
+          path='/modificarUsuario/:id'
+          element={
+            <ModificarUsuario
+            />
+          }
+        />
+
+        <Route
+          path='/verUsuario/:id'
+          element={
+            <VerDetalleUsuario />
+          }
+        />
+
+        <Route
           path='/registrarse'
           element={
             <CrearUsuario
+            />
+          }
+        />
+
+        <Route
+          path='/maquinas'
+          element={
+            <ConsultarMaquinas />
+          }
+        />
+
+        <Route
+          path='/maquina/:id'
+          element={
+            <VerDetalleMaquina
+            />
+          }
+        />
+
+        <Route
+          path='/ejercicio/:id'
+          element={
+            <VerDetalleEjercicio
+            />
+          }
+        />
+
+        <Route
+          path='/planesPorAlumnos'
+          element={
+            <ConsultarPlanesPorAlumno
             />
           }
         />
