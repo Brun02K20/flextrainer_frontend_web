@@ -1,5 +1,5 @@
 // importo la libreria React, y los componentes necesarios de react-bootstrap
-import React from 'react';
+import React, { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -14,7 +14,11 @@ import logoFLEXTRAINER from '../../images/logo-origi.png';
 // declaro el componente Home, ademas de desestructurar el objeto de props, explicitando que propiedades
 // recibira este componente, en este caso, solo recibira las propiedades de gestion de modal, a fin
 // de gestionar el modal del login
-const Home = ({ showModal, handleOpenModal, handleCloseModal }) => {
+const Home = ({ showModal, handleOpenModal, handleCloseModal, setUsuarioEnSesion, usuarioEnSesion }) => {
+
+    useEffect(() => {
+        console.log('UsuarioEnHome: ', usuarioEnSesion)
+    }, [])
     return (
         <>
             {/* Header de la pantalla Home */}
@@ -56,7 +60,7 @@ const Home = ({ showModal, handleOpenModal, handleCloseModal }) => {
                 </Nav.Item>
 
                 <Nav.Item>
-                    <Nav.Link>
+                    <Nav.Link href='https://instagram.com/flex_trainer?igshid=NGVhN2U2NjQ0Yg==' target="_blank">
                         <div className="icon-text-container">
                             <i
                                 className="bi bi-instagram"
@@ -72,6 +76,8 @@ const Home = ({ showModal, handleOpenModal, handleCloseModal }) => {
             <LoginModal
                 show={showModal}
                 handleClose={handleCloseModal}
+                setUsuarioEnSesion={setUsuarioEnSesion}
+                usuarioEnSesion={usuarioEnSesion}
             />
         </>
     );

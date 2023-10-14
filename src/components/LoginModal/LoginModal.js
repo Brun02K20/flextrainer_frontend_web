@@ -13,9 +13,11 @@ import { useNavigate } from 'react-router-dom';
 
 // importo los estilos CSS de este componente
 import './LoginModal.css';
+import axios from 'axios';
 
 // declaro el componente, explicitando las propiedades que recibira tal como se explico en el componente Home
-const LoginModal = ({ show, handleClose }) => {
+const LoginModal = ({ show, handleClose, usuarioEnSesion, setUsuarioEnSesion }) => {
+    const [errorLoginBack, setErrorLoginBack] = useState('');
 
     // estado que se utilizara para que el usuario pueda ver lo que esta ingresando en el campo de contraseña, 
     // basicamente va a cambiar cada vez que el usuario haga click en el icono del ojo
@@ -32,9 +34,20 @@ const LoginModal = ({ show, handleClose }) => {
 
     // funcion que se llevara a cabo en cuanto el usuario pulse INGRESAR, llevando a cabo las validaciones necesarias
     //, y en caso de que todas las validaciones sean exitosas, enviara los parametros al backend para su procesamiento
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         data.dni = parseInt(data.dni); // convirtiendo el DNI a un numero entero
         console.log(data); // consoleando los datos ingresados por el usuario
+
+        const user = await axios.post('http://localhost:4001/flextrainer/usuarios/login', data)
+        console.log(user.data)
+
+        if (user.data.error) {
+            setErrorLoginBack(user.data.error)
+            return;
+        }
+
+        setUsuarioEnSesion(user.data)
+
         handleClose(); // cerrando el modal 
         navigate('/bienvenida'); // redirigir al usuario a la pantalla de bienvenida
     };
@@ -63,14 +76,32 @@ const LoginModal = ({ show, handleClose }) => {
                         <Controller
                             name="dni" // nombre del campo, este nombre es el que se va a usar en la funcion que envia los datos al backend
                             control={control} // esto va asi SI O SI, si no, no anda nada
-                            rules={{ required: 'Este campo es requerido' }} // las reglas son validaciones, podemos validar longitud de caracteres por ejemplo
+                            rules={
+                                {
+                                    required: {
+                                        value: true,
+                                        message: 'Este campo es requerido'
+                                    },
+                                    maxLength: {
+                                        value: 8,
+                                        message: 'El DNI no puede tener mas de 8 caracteres'
+                                    },
+                                    minLength: {
+                                        value: 7,
+                                        message: 'El DNI no puede tener menos de 7 caracteres'
+                                    },
+                                    pattern: {
+                                        value: /^[0-9]+$/,
+                                        message: 'Solo se permiten números positivos en este campo'
+                                    }
+                                }
+                            } // las reglas son validaciones, podemos validar longitud de caracteres por ejemplo
                             render={({ field }) => (
                                 // Form.Control es el campo que se va a mostrar por pantalla, y render es la funcion que permite mostrarlo
                                 <Form.Control
                                     type="number"
                                     placeholder="Ingresá tu DNI" // placeholder es el instructivo de que tiene que ingresar el usuario en ese campo
                                     defaultValue=""
-                                    autoFocus // el autofocus se usa para que en cuanto se active el modal, ya haya un onFocus en este elemento
                                     {...field}
                                 />
                             )}
@@ -87,13 +118,27 @@ const LoginModal = ({ show, handleClose }) => {
                         <Controller
                             name='password'
                             control={control}
-                            rules={{ required: 'Este campo es requerido' }}
+                            rules={
+                                {
+                                    required: {
+                                        value: true,
+                                        message: 'Este campo es requerido'
+                                    },
+                                    maxLength: {
+                                        value: 15,
+                                        message: 'La contraseña no puede tener mas de 15 caracteres'
+                                    },
+                                    minLength: {
+                                        value: 8,
+                                        message: 'La contraseña no puede tener menos de 8 caracteres'
+                                    },
+                                }
+                            }
                             render={({ field }) => (
                                 <div className="input-group">
                                     <Form.Control
                                         type={passwordVisible ? 'text' : 'password'}
                                         placeholder="Ingresá tu contraseña"
-                                        autoFocus
                                         defaultValue=""
                                         style={{ borderRadius: '8px' }}
                                         {...field}
@@ -114,6 +159,7 @@ const LoginModal = ({ show, handleClose }) => {
                             )}
                         />
                         {errors.password && <p>{errors.password.message}</p>}
+                        {errorLoginBack && <p>{errorLoginBack}</p>}
                     </Form.Group>
                 </Form>
 

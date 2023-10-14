@@ -12,65 +12,65 @@ import { Nav, Table, Pagination } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import axios from 'axios';
 
 const ConsultarPlanesPorAlumno = () => {
-
     const navigate = useNavigate(); // declaro la funcion de navegacion
+    const [planesAlumnos, setPlanesAlumnos] = useState([])
 
-    // despues cambiar esto por una api y traer los datos que correspondan, esto es todo hardcodeado
-    const data = [
-        {
-            dni: 1,
-            nombre: 'a',
-            apellido: 'a',
-            plan: '1'
-        },
-        {
-            dni: 2,
-            nombre: 'a',
-            apellido: 'a',
-            plan: '1'
-        },
-        {
-            dni: 3,
-            nombre: 'a',
-            apellido: 'a',
-            plan: '1'
-        },
-        {
-            dni: 4,
-            nombre: 'a',
-            apellido: 'a',
-            plan: '1'
-        },
-        {
-            dni: 5,
-            nombre: 'a',
-            apellido: 'a',
-            plan: '1'
-        },
-    ]
+    useEffect(() => {
+        const traerPlanesAlumnos = async () => {
+            const response = await axios.post(`http://localhost:4001/flextrainer/planesAlumnos/byFilters`)
+            setPlanesAlumnos(response.data)
+        }
+        traerPlanesAlumnos()
+    }, [])
 
     // declaro las funcionalidades necesarias para gestionar formularios, en este caso, tendremos un formulario de
     // busqueda, que se utilizara como un filtrador de datos
-    const { handleSubmit, control, formState: { errors } } = useForm();
+    const { handleSubmit, control, formState: { errors }, reset, setValue, register } = useForm();
+
+    const handleClean = () => {
+        reset()
+        // Limpia visualmente usando setValue
+        setValue('dni', '');
+        setValue('nombre', '');
+        setValue('apellido', '');
+
+        // Limpiar visualmente el checkbox
+        setValue('dadosBaja', false);  // Suponiendo que el campo para el checkbox se llama 'dadosBaja'
+    }
+
+
 
     // funcion que se va a ejecutar en cuanto el usuario pulse BUSCAR, enviando los datos ingresados en los filtros
     // al backend
     const onSubmit = async (data) => {
-        console.log(data);
+        data.dni = parseInt(data.dni)
+
+        if (data.dadosBaja === false) {
+            data.dadosBaja = 1;
+        } else {
+            data.dadosBaja = 0;
+        }
+        console.log("a enviar al backend", data);
+
+        const response = await axios.post(`http://localhost:4001/flextrainer/planesAlumnos/byFilters`, data)
+        console.log("rta: ", response.data)
+        setCurrentPage(1);
+        setPlanesAlumnos(response.data)
+
     };
 
-    const [dadosBaja, setDadosBaja] = useState(false); // para saber si incluir a los dados de baja o no en la busqueda por filtros
     // gestion de la grilla, temas de paginacion
     const [currentPage, setCurrentPage] = useState(1); // que pagina se esta mostrando en el momento
     const [itemsPerPage, setItemsPerPage] = useState(10); // Inicialmente mostrar 10 filas por página
 
-    const totalPages = Math.ceil(data.length / itemsPerPage); // calcular la cantidad de paginas
+    const totalPages = Math.ceil(planesAlumnos.length / itemsPerPage); // calcular la cantidad de paginas
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
 
-    const currentData = data.slice(startIndex, endIndex);
+    const currentData = planesAlumnos.slice(startIndex, endIndex);
 
     // setear la pagina actual en la que pulse el usuario
     const handlePageChange = (page) => {
@@ -112,7 +112,22 @@ const ConsultarPlanesPorAlumno = () => {
                                             <Controller
                                                 name="dni"
                                                 control={control}
-                                                rules={{ required: 'Este campo es requerido' }}
+                                                rules={
+                                                    {
+                                                        pattern: {
+                                                            value: /^[0-9]+$/,
+                                                            message: 'Solo se permiten números positivos en este campo'
+                                                        },
+                                                        maxLength: {
+                                                            value: 8,
+                                                            message: 'El DNI no puede tener mas de 8 caracteres'
+                                                        },
+                                                        minLength: {
+                                                            value: 7,
+                                                            message: 'El DNI no puede tener menos de 7 caracteres'
+                                                        }
+                                                    }
+                                                }
                                                 render={({ field }) => (
                                                     <Form.Control
                                                         type="number"
@@ -130,7 +145,18 @@ const ConsultarPlanesPorAlumno = () => {
                                             <Controller
                                                 name="nombre"
                                                 control={control}
-                                                rules={{ required: 'Este campo es requerido' }}
+                                                rules={
+                                                    {
+                                                        pattern: {
+                                                            value: /^[a-zA-Z]+$/,
+                                                            message: 'Porfavor, ingresa solo letras en este campo. Si tu nombre tiene una ñ, bueno, `ni` flaco'
+                                                        },
+                                                        maxLength: {
+                                                            value: 30,
+                                                            message: 'Maximo 30 caracteres'
+                                                        }
+                                                    }
+                                                }
                                                 render={({ field }) => (
                                                     <Form.Control
                                                         type="text"
@@ -148,7 +174,18 @@ const ConsultarPlanesPorAlumno = () => {
                                             <Controller
                                                 name="apellido"
                                                 control={control}
-                                                rules={{ required: 'Este campo es requerido' }}
+                                                rules={
+                                                    {
+                                                        pattern: {
+                                                            value: /^[a-zA-Z]+$/,
+                                                            message: 'Porfavor, ingresa solo letras en este campo. Si tu nombre tiene una ñ, bueno, `ni` flaco'
+                                                        },
+                                                        maxLength: {
+                                                            value: 30,
+                                                            message: 'Maximo 30 caracteres'
+                                                        }
+                                                    }
+                                                }
                                                 render={({ field }) => (
                                                     <Form.Control
                                                         type="text"
@@ -165,17 +202,16 @@ const ConsultarPlanesPorAlumno = () => {
                                             type='checkbox'
                                             id='checkbox-busqueda-usuarios'
                                             label='Incluir dados de baja'
-                                            onClick={() => setDadosBaja(!dadosBaja)}
+                                            {...register('dadosBaja')}
                                         // style={{ border: '4px red solid' }}
                                         />
                                     </div>
                                 </div>
                                 <Nav style={{ backgroundColor: '#a5a3a3', borderRadius: '12px', marginTop: '8px' }} className="justify-content-end">
-                                    <Button variant="danger" style={{ margin: '8px' }}>
+                                    <Button variant="danger" style={{ margin: '8px' }} onClick={() => handleClean()}>
                                         Limpiar
                                     </Button>
                                     <Button variant="success" style={{ margin: '8px' }} onClick={handleSubmit(onSubmit)}>
-                                        {/* onClick = { handleSubmit(onSubmit) } */}
                                         Buscar
                                     </Button>
                                 </Nav>
@@ -183,7 +219,7 @@ const ConsultarPlanesPorAlumno = () => {
                         </Card.Body>
                     </Card.Body>
                 </Card>
-            </div>
+            </div >
 
             <br></br>
 
@@ -191,86 +227,92 @@ const ConsultarPlanesPorAlumno = () => {
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
                         <p>Planes Encontrados</p>
-                        <div>
-                            <div className="mb-3">
-                                Filas por página:{' '}
-                                <Form.Select
-                                    value={itemsPerPage}
-                                    onChange={handleItemsPerPageChange}
-                                    style={{ width: '25%' }}
-                                >
-                                    <option value={5}>5</option>
-                                    <option value={10}>10</option>
-                                    <option value={15}>15</option>
-                                </Form.Select>
-                            </div>
-                            <Table striped bordered hover responsive>
-                                <thead>
-                                    <tr>
-                                        <th>DNI</th>
-                                        <th>Nombres</th>
-                                        <th>Apellidos</th>
-                                        <th>Plan</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {currentData.map((row, index) => (
-                                        <tr key={index + 1}>
-                                            <td>{row.dni}</td>
-                                            <td>{row.nombre}</td>
-                                            <td>{row.apellido}</td>
-                                            <td>{row.plan}</td>
-                                            <td className="d-flex justify-content-between">
-                                                <OverlayTrigger
-                                                    placement='top'
-                                                    overlay={
-                                                        <Tooltip id='intentandoesto'>
-                                                            <strong>Ver Detalle</strong>.
-                                                        </Tooltip>
-                                                    }
-                                                >
-                                                    <Button variant="secondary" style={{ backgroundColor: '#EAD85A', border: 'none', borderRadius: '50%', margin: '2px' }}>
-                                                        <i className="bi bi-eye" style={{ fontSize: '16px' }}></i>
-                                                    </Button>
-                                                </OverlayTrigger>
-                                                <OverlayTrigger
-                                                    placement='top'
-                                                    overlay={
-                                                        <Tooltip id='intentandoesto'>
-                                                            <strong>Eliminar Plan</strong>.
-                                                        </Tooltip>
-                                                    }
-                                                >
-                                                    <Button variant="secondary" style={{ backgroundColor: 'red', border: 'none', borderRadius: '50%', margin: '2px' }}>
-                                                        <i className="bi bi-x" style={{ fontSize: '16px' }}></i>
-                                                    </Button>
-                                                </OverlayTrigger>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
-                            <Pagination>
-                                <Pagination.Prev
-                                    onClick={() => handlePageChange(currentPage - 1)}
-                                    disabled={currentPage === 1}
-                                />
-                                {[...Array(totalPages)].map((_, index) => (
-                                    <Pagination.Item
-                                        key={index + 1}
-                                        active={index + 1 === currentPage}
-                                        onClick={() => handlePageChange(index + 1)}
+                        {planesAlumnos.length !== 0 ? (
+                            <div>
+                                <div className="mb-3">
+                                    Filas por página:{' '}
+                                    <Form.Select
+                                        value={itemsPerPage}
+                                        onChange={handleItemsPerPageChange}
+                                        style={{ width: '25%' }}
                                     >
-                                        {index + 1}
-                                    </Pagination.Item>
-                                ))}
-                                <Pagination.Next
-                                    onClick={() => handlePageChange(currentPage + 1)}
-                                    disabled={currentPage === totalPages}
-                                />
-                            </Pagination>
-                        </div>
+                                        <option value={5}>5</option>
+                                        <option value={10}>10</option>
+                                        <option value={15}>15</option>
+                                    </Form.Select>
+                                </div>
+                                <Table striped bordered hover responsive>
+                                    <thead>
+                                        <tr>
+                                            <th>DNI</th>
+                                            <th>Nombres</th>
+                                            <th>Apellidos</th>
+                                            <th>Plan</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {currentData.map((row, index) => (
+                                            <tr key={index + 1}>
+                                                <td>{row.dniAlumno}</td>
+                                                <td>{row.Usuario.nombre}</td>
+                                                <td>{row.Usuario.apellido}</td>
+                                                <td>{row.Plane.nombre}</td>
+                                                <td className="d-flex justify-content-between">
+                                                    <OverlayTrigger
+                                                        placement='top'
+                                                        overlay={
+                                                            <Tooltip id='intentandoesto'>
+                                                                <strong>Ver Detalle</strong>.
+                                                            </Tooltip>
+                                                        }
+                                                    >
+                                                        <Button variant="secondary" style={{ backgroundColor: '#EAD85A', border: 'none', borderRadius: '50%', margin: '2px' }}>
+                                                            <i className="bi bi-eye" style={{ fontSize: '16px' }}></i>
+                                                        </Button>
+                                                    </OverlayTrigger>
+                                                    <OverlayTrigger
+                                                        placement='top'
+                                                        overlay={
+                                                            <Tooltip id='intentandoesto'>
+                                                                <strong>Eliminar Plan</strong>.
+                                                            </Tooltip>
+                                                        }
+                                                    >
+                                                        <Button variant="secondary" style={{ backgroundColor: 'red', border: 'none', borderRadius: '50%', margin: '2px' }}>
+                                                            <i className="bi bi-x" style={{ fontSize: '16px' }}></i>
+                                                        </Button>
+                                                    </OverlayTrigger>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
+                                <Pagination>
+                                    <Pagination.Prev
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        disabled={currentPage === 1}
+                                    />
+                                    {[...Array(totalPages)].map((_, index) => (
+                                        <Pagination.Item
+                                            key={index + 1}
+                                            active={index + 1 === currentPage}
+                                            onClick={() => handlePageChange(index + 1)}
+                                        >
+                                            {index + 1}
+                                        </Pagination.Item>
+                                    ))}
+                                    <Pagination.Next
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                        disabled={currentPage === totalPages}
+                                    />
+                                </Pagination>
+                            </div>
+                        ) : (
+                            <div className='col s12 center'>
+                                <h3 style={{ textAlign: 'center' }}>NO HAY PLANES ASIGNADOS A ALUMNOS QUE CUMPLAN CON LO QUE INGRESASTE</h3>
+                            </div>
+                        )}
                     </Card.Body>
                 </Card>
             </div>

@@ -13,10 +13,25 @@ import Modal from 'react-bootstrap/Modal';
 
 // importar estilos asociados al componente
 import './VerDetalleUsuario.css';
+import axios from 'axios';
 
 const VerDetalleUsuario = () => {
     const { handleSubmit, control, formState: { errors } } = useForm(); // declaro las funciones necearias para la gestion del formulario de registro
     const navigate = useNavigate();
+    const { dni } = useParams();
+    const [user, setUser] = useState({})
+
+    useEffect(() => {
+        const traerDatosUsuario = async () => {
+            const user = await axios.get(`http://localhost:4001/flextrainer/usuarios/usuario/${dni}`)
+            setUser(user.data)
+        }
+        traerDatosUsuario();
+    }, [dni])
+
+    useEffect(() => {
+        console.log("usuario que toy viendo: ", user)
+    }, [user])
 
     const handleBack = () => {
         navigate('/bandejaUsuarios')
@@ -48,7 +63,7 @@ const VerDetalleUsuario = () => {
                                                 render={({ field }) => (
                                                     <Form.Control
                                                         type="number"
-                                                        placeholder="Ingresá tu DNI"
+                                                        placeholder={user.dni}
                                                         {...field}
                                                         disabled
                                                     />
@@ -77,7 +92,7 @@ const VerDetalleUsuario = () => {
                                             render={({ field }) => (
                                                 <Form.Control
                                                     type="text"
-                                                    placeholder="Ingresá tu nombre"
+                                                    placeholder={user.nombre}
                                                     {...field}
                                                     disabled
                                                 />
@@ -97,7 +112,7 @@ const VerDetalleUsuario = () => {
                                             render={({ field }) => (
                                                 <Form.Control
                                                     type="text"
-                                                    placeholder="Ingresá tu apellido"
+                                                    placeholder={user.apellido}
                                                     {...field}
                                                     disabled
                                                 />
@@ -114,9 +129,12 @@ const VerDetalleUsuario = () => {
                                             control={control}
                                             rules={{ required: 'Este campo es requerido' }}
                                             render={({ field }) => (
-                                                <div>
-                                                    <input type='date' {...field} disabled />
-                                                </div>
+                                                <Form.Control
+                                                    type="text"
+                                                    placeholder={user.fechaNacimiento}
+                                                    {...field}
+                                                    disabled
+                                                />
                                             )}
                                         />
                                         {errors.fechaNacimiento && <p>{errors.fechaNacimiento.message}</p>}
@@ -131,7 +149,7 @@ const VerDetalleUsuario = () => {
                                             rules={{ required: 'Este campo es requerido' }}
                                             render={({ field }) => (
                                                 <Form.Select disabled aria-label="select-genero-busqueda-usuarios" {...field}>
-                                                    <option value='0'>Sin Elegir</option>
+                                                    <option value='0'>{user.genero}</option>
                                                     <option value="Masculino">Masculino</option>
                                                     <option value="Femenino">Femenino</option>
                                                     <option value="X">X</option>
@@ -160,7 +178,7 @@ const VerDetalleUsuario = () => {
                                             render={({ field }) => (
                                                 <Form.Control
                                                     type="email"
-                                                    placeholder="Ingresá tu correo electrónico"
+                                                    placeholder={user.correoElectronico}
                                                     {...field}
                                                     disabled
                                                 />
@@ -179,7 +197,7 @@ const VerDetalleUsuario = () => {
                                             render={({ field }) => (
                                                 <Form.Control
                                                     type="number"
-                                                    placeholder="Ingresá tu celular"
+                                                    placeholder={user.numeroTelefono}
                                                     {...field}
                                                     disabled
                                                 />

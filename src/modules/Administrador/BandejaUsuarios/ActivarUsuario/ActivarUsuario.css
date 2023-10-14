@@ -1,0 +1,17 @@
+.activateUser-modal-header {
+    background-color: green;
+}
+
+.activateUser-modal-header closeButton {
+    color: white
+}
+
+.activateUser-modal-title {
+    color: white
+}
+
+.activateUser-alertText {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+}

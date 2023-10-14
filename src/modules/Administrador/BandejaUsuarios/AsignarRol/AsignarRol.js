@@ -9,14 +9,30 @@ import { Modal } from 'react-bootstrap';
 
 // importando estilos asociados a esta pantalla
 import './AsignarRol.css';
+import { entrenadoresActivosServices } from '../services/entrenadoresActivos.service';
+import axios from 'axios';
+import { usuariosServices } from '../services/usuarios.service';
 
 // tengo que explicar esto de nuevo?
-const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol }) => {
+const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol, selectedUser, setIsUserSelected, setSelectedUser, isUserSelected, setUsuarios, usuarios, traerUsuarios }) => {
+    const [coaches, setCoaches] = useState([])
 
+    const traerEntrenadoresActivos = async () => {
+        const coachesTraidos = await entrenadoresActivosServices.getEntrenadoresActivos()
+        setCoaches(coachesTraidos)
+    }
+
+
+    useEffect(() => {
+        traerEntrenadoresActivos();
+    }, [usuarios, showModalAsignarRol])
+
+    useEffect(() => {
+        console.log("usuario a asignarle rol: ", selectedUser)
+    }, [selectedUser])
     // seteando en un estado el rol elegido por el usuario, esto para que funcione el tema del select concatenado
     // especificado en la H.U.
     const [rolElegido, setRolElegido] = useState('');
-
     // funcionalidades y propiedades necesarias para la gestion del formulario
     const { handleSubmit, control, formState: { errors }, setValue } = useForm();
 
@@ -25,6 +41,10 @@ const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol }) => {
     useEffect(() => {
         setValue('rol', rolElegido);
     }, [setValue, rolElegido]);
+
+    useEffect(() => {
+        traerUsuarios();
+    }, [selectedUser, isUserSelected])
 
     // funcion que se va a ejecutar en cuanto el usuario pulse el boton asignar, que procesara los datos
     // y los enviara al backend para llevar a cabo el correspondiente servicio de asignacion de rol
@@ -35,11 +55,29 @@ const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol }) => {
             delete data.entrenador;
         };
 
-        console.log(data); // consoleando lo que voy a enviar al backend
+        if (data.rol === 'Entrenador') {
+            data.rol = 1
+        } else if (data.rol === 'Alumno') {
+            data.rol = 2
+            data.entrenador = parseInt(data.entrenador)
+        } else {
+            data.rol = 3
+        }
+        data.dni = selectedUser.dni
 
-        handleCloseAsignarRol(); // cerrar el modal de asignacion de rol
-        setRolElegido(''); // setear el rol elegido como que no eligio ninguno, para que cuando vuelva a abrir el modal, tenga que elegir de nuevo el rol
-        setValue('entrenador', ''); // setear el atributo entrenador como '' de los datos a enviar al backend
+        console.log(data); // consoleando lo que voy a enviar al backend
+        try {
+            const response = axios.put(`http://localhost:4001/flextrainer/usuarios/usuario/asignarRol`, data);
+            console.log(response.data); // Maneja la respuesta del backend como desees
+            setIsUserSelected(false);
+            setSelectedUser({});
+            handleCloseAsignarRol(); // cerrar el modal de asignacion de rol
+            setRolElegido(''); // setear el rol elegido como que no eligio ninguno, para que cuando vuelva a abrir el modal, tenga que elegir de nuevo el rol
+            setValue('entrenador', ''); // setear el atributo entrenador como '' de los datos a enviar al backend
+            traerUsuarios();
+        } catch (error) {
+            console.log("error al realizar la peticion de asignacion de rol: ", error)
+        }
     };
 
     return (
@@ -50,50 +88,57 @@ const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol }) => {
             </Modal.Header>
 
             <Modal.Body>
-                <Modal.Title>DNI: 237864238</Modal.Title>
+                <Modal.Title>DNI: {selectedUser?.dni}</Modal.Title>
                 <br></br>
-                <Modal.Title>Nombres: Tu vieja</Modal.Title>
+                <Modal.Title>Nombres: {selectedUser?.nombre}</Modal.Title>
                 <br></br>
-                <Modal.Title>Apellidos: En tanga</Modal.Title>
+                <Modal.Title>Apellidos: {selectedUser?.apellido}</Modal.Title>
                 <br></br>
                 <Form>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                        <Form.Label>Rol</Form.Label>
-                        <Controller
-                            name="rol"
-                            control={control}
-                            rules={{ required: 'Este campo es requerido' }}
+                    <>
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                            <Form.Label>Rol</Form.Label>
+                            <Controller
+                                name="rol"
+                                control={control}
+                                rules={{ required: 'Este campo es requerido' }}
 
-                            render={({ field }) => (
-                                <Form.Select aria-label="select-rol-asignacion-usuarios" {...field} onChange={(e) => setRolElegido(e.target.value)}>
-                                    <option value='' >Sin Asignar</option>
-                                    <option value="Alumno">Alumno</option>
-                                    <option value="Entrenador">Entrenador</option>
-                                </Form.Select>
-                            )}
-                        />
-                        {errors.rol && <p>{errors.rol.message + 'bbb'}</p>}
-                    </Form.Group>
-                    {rolElegido === 'Alumno' && (
-                        <>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                                <Form.Label>Entrenador</Form.Label>
-                                <Controller
-                                    name="entrenador"
-                                    control={control}
-                                    rules={{ required: 'Este campo es requerido' }}
-                                    render={({ field }) => (
-                                        <Form.Select aria-label="select-entrenador-asignacion-usuarios" {...field} >
-                                            <option value='' >Sin Asignar</option>
-                                            <option value="E1">E1</option>
-                                            <option value="E2">E2</option>
-                                        </Form.Select>
-                                    )}
-                                />
-                                {errors.entrenador && <p>{errors.entrenador.message + 'aaaaa'}</p>}
-                            </Form.Group>
-                        </>
-                    )}
+                                render={({ field }) => (
+                                    <Form.Select aria-label="select-rol-asignacion-usuarios" {...field} onChange={(e) => setRolElegido(e.target.value)}>
+                                        <option value='' >Sin Asignar</option>
+                                        <option value="Alumno">Alumno</option>
+                                        <option value="Entrenador">Entrenador</option>
+                                    </Form.Select>
+                                )}
+                            />
+                            {errors.rol && <p>{errors.rol.message}</p>}
+                        </Form.Group>
+                        {rolElegido === 'Alumno' && (
+                            <>
+                                {coaches.length === 0 ? (
+                                    <h1>Lo sentimos, no hay entrenadores activos</h1>
+                                ) : (
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                                        <Form.Label>Entrenador</Form.Label>
+                                        <Controller
+                                            name="entrenador"
+                                            control={control}
+                                            rules={{ required: 'Este campo es requerido' }}
+                                            render={({ field }) => (
+                                                <Form.Select aria-label="select-entrenador-asignacion-usuarios" {...field} >
+                                                    <option value='' >Sin Asignar</option>
+                                                    {coaches.map((e, index) => (
+                                                        <option key={index} value={e.dni}>{e.nombre} {e.apellido}</option>
+                                                    ))}
+                                                </Form.Select>
+                                            )}
+                                        />
+                                        {errors.entrenador && <p>{errors.entrenador.message}</p>}
+                                    </Form.Group>
+                                )}
+                            </>
+                        )}
+                    </>
                     <Modal.Footer>
                         <Button variant="danger" onClick={handleCloseAsignarRol}>
                             Cancelar

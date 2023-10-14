@@ -54,6 +54,8 @@ function App() {
               showModal={show}
               handleCloseModal={handleClose}
               handleOpenModal={handleShow}
+              setUsuarioEnSesion={setUsuarioEnSesion}
+              usuarioEnSesion={usuarioEnSesion}
             />
           }
         />
@@ -85,7 +87,7 @@ function App() {
         />
 
         <Route
-          path='/modificarUsuario/:id'
+          path='/modificarUsuario/:dni'
           element={
             <ModificarUsuario
             />
@@ -93,7 +95,7 @@ function App() {
         />
 
         <Route
-          path='/verUsuario/:id'
+          path='/verUsuario/:dni'
           element={
             <VerDetalleUsuario />
           }

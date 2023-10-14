@@ -72,7 +72,7 @@
 
 /* si esta en dispositivos cuyo ancho sea menor a 420px, en vez de ejecutarse los estilos de arriba, se ejecutan 
 estos, para los selectores aca indicados */
-@media (max-width: 420px) {
+@media (max-width: 560px) {
     .user-bienvenida {
         display: none
     }

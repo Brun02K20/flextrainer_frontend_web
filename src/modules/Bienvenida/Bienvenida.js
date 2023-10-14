@@ -25,6 +25,10 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
     // declaro la funcion de navegacion
     const navigate = useNavigate();
 
+    useEffect(() => {
+        console.log('UsuarioEnBienvenida: ', usuarioEnSesion)
+    }, [])
+
     // renderizado del componente
     return (
         <>
@@ -36,7 +40,7 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
                         <NavDropdown
                             title={
                                 <div className="icon-text-container">
-                                    <span className='user-bienvenida'>Bruno Virinni</span>
+                                    <span className='user-bienvenida'>{usuarioEnSesion.nombre.toUpperCase()} {usuarioEnSesion.apellido.toUpperCase()}</span>
                                     <i
                                         className="bi bi-person-circle"
                                         id='user-icon-bienvenida'
@@ -46,9 +50,9 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
                             }
                             id="basic-nav-dropdown"
                         >
-                            <NavDropdown.Item id='opciones-responsive-dropdown-bienvenida-1'>Bruno Virinni</NavDropdown.Item>
+                            <NavDropdown.Item id='opciones-responsive-dropdown-bienvenida-1'>{usuarioEnSesion.nombre.toUpperCase()} {usuarioEnSesion.apellido.toUpperCase()}</NavDropdown.Item>
                             <NavDropdown.Divider id='opciones-responsive-dropdown-bienvenida-2' />
-                            <NavDropdown.Item>Modificar Datos</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => navigate(`/modificarUsuario/${usuarioEnSesion.dni}`)}>Modificar Datos</NavDropdown.Item>
                             <NavDropdown.Item onClick={() => { handleOpenModal() }}>Cerrar Sesión</NavDropdown.Item>
                         </NavDropdown>
                     </Navbar.Collapse>
@@ -102,7 +106,7 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
                     </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link>
+                    <Nav.Link href='https://instagram.com/flex_trainer?igshid=NGVhN2U2NjQ0Yg==' target="_blank">
                         <div className="icon-text-container">
                             <i
                                 className="bi bi-instagram"
@@ -120,6 +124,7 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
                 show={showModal}
                 handleClose={handleCloseModal}
                 setUsuarioEnSesion={setUsuarioEnSesion}
+                usuarioEnSesion={usuarioEnSesion}
             />
         </>
     );

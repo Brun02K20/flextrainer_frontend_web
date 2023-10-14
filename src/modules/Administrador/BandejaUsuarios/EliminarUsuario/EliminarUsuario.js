@@ -8,18 +8,27 @@ import './EliminarUsuario.css';
 // importando componentes bootstrap necesarios
 import Button from 'react-bootstrap/Button';
 import { Card, Modal } from 'react-bootstrap';
+import axios from 'axios';
 
-const EliminarUsuario = ({ showModalEliminarUsuario, handleCloseEliminarUsuario }) => {
+const EliminarUsuario = ({ showModalEliminarUsuario, handleCloseEliminarUsuario, setSelectedUser, setIsUserSelected, selectedUser, traerUsuarios, handleClean }) => {
     // funcionalidades y propiedades necesarias para la gestion del formulario, que en este caso, solo consistira
     // en el boton de ELIMINAR
     const { handleSubmit, control, formState: { errors }, setValue } = useForm();
 
+    useEffect(() => {
+        console.log("datos user a eliminar: ", selectedUser)
+    }, [selectedUser])
+
     // funcion que se va a ejecutar en cuanto el usuario pulse el boton ELIMINAR, que procesara el dato de que el 
     // administrador elimino el usuario, y enviara ese dato al backend para que registre dicha baja
     const onSubmit = async (data) => {
-        data.sexo = 'X';
+        data.dni = selectedUser.dni;
         console.log(data);
+        await axios.delete(`http://localhost:4001/flextrainer/usuarios/usuario/delete/${data.dni}`)
+        setSelectedUser({});
+        setIsUserSelected(false)
         handleCloseEliminarUsuario();
+        traerUsuarios()
         handleShowModalEliminado();
     };
 
@@ -32,7 +41,7 @@ const EliminarUsuario = ({ showModalEliminarUsuario, handleCloseEliminarUsuario 
     return (
         <>
             {/* // modales y formualrios ya lo explique en el modal de inicio de sesion, y ante la duda siempre me pueden mandar un wsp */}
-            <Modal show={showModalEliminarUsuario} onHide={handleCloseEliminarUsuario}>
+            <Modal show={showModalEliminarUsuario} onHide={() => { handleCloseEliminarUsuario(); handleClean() }}>
                 <Modal.Header closeButton className='deleteUser-modal-header'>
                     <Modal.Title className='deleteUser-modal-title'>Eliminar Usuario</Modal.Title>
                 </Modal.Header>
@@ -42,7 +51,8 @@ const EliminarUsuario = ({ showModalEliminarUsuario, handleCloseEliminarUsuario 
                     <Card>
                         <Card.Body>
                             <div className='text-center'>
-                                <span className='deleteUser-alertText'>¿Estás seguro de que querés eliminar el usuario?</span>
+                                <span className='deleteUser-alertText'>¿Estás seguro de que querés eliminar al usuario?</span>
+                                <span className='deleteUser-alertText'>{selectedUser?.nombre} {selectedUser?.apellido}</span>
                                 <br></br>
                                 <br></br>
                                 <br></br>
@@ -54,7 +64,7 @@ const EliminarUsuario = ({ showModalEliminarUsuario, handleCloseEliminarUsuario 
 
                 {/* Footer del modal, la parte final del mismo, que contendra los botones de cancelar y de eliminar  */}
                 <Modal.Footer>
-                    <Button variant="danger" onClick={handleCloseEliminarUsuario}>
+                    <Button variant="danger" onClick={() => { handleCloseEliminarUsuario(); handleClean() }}>
                         Cancelar
                     </Button>
                     <Button variant="success" onClick={handleSubmit(onSubmit)}>
@@ -81,7 +91,7 @@ const EliminarUsuario = ({ showModalEliminarUsuario, handleCloseEliminarUsuario 
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="success" onClick={handleCloseModalEliminado}>
+                    <Button variant="success" onClick={() => { handleCloseModalEliminado(); handleClean() }}>
                         Cerrar
                     </Button>
                 </Modal.Footer>

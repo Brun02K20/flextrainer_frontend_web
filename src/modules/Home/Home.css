@@ -50,7 +50,7 @@ en el respectivo archivo .js */
     color: white
 }
 
-@media (max-width: 420px) {
+@media (max-width: 560px) {
     .login-button-home {
         display: none
     }
