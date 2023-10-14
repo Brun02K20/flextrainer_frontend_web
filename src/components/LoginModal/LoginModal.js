@@ -13,11 +13,15 @@ import { useNavigate } from 'react-router-dom';
 
 // importo los estilos CSS de este componente
 import './LoginModal.css';
+
+// importo axios para llevar a cabo la peticion de login al backend
 import axios from 'axios';
 
 // declaro el componente, explicitando las propiedades que recibira tal como se explico en el componente Home
-const LoginModal = ({ show, handleClose, usuarioEnSesion, setUsuarioEnSesion }) => {
-    const [errorLoginBack, setErrorLoginBack] = useState('');
+const LoginModal = ({ show, handleClose, setUsuarioEnSesion }) => {
+    const { handleSubmit, control, formState: { errors } } = useForm(); // funcionalidades y propiedades necesarias para la gestion del formulario de inicio de sesion
+    const navigate = useNavigate(); // declarando la herramienta de navegacion entre componentes
+    const [errorLoginBack, setErrorLoginBack] = useState(''); // en caso de que haya un error de login en las validaciones de backend, me devuelve un objeto de error, cuyo valor almacenare en este estado
 
     // estado que se utilizara para que el usuario pueda ver lo que esta ingresando en el campo de contraseña, 
     // basicamente va a cambiar cada vez que el usuario haga click en el icono del ojo
@@ -26,29 +30,23 @@ const LoginModal = ({ show, handleClose, usuarioEnSesion, setUsuarioEnSesion }) 
         setPasswordVisible(!passwordVisible);
     };
 
-    // funcionalidades y propiedades necesarias para la gestion del formulario de inicio de sesion
-    const { handleSubmit, control, formState: { errors } } = useForm();
-
-    // declarando la herramienta de navegacion entre componentes
-    const navigate = useNavigate();
-
     // funcion que se llevara a cabo en cuanto el usuario pulse INGRESAR, llevando a cabo las validaciones necesarias
     //, y en caso de que todas las validaciones sean exitosas, enviara los parametros al backend para su procesamiento
     const onSubmit = async (data) => {
         data.dni = parseInt(data.dni); // convirtiendo el DNI a un numero entero
         console.log(data); // consoleando los datos ingresados por el usuario
 
-        const user = await axios.post('http://localhost:4001/flextrainer/usuarios/login', data)
-        console.log(user.data)
+        // haciendo la peticion de login al backend a traves de axios
+        const user = await axios.post('http://localhost:4001/flextrainer/usuarios/login', data);
+        console.log(user.data); // imprime la respuesta por consola
 
+        // si el backend devuelve un error, me setea el estado de error, como el valor correspondiente, y corta la funcion de peticion
         if (user.data.error) {
-            setErrorLoginBack(user.data.error)
+            setErrorLoginBack(user.data.error);
             return;
-        }
-
-        setUsuarioEnSesion(user.data)
-
-        handleClose(); // cerrando el modal 
+        };
+        setUsuarioEnSesion(user.data); // si no hay error, me setea el usuario en sesion, el que se autentico, como los datos provenientes del backend
+        handleClose(); // cerrando el modal de inicio de sesion
         navigate('/bienvenida'); // redirigir al usuario a la pantalla de bienvenida
     };
 
@@ -106,14 +104,11 @@ const LoginModal = ({ show, handleClose, usuarioEnSesion, setUsuarioEnSesion }) 
                                 />
                             )}
                         />
-                        {/* si alguna validacion declarada en el objeto rulesno funciona, se muestra el respectivo mensaje */}
+                        {/* si alguna validacion declarada en el objeto rules no funciona, se muestra el respectivo mensaje */}
                         {errors.dni && <p>{errors.dni.message}</p>}
                     </Form.Group>
 
-                    <Form.Group
-                        className="mb-3"
-                        controlId="exampleForm.ControlInput2"
-                    >
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                         <Form.Label>Contraseña*</Form.Label>
                         <Controller
                             name='password'

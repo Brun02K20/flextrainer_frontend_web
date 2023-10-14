@@ -1,9 +1,9 @@
-// importo funcionalidades propias de la libreria, además de la información necesaria para que funcione
-// la libreria de bootstrap
+// importo funcionalidades propias de la libreria, información necesaria para que funcione
+// la libreria de bootstrap, y funciones referidas a la definicion de rutas en la web app
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 // IMPORTO COMPONENTES DESARROLLADOS
 // importacion del Home
@@ -13,24 +13,23 @@ import { Bienvenida } from './modules/Bienvenida/Bienvenida.js';
 // importacion de las funcionalidades de usuarios
 import { BandejaUsuarios } from './modules/Administrador/BandejaUsuarios/BandejaUsuarios.js';
 import { CrearUsuario } from './modules/CrearUsuario/CrearUsuario.js';
+import { ModificarUsuario } from './modules/Administrador/BandejaUsuarios/ModificarUsuario/ModificarUsuario.js';
+import { VerDetalleUsuario } from './modules/Administrador/BandejaUsuarios/VerDetalleUsuario/VerDetalleUsuario.js';
 
 // importacion de componentes del modulo de maquinas
 import { ConsultarMaquinas } from './modules/Maquinas/ConsultarMaquinas/ConsultarMaquinas.js';
 import { VerDetalleMaquina } from './modules/Maquinas/VerDetalleMaquina/VerDetalleMaquina.js';
 
-// importacion de componentes del modulo de ejercicios
-import { VerDetalleEjercicio } from './modules/Ejercicios/VerDetalleEjercicio/VerDetalleEjercicio.js';
+// importacion de componentes del modulo de planes
 import { ConsultarPlanesPorAlumno } from './modules/Planes_Alumno/ConsultarPlanesPorAlumno/ConsultarPlanesPorAlumno.js';
-import { ModificarUsuario } from './modules/Administrador/BandejaUsuarios/ModificarUsuario/ModificarUsuario.js';
-import { VerDetalleUsuario } from './modules/Administrador/BandejaUsuarios/VerDetalleUsuario/VerDetalleUsuario.js';
 
 
 // declaro la funcion principal de la aplicacion
 function App() {
-  // gestion del usuario en sesion a traves de un estado (en un futuro posiblemente cambiar esto por auth y JWT)
+  // gestion del usuario en sesion a traves de un estado (en un futuro posiblemente cambiar esto por auth y JWT, lo intente, y no lo logre, se quedara asi)
   const [usuarioEnSesion, setUsuarioEnSesion] = useState({});
 
-  // gestion de modales en la aplicación
+  // gestion de modales de sesion en la aplicación
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -77,11 +76,6 @@ function App() {
           path="/bandejaUsuarios"
           element={
             <BandejaUsuarios
-              // showModal={show}
-              // handleCloseModal={handleClose}
-              // handleOpenModal={handleShow}
-              setUsuarioEnSesion={setUsuarioEnSesion}
-              usuarioEnSesion={usuarioEnSesion}
             />
           }
         />
@@ -120,14 +114,6 @@ function App() {
           path='/maquina/:id'
           element={
             <VerDetalleMaquina
-            />
-          }
-        />
-
-        <Route
-          path='/ejercicio/:id'
-          element={
-            <VerDetalleEjercicio
             />
           }
         />

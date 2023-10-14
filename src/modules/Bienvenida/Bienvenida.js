@@ -19,15 +19,14 @@ import { CerrarSesionModal } from '../../components/CerrarSesionModal/CerrarSesi
 // debido a que ambas pantallas llevan a cabo funcionalidades y proveen accesos muy diferenciados
 
 // lo mismo de siempre, declaro componente, desestructuro el objeto props que contiene las propiedades del componente 
-// y que este a a usar y bla bla bla bla
+// y que este a a usar
 const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEnSesion, usuarioEnSesion }) => {
+    const navigate = useNavigate(); // declaro la funcion de navegacion
 
-    // declaro la funcion de navegacion
-    const navigate = useNavigate();
-
+    // la primera vez que se muestre este componente, muestro por consola que usuario se logueo
     useEffect(() => {
-        console.log('UsuarioEnBienvenida: ', usuarioEnSesion)
-    }, [])
+        console.log('UsuarioEnBienvenida: ', usuarioEnSesion);
+    }, []);
 
     // renderizado del componente
     return (
@@ -61,7 +60,7 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
 
             {/* Body de la bienvenida */}
             <Container className="d-flex flex-column align-items-center justify-content-center" style={{ height: '100vh' }}>
-                {/* display del boton de en medio de visualizar usuarios, yo personalmente le cambiaria el nombre */}
+                {/* display del boton de en medio de visualizar usuarios */}
                 <div className="text-center" style={{ marginTop: '70px' }}>
                     <Button className="btn-top button-bienvenida" style={{ backgroundColor: 'red', border: 'none' }} onClick={() => navigate('/bandejaUsuarios')}>
                         <i className="bi bi-people-fill" style={{ fontSize: '32px' }}></i>

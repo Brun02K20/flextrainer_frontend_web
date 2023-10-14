@@ -17,8 +17,9 @@ import logoFLEXTRAINER from '../../images/logo-origi.png';
 const Home = ({ showModal, handleOpenModal, handleCloseModal, setUsuarioEnSesion, usuarioEnSesion }) => {
 
     useEffect(() => {
-        console.log('UsuarioEnHome: ', usuarioEnSesion)
-    }, [])
+        console.log('UsuarioEnHome: ', usuarioEnSesion);
+    }, []);
+
     return (
         <>
             {/* Header de la pantalla Home */}
@@ -77,7 +78,6 @@ const Home = ({ showModal, handleOpenModal, handleCloseModal, setUsuarioEnSesion
                 show={showModal}
                 handleClose={handleCloseModal}
                 setUsuarioEnSesion={setUsuarioEnSesion}
-                usuarioEnSesion={usuarioEnSesion}
             />
         </>
     );
