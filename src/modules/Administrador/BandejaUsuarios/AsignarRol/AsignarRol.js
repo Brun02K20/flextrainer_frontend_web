@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'; // importando funcionalidades necesarias de react, ademas de la libreria en si
-import { useNavigate } from 'react-router-dom'; // importando la funcionalidad de navegacion entre componentes
 import { useForm, Controller } from 'react-hook-form'; // importando las funcionalidades neecsarias para gestion de formularios 
 
 // importando componentes bootstrap necesarios
@@ -11,30 +10,27 @@ import { Modal } from 'react-bootstrap';
 import './AsignarRol.css';
 import { entrenadoresActivosServices } from '../services/entrenadoresActivos.service';
 import axios from 'axios';
-import { usuariosServices } from '../services/usuarios.service';
 
-// tengo que explicar esto de nuevo?
 const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol, selectedUser, setIsUserSelected, setSelectedUser, isUserSelected, setUsuarios, usuarios, traerUsuarios }) => {
-    const [coaches, setCoaches] = useState([])
+    const { handleSubmit, control, formState: { errors }, setValue } = useForm(); // funcionalidades y propiedades necesarias para la gestion del formulario
+    const [coaches, setCoaches] = useState([]); // estado en el que voy a almacenar los profesores
+    const [rolElegido, setRolElegido] = useState(''); // seteando en un estado el rol elegido por el usuario, esto para que funcione el tema del select concatenado especificado en la H.U.
 
+    // funcion que me permite traer los entrenadores actios del backend
     const traerEntrenadoresActivos = async () => {
-        const coachesTraidos = await entrenadoresActivosServices.getEntrenadoresActivos()
-        setCoaches(coachesTraidos)
+        const coachesTraidos = await entrenadoresActivosServices.getEntrenadoresActivos();
+        setCoaches(coachesTraidos);
     }
 
-
+    // cada vez que cambien los usuarios, o que cambie el estado de muestra de este modal, trae a los entrenadores activos
     useEffect(() => {
         traerEntrenadoresActivos();
-    }, [usuarios, showModalAsignarRol])
+    }, [usuarios, showModalAsignarRol]);
 
+    // muestro a que usuario le voy a asignar un rol
     useEffect(() => {
         console.log("usuario a asignarle rol: ", selectedUser)
-    }, [selectedUser])
-    // seteando en un estado el rol elegido por el usuario, esto para que funcione el tema del select concatenado
-    // especificado en la H.U.
-    const [rolElegido, setRolElegido] = useState('');
-    // funcionalidades y propiedades necesarias para la gestion del formulario
-    const { handleSubmit, control, formState: { errors }, setValue } = useForm();
+    }, [selectedUser]);
 
     // cada vez que el usuario cambie el rol elegido, se ejecuta este efecto, seteando el rol elegido 
     // para enviar al backend, en lo elegido por el usuario
@@ -42,9 +38,10 @@ const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol, selectedUser, 
         setValue('rol', rolElegido);
     }, [setValue, rolElegido]);
 
+    // cada vez que cambien el usuario elegido, trae los usuarios del backend
     useEffect(() => {
         traerUsuarios();
-    }, [selectedUser, isUserSelected])
+    }, [selectedUser, isUserSelected]);
 
     // funcion que se va a ejecutar en cuanto el usuario pulse el boton asignar, que procesara los datos
     // y los enviara al backend para llevar a cabo el correspondiente servicio de asignacion de rol
@@ -55,28 +52,30 @@ const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol, selectedUser, 
             delete data.entrenador;
         };
 
+        // parseando los datos
         if (data.rol === 'Entrenador') {
-            data.rol = 1
+            data.rol = 1;
         } else if (data.rol === 'Alumno') {
-            data.rol = 2
-            data.entrenador = parseInt(data.entrenador)
+            data.rol = 2;
+            data.entrenador = parseInt(data.entrenador);
         } else {
-            data.rol = 3
+            data.rol = 3;
         }
-        data.dni = selectedUser.dni
-
+        data.dni = selectedUser.dni;
         console.log(data); // consoleando lo que voy a enviar al backend
+
+        // intentando llevar a cabo la peticion
         try {
-            const response = axios.put(`http://localhost:4001/flextrainer/usuarios/usuario/asignarRol`, data);
-            console.log(response.data); // Maneja la respuesta del backend como desees
-            setIsUserSelected(false);
-            setSelectedUser({});
+            const response = axios.put(`http://localhost:4001/flextrainer/usuarios/usuario/asignarRol`, data); // peticion
+            console.log(response.data);
+            setIsUserSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
+            setSelectedUser({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
             handleCloseAsignarRol(); // cerrar el modal de asignacion de rol
             setRolElegido(''); // setear el rol elegido como que no eligio ninguno, para que cuando vuelva a abrir el modal, tenga que elegir de nuevo el rol
             setValue('entrenador', ''); // setear el atributo entrenador como '' de los datos a enviar al backend
-            traerUsuarios();
+            traerUsuarios(); // traigo todos los usuarios desde el backend
         } catch (error) {
-            console.log("error al realizar la peticion de asignacion de rol: ", error)
+            console.log("error al realizar la peticion de asignacion de rol: ", error);
         }
     };
 
@@ -102,7 +101,6 @@ const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol, selectedUser, 
                                 name="rol"
                                 control={control}
                                 rules={{ required: 'Este campo es requerido' }}
-
                                 render={({ field }) => (
                                     <Form.Select aria-label="select-rol-asignacion-usuarios" {...field} onChange={(e) => setRolElegido(e.target.value)}>
                                         <option value='' >Sin Asignar</option>

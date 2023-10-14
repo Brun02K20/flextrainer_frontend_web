@@ -1,11 +1,10 @@
-import React from 'react'
+import React from 'react'; // importando funcionalidades react necesarias
 import { useNavigate } from 'react-router-dom'; // importando funcion de navegacion entre componentes
 import Modal from 'react-bootstrap/Modal'; // importando el componente Modal de react-bootstrap
 import Button from 'react-bootstrap/Button'; // importando el componente Button de react-bootstrap
 import Card from 'react-bootstrap/Card';// importando el componente Card de react-bootstrap
 
 import './VerDetalleEjercicio.css'; // importar estilos asociados a este componente
-
 
 const VerDetalleEjercicio = ({ show, handleClose }) => {
     return (
@@ -29,7 +28,6 @@ const VerDetalleEjercicio = ({ show, handleClose }) => {
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 allowfullscreen
                             >
-
                             </iframe>
                         </Card.Body>
                     </Card>
@@ -42,9 +40,7 @@ const VerDetalleEjercicio = ({ show, handleClose }) => {
                 </Modal.Footer>
             </Modal>
         </>
-    )
-}
+    );
+};
 
-export {
-    VerDetalleEjercicio
-}
+export { VerDetalleEjercicio };

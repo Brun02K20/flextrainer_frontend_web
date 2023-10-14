@@ -8,31 +8,30 @@ import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import { Nav } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 
-// importo los estilos asociados a esta pantalla
-import './ModificarUsuario.css';
-import axios from 'axios';
+import './ModificarUsuario.css'; // importo los estilos asociados a esta pantalla
+import axios from 'axios'; // importo axios para poder llevar a cabo la peticion
 
 const ModificarUsuario = () => {
-    const { dni } = useParams(); // indico que este componente, va a tener un parametro en su URL, que va a ser el id del usuario a modificar
-    const { handleSubmit, control, formState: { errors }, setValue, reset, register } = useForm(); // declaro las funciones necearias para la gestion del formulario de registro
+    const { dni } = useParams(); // indico que este componente, va a tener un parametro en su URL, que va a ser el dni del usuario a modificar
+    const { handleSubmit, control, formState: { errors }, setValue } = useForm(); // declaro las funciones necearias para la gestion del formulario de registro
+    const navigate = useNavigate(); // declaro la funcion de navegacion entre componentes
+    const [user, setUser] = useState({}); // estaod en el que voy a almacenar la informacion del usuario a consultar
+    const today = new Date().toISOString().split('T')[0]; // Obtén la fecha actual en el formato YYYY-MM-DD
+    const [errorFecha, setErrorFecha] = useState(''); // si el usuario ingresa una fecha no valida, se activa este estado
+    const [errorAlActualizar, setErrorAlActualizar] = useState(''); // si existen errores de actualizacion del lado del backend, se activa este estado
 
-    // declaro la funcion de navegacion entre componentes
-    const navigate = useNavigate();
-
-    const [user, setUser] = useState({})
-
+    // traer los datos del usaurio a modificar desde el backend
     useEffect(() => {
         const traerUser = async () => {
-            const response = await axios.get(`http://localhost:4001/flextrainer/usuarios/usuario/${dni}`)
-            setUser(response.data)
+            const response = await axios.get(`http://localhost:4001/flextrainer/usuarios/usuario/${dni}`);
+            setUser(response.data);
         }
         traerUser();
-
     }, [dni]);
 
+    // seteando en los campos, por defecto, la info del usuario traida del backend
     useEffect(() => {
         if (user && Object.keys(user).length > 0) {
             setValue('dni', user.dni);
@@ -43,55 +42,48 @@ const ModificarUsuario = () => {
             setValue('correoElectronico', user.correoElectronico);
             setValue('numeroTelefono', user.numeroTelefono);
         }
-    }, [setValue, user])
+    }, [setValue, user]);
 
-    useEffect(() => {
-        console.log("renderizando inicialmente modificar usuario: ", user)
-    }, [user])
-
+    // NOTA: VER QUE HACER CON LOS CAMPOS DE DNI Y DE PASSWORD
+    // DNI por ser PK, y PASSWORD por hasheo
     // estado que se utilizara para que el usuario pueda ver lo que esta ingresando en el campo de contraseña
     const [passwordVisible, setPasswordVisible] = useState(false);
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
     };
 
-    // Obtén la fecha actual en el formato YYYY-MM-DD
-    const today = new Date().toISOString().split('T')[0];
-    const [errorFecha, setErrorFecha] = useState('')
-    const [errorAlActualizar, setErrorAlActualizar] = useState('');
-
     // funcion que se ejecutara en cuanto el usuario pulse REGISTRARSE, la cual procesara los datos ingresados, 
     // levara a cabo las respectivas validaciones, y enviara los datos al backend si dichas validaciones son todas exitosas
     const onSubmit = async (data) => {
+        // parseando los datos
         data.nombre = data.nombre.toLowerCase();
         data.apellido = data.apellido.toLowerCase();
         data.dni = parseInt(data.dni);
-        data.dniOriginal = parseInt(dni)
+        data.dniOriginal = parseInt(dni);
 
-        const hoy = new Date()
-        const fechaIngresada = new Date(data.fechaNacimiento)
+        // realizando la validacion de ingreso de la fecha
+        const hoy = new Date();
+        const fechaIngresada = new Date(data.fechaNacimiento);
         if (fechaIngresada >= hoy) {
-            setErrorFecha('Error, ingresa una fecha valida')
-            return
-        }
-        setErrorFecha('')
-        console.log(data);
-
-        const response = await axios.put(`http://localhost:4001/flextrainer/usuarios/usuario/update`, data);
-        console.log("rta modificacion: ", response.data)
-
-        if (response.data.error) {
-            setErrorAlActualizar(response.data.error)
+            setErrorFecha('Error, ingresa una fecha valida');
             return;
         }
-        setErrorAlActualizar('')
+        setErrorFecha(''); // si supera la validacion desactiva el estado
+        console.log(data); // consoleando lo que voy a enviar al backend
+        const response = await axios.put(`http://localhost:4001/flextrainer/usuarios/usuario/update`, data); // llevando a cabo la peticion
+
+        // si hay un error en la respuesta, desde el backend, que active el estado de error al actualizar, y detenga la funcion onSubmit
+        if (response.data.error) {
+            setErrorAlActualizar(response.data.error);
+            return;
+        }
+        setErrorAlActualizar(''); // si no hubo errores desde el backend a la hora de actualizar, desactivar el estado
     };
 
     // funcion que se va a ejecutar en cuanto el usuario pulse el boton de volver, la cual lo llevara al componente Home (NO logueado)
     const handleBack = () => {
         navigate('/bandejaUsuarios');
     };
-
 
     return (
         <>
@@ -149,10 +141,10 @@ const ModificarUsuario = () => {
                                             {errors.dni && <p>{errors.dni.message}</p>}
                                         </Form.Group>
                                     </div>
-
                                 </div>
                             </Card>
                         </Card.Body>
+
                         <br style={{ backgroundColor: 'red' }}></br>
 
                         <Card.Body>
@@ -263,6 +255,7 @@ const ModificarUsuario = () => {
                                 </div>
                             </Card>
                         </Card.Body>
+
                         <br style={{ backgroundColor: 'red' }}></br>
 
                         <Card.Body>

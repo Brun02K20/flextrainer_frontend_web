@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; // importo las funcionalidades react necesarias
 import { useNavigate } from 'react-router-dom'; // importando funcion de navegacion entre componentes de react-router-dom
 import { useForm, Controller } from 'react-hook-form'; // importando funcionalidades necesarias para la gestion de formularios
 
@@ -14,13 +14,13 @@ import Tooltip from 'react-bootstrap/Tooltip';
 
 
 const ConsultarMaquinas = () => {
-    // declaro la funcion de navegacion 
-    const navigate = useNavigate();
-
     // declaro las funcionalidades necesarias para gestionar formularios, en este caso, tendremos un formulario de
     // busqueda, que se utilizara como un filtrador de datos
     const { handleSubmit, control, formState: { errors } } = useForm();
+    const navigate = useNavigate(); // declaro la funcion de navegacion 
 
+
+    // funcion que se va a ejecutar en cuanto el usuario pulse BUSCAR, enviando los datos al backend para su procesamiento
     const onSubmit = async (data) => {
         console.log(data)
     }
@@ -57,16 +57,12 @@ const ConsultarMaquinas = () => {
         },
     ]
 
-
-
-    // gestion de la grilla, temas de paginacion
+    // GESTION DE LA GRILA Y TEMAS DE PAGINACION
     const [currentPage, setCurrentPage] = useState(1); // que pagina se esta mostrando en el momento
     const [itemsPerPage, setItemsPerPage] = useState(10); // Inicialmente mostrar 10 filas por página
-
     const totalPages = Math.ceil(data.length / itemsPerPage); // calcular la cantidad de paginas
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-
     const currentData = data.slice(startIndex, endIndex);
 
     // setear la pagina actual en la que pulse el usuario

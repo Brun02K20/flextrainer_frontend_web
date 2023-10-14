@@ -1,41 +1,39 @@
 import React, { useEffect, useState } from 'react'; // importando funcionalidades necesarias de react, ademas de la libreria en si
-import { useNavigate } from 'react-router-dom'; // importando la funcionalidad de navegacion entre componentes
-import { useForm, Controller } from 'react-hook-form'; // importando las funcionalidades neecsarias para gestion de formularios
-
-// importando estilos asociados a esta pantalla
-import './EliminarUsuario.css';
+import { useForm } from 'react-hook-form'; // importando las funcionalidades neecsarias para gestion de formularios
 
 // importando componentes bootstrap necesarios
 import Button from 'react-bootstrap/Button';
 import { Card, Modal } from 'react-bootstrap';
-import axios from 'axios';
+import './EliminarUsuario.css'; // importando estilos asociados a esta pantalla
+import axios from 'axios'; // importando axios para poder llevar a cabo las peticiones al backend
 
 const EliminarUsuario = ({ showModalEliminarUsuario, handleCloseEliminarUsuario, setSelectedUser, setIsUserSelected, selectedUser, traerUsuarios, handleClean }) => {
     // funcionalidades y propiedades necesarias para la gestion del formulario, que en este caso, solo consistira
     // en el boton de ELIMINAR
-    const { handleSubmit, control, formState: { errors }, setValue } = useForm();
+    const { handleSubmit } = useForm();
 
+    // gestion de modal de: "se elimino el usuario exitosamente"
+    const [showModalEliminado, setShowModalEliminado] = useState(false);
+    const handleCloseModalEliminado = () => setShowModalEliminado(false);
+    const handleShowModalEliminado = () => setShowModalEliminado(true);
+
+    // mostrar por consola a que usuario elegi para borrarlo
     useEffect(() => {
-        console.log("datos user a eliminar: ", selectedUser)
-    }, [selectedUser])
+        console.log("datos user a eliminar: ", selectedUser);
+    }, [selectedUser]);
 
     // funcion que se va a ejecutar en cuanto el usuario pulse el boton ELIMINAR, que procesara el dato de que el 
     // administrador elimino el usuario, y enviara ese dato al backend para que registre dicha baja
     const onSubmit = async (data) => {
         data.dni = selectedUser.dni;
         console.log(data);
-        await axios.delete(`http://localhost:4001/flextrainer/usuarios/usuario/delete/${data.dni}`)
-        setSelectedUser({});
-        setIsUserSelected(false)
-        handleCloseEliminarUsuario();
-        traerUsuarios()
-        handleShowModalEliminado();
+        await axios.delete(`http://localhost:4001/flextrainer/usuarios/usuario/delete/${data.dni}`);
+        setSelectedUser({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
+        setIsUserSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
+        handleCloseEliminarUsuario(); // cierro el primer modal de eliminacion de usuario 
+        traerUsuarios(); // traigo todos los usuarios desde el backend
+        handleShowModalEliminado(); // abro el segundo modal de eliminacion de usuario
     };
-
-    // gestion de modal de: "se elimino el usuario exitosamente"
-    const [showModalEliminado, setShowModalEliminado] = useState(false);
-    const handleCloseModalEliminado = () => setShowModalEliminado(false);
-    const handleShowModalEliminado = () => setShowModalEliminado(true);
 
     // renderizando los modales
     return (

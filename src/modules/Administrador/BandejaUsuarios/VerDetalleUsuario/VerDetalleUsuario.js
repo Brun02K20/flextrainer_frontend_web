@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; // importo funcionalidades propias de react
 import { useNavigate, useParams } from 'react-router-dom'; // importo la funcionalidad de navegacion entre componentes de react-router-dom
 import { useForm, Controller } from 'react-hook-form'; // importo las funcionalidades necesarias para la gestion de formularios a travves de react-hook-form
 
@@ -8,34 +8,31 @@ import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import { Nav } from 'react-bootstrap';
-import Modal from 'react-bootstrap/Modal';
 
-// importar estilos asociados al componente
-import './VerDetalleUsuario.css';
-import axios from 'axios';
+import './VerDetalleUsuario.css'; // importar estilos asociados al componente
+import axios from 'axios'; // importo axios para llevar a cabo la peticion
 
 const VerDetalleUsuario = () => {
-    const { handleSubmit, control, formState: { errors } } = useForm(); // declaro las funciones necearias para la gestion del formulario de registro
-    const navigate = useNavigate();
-    const { dni } = useParams();
-    const [user, setUser] = useState({})
+    const { control, formState: { errors } } = useForm(); // declaro las funciones necearias para la gestion del formulario de registro
+    const navigate = useNavigate(); // declaro la funcion de navegacion entre componentes
+    const { dni } = useParams(); // declaro que yo en el routeo de este componente, voy a estar esperando un parametro en la url, en este caso, se llama "dni"
+    const [user, setUser] = useState({}); // estaod en el que voy a almacenar la informacion del usuario a consultar
 
+    // efecto para traer la info del usuario a consultar desde el backend, donde va a ejecutarse cada vez
+    //que elija un usuario distinto, es decir, cada vez que cambie el dni
     useEffect(() => {
         const traerDatosUsuario = async () => {
-            const user = await axios.get(`http://localhost:4001/flextrainer/usuarios/usuario/${dni}`)
-            setUser(user.data)
+            const user = await axios.get(`http://localhost:4001/flextrainer/usuarios/usuario/${dni}`);
+            setUser(user.data);
         }
         traerDatosUsuario();
-    }, [dni])
+    }, [dni]);
 
-    useEffect(() => {
-        console.log("usuario que toy viendo: ", user)
-    }, [user])
-
+    // funcion que se va a ejecutar si el usuairo pulsa el boton volver, en este caso, solo lo redirige a la bandeja de usuarios
     const handleBack = () => {
-        navigate('/bandejaUsuarios')
+        navigate('/bandejaUsuarios');
     }
+
     return (
         <>
             <Navbar style={{ backgroundColor: 'red' }}>
@@ -97,7 +94,6 @@ const VerDetalleUsuario = () => {
                                                     disabled
                                                 />
                                             )}
-
                                         />
                                         {errors.nombre && <p>{errors.nombre.message}</p>}
                                     </Form.Group>
@@ -153,7 +149,6 @@ const VerDetalleUsuario = () => {
                                                     <option value="Masculino">Masculino</option>
                                                     <option value="Femenino">Femenino</option>
                                                     <option value="X">X</option>
-
                                                 </Form.Select>
                                             )}
                                         />

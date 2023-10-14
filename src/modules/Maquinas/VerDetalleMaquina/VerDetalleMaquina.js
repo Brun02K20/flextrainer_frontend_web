@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'; // importo funcionalidades react necesarias
 import { useNavigate, useParams } from 'react-router-dom'; // importando funcion de navegacion entre componentes de react-router-dom
 
 // importo componentes de estilos propios de la libreria react-bootstrap
@@ -14,7 +14,6 @@ import { VerDetalleEjercicio } from '../../Ejercicios/VerDetalleEjercicio/VerDet
 
 
 const VerDetalleMaquina = () => {
-
     const { id } = useParams(); // Obtenemos el parámetro 'id' de la URL
     const navigate = useNavigate(); // declaro la funcion de navegacion 
 
@@ -35,14 +34,12 @@ const VerDetalleMaquina = () => {
     const handleCloseME = () => setShowME(false);
     const handleShowME = () => setShowME(true);
 
-    // gestion de la grilla, temas de paginacion
+    // GESTION DE LA GRILLA Y TEMAS DE PAGINACION
     const [currentPage, setCurrentPage] = useState(1); // que pagina se esta mostrando en el momento
     const [itemsPerPage, setItemsPerPage] = useState(10); // Inicialmente mostrar 10 filas por página
-
     const totalPages = Math.ceil(data.length / itemsPerPage); // calcular la cantidad de paginas
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-
     const currentData = data.slice(startIndex, endIndex);
 
     // setear la pagina actual en la que pulse el usuario
@@ -57,6 +54,7 @@ const VerDetalleMaquina = () => {
         setCurrentPage(1); // Reiniciar a la primera página cuando cambia el número de elementos por página
     };
 
+    // funcion que se va a ejecutar si el usuairo pulsa el boton VOLVER, por ahora solo lo lleva a la pantalla de bienvenida
     const handleBack = () => {
         navigate('/bienvenida')
     }

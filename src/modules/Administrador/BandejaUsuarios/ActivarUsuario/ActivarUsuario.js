@@ -1,35 +1,36 @@
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState, useEffect } from 'react'; // importo funcionalidades react necesarias
+import { useForm } from 'react-hook-form'; // importo el hook de useForm para la gestion de formularios
+// importo componentes bootstrp necesarios
 import Button from 'react-bootstrap/Button';
 import { Card, Modal } from 'react-bootstrap';
-
-import './ActivarUsuario.css';
+import axios from 'axios'; // importo axios para llevar a cabo las peticiones necesarias
+import './ActivarUsuario.css'; // importo los estilos asociados a esta pantalla
 
 const ActivarUsuario = ({ showModalActivarUsuario, handleCloseActivarUsuario, setSelectedUser, setIsUserSelected, selectedUser, traerUsuarios, handleClean }) => {
-    const { handleSubmit, control, formState: { errors }, setValue } = useForm();
+    const { handleSubmit } = useForm(); // funcionalidades y propiedades necesarias para la gestion del formulario
 
+    // muestro por consola que usuario voy a activar
     useEffect(() => {
-        console.log("datos user a activar: ", selectedUser)
-    }, [selectedUser])
+        console.log("datos user a activar: ", selectedUser);
+    }, [selectedUser]);
 
     // gestion del modal que el usuario se reactivo correctamente
     const [showModalActivado, setShowModalActivado] = useState(false);
     const handleCloseModalActivado = () => setShowModalActivado(false);
     const handleShowModalActivado = () => setShowModalActivado(true);
 
+    // funcion que se va a ejecutar en cuanto el usuario pulse el boton ACTIVAR, que procesara el dato de que el
+    // administrador reactivo el usuario, y enviara ese dato al backend para que registre dicha baja actualizacion
     const onSubmit = async (data) => {
         data.dni = selectedUser.dni;
         console.log(data);
-        await axios.put(`http://localhost:4001/flextrainer/usuarios/usuario/activate/${data.dni}`);
-        setSelectedUser({});
-        setIsUserSelected(false);
-        handleCloseActivarUsuario();
-        traerUsuarios();
-        handleShowModalActivado();
+        await axios.put(`http://localhost:4001/flextrainer/usuarios/usuario/activate/${data.dni}`); // peticion
+        setSelectedUser({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
+        setIsUserSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
+        handleCloseActivarUsuario(); // cierro el primer modal de eliminacion de usuario 
+        traerUsuarios(); // traigo todos los usuarios desde el backend
+        handleShowModalActivado(); // abro el segundo modal de activacion de usuario
     }
-
-
 
     return (
         <>

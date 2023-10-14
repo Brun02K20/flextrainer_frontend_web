@@ -13,34 +13,34 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
 // importar componentes desarrollados por mi
-import { AsignarRol } from './AsignarRol/AsignarRol';
-import { EliminarUsuario } from './EliminarUsuario/EliminarUsuario';
-import { usuariosServices } from './services/usuarios.service';
-import axios from 'axios';
-import { ActivarUsuario } from './ActivarUsuario/ActivarUsuario';
+import { AsignarRol } from './AsignarRol/AsignarRol.js';
+import { EliminarUsuario } from './EliminarUsuario/EliminarUsuario.js';
+import { ActivarUsuario } from './ActivarUsuario/ActivarUsuario.js';
+
+import axios from 'axios'; // importo axios para llevar a cabo las peticiones al backend
 
 // lo mismo, declaro componente y explicito props que va a recibir
 const BandejaUsuarios = () => {
-    // declaro la funcion de navegacion 
-    const navigate = useNavigate();
-    const [usuarios, setUsuarios] = useState([])
-
-    const [errorDni, setErrorDni] = useState('');
-
-    const traerUsuarios = async () => {
-        const usuariosTraidos = await axios.get(`http://localhost:4001/flextrainer/usuarios/`);
-        console.log('Trayendo los cambios')
-        setUsuarios(usuariosTraidos.data)
-    };
-
-    useEffect(() => {
-        console.log(usuarios)
-    }, [usuarios])
+    const navigate = useNavigate(); // declaro la funcion de navegacion 
 
     // declaro las funcionalidades necesarias para gestionar formularios, en este caso, tendremos un formulario de
     // busqueda, que se utilizara como un filtrador de datos
     const { handleSubmit, control, formState: { errors }, reset, setValue, register } = useForm();
+    const [usuarios, setUsuarios] = useState([]); // estado en el que voy a almacenar los usuarios aa mostrar en la grilla
 
+    // funcion que trae a los usuarios del backend para almacenarlos en el estado.
+    const traerUsuarios = async () => {
+        const usuariosTraidos = await axios.get(`http://localhost:4001/flextrainer/usuarios/`);
+        console.log('Trayendo los cambios');
+        setUsuarios(usuariosTraidos.data);
+    };
+
+    // imprime los usuarios por consola, cada vez que alguno de estos cambia
+    useEffect(() => {
+        console.log(usuarios);
+    }, [usuarios]);
+
+    // funcion que se va a ejecutar si se pulsa el boton LIMPIAR del formulario, que borra los valores de todos los campos
     const handleClean = () => {
         reset();
         setValue('dni', '');
@@ -49,36 +49,31 @@ const BandejaUsuarios = () => {
         setValue('dadosBaja', false);
         setValue('genero', 0);
         setValue('idRol', '0');
-    }
+    };
 
     // funcion que se va a ejecutar en cuanto el usuario pulse BUSCAR, enviando los datos ingresados en los filtros
     // al backend
     const onSubmit = async (data) => {
+        // convierte el filtro de dados baja, de booleano, a entero, para su procesamiento en el backend
         if (data.dadosBaja === false) {
             data.dadosBaja = 1;
         } else {
             data.dadosBaja = 0;
         }
 
+        // si no eligio genero, que lo tome como cadena vacia, volviendolo asi un valor falsy, causando que en el
+        // backend no se lotome como filtro
         if (data.genero == 0) {
-            data.genero = ""
+            data.genero = "";
         }
 
-        console.log("data.dni; ", data.dni)
+        data.dni = parseInt(data.dni); // parseando el dni ingresado por el usuario
+        data.idRol = parseInt(data.idRol); // parseando el rol ingresado por el usuario
+        console.log(data); // consoleando lo que voy a enviar al backend
 
-        if (data.dni != '' && parseInt(data.dni) == NaN) {
-            setErrorDni('ERROR. Ingresa un DNI valido')
-            return;
-        }
-
-
-        data.dni = parseInt(data.dni);
-        data.idRol = parseInt(data.idRol)
-        console.log(data);
-
-        const response = await axios.post(`http://localhost:4001/flextrainer/usuarios/byFilters`, data);
-        setCurrentPage(1);
-        setUsuarios(response.data)
+        const response = await axios.post(`http://localhost:4001/flextrainer/usuarios/byFilters`, data); // haciendo la peticion
+        setCurrentPage(1); // seteando l pagina que se va amostrar de la grilla
+        setUsuarios(response.data); // seteo el estado de usuarios, como lo devuelto por la api
     };
 
     //gestion del boton volver, por ahora solo lo lleva a la pantalla de bienvenida
@@ -86,14 +81,12 @@ const BandejaUsuarios = () => {
         navigate('/bienvenida');
     };
 
-    // gestion de la grilla, temas de paginacion
+    // GESTION DE LA GRILLA Y TEMAS DE PAGINACION
     const [currentPage, setCurrentPage] = useState(1); // que pagina se esta mostrando en el momento
     const [itemsPerPage, setItemsPerPage] = useState(10); // Inicialmente mostrar 10 filas por página
-
     const totalPages = Math.ceil(usuarios.length / itemsPerPage); // calcular la cantidad de paginas
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-
     const currentData = usuarios.slice(startIndex, endIndex);
 
     // setear la pagina actual en la que pulse el usuario
@@ -107,7 +100,6 @@ const BandejaUsuarios = () => {
         setItemsPerPage(newItemsPerPage); // setear cantidad de filas por pagina
         setCurrentPage(1); // Reiniciar a la primera página cuando cambia el número de elementos por página
     };
-
 
 
     // GESTION DE MODALES
@@ -134,6 +126,8 @@ const BandejaUsuarios = () => {
         setIsUserSelected(true);
     };
 
+    // Cada vez que cambie el estado de muestra del modal del rol, trae los datos de los usuarios,
+    // esto para quese muestre dinmicamente los entrendores disponibles en el caso de asignarle un profesor a un alumno
     useEffect(() => {
         traerUsuarios();
     }, [showModalAsignarRol])
@@ -187,7 +181,6 @@ const BandejaUsuarios = () => {
                                                 )}
                                             />
                                             {errors.dni && <p>{errors.dni.message}</p>}
-                                            {errorDni && <p>{errorDni}</p>}
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
@@ -286,7 +279,6 @@ const BandejaUsuarios = () => {
                                             {errors.rol && <p>{errors.rol.message}</p>}
                                         </Form.Group>
                                     </div>
-
                                     <div className='col-md-6'>
                                         <Form.Check
                                             type='checkbox'

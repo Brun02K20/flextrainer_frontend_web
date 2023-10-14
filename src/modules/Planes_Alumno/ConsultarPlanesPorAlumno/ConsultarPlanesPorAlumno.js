@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'; // importando React y funcio
 import { useNavigate } from 'react-router-dom'; // importando funcion de navegacion entre componentes de react-router-dom
 import { useForm, Controller } from 'react-hook-form'; // importando funcionalidades necesarias para la gestion de formularios
 
-
 // importando componentes de react-bootstrap necesarios
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
@@ -12,64 +11,59 @@ import { Nav, Table, Pagination } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+
+// importo axios para poder realizar las peticiones necesarias al backend
 import axios from 'axios';
 
 const ConsultarPlanesPorAlumno = () => {
-    const navigate = useNavigate(); // declaro la funcion de navegacion
-    const [planesAlumnos, setPlanesAlumnos] = useState([])
-
-    useEffect(() => {
-        const traerPlanesAlumnos = async () => {
-            const response = await axios.post(`http://localhost:4001/flextrainer/planesAlumnos/byFilters`)
-            setPlanesAlumnos(response.data)
-        }
-        traerPlanesAlumnos()
-    }, [])
-
     // declaro las funcionalidades necesarias para gestionar formularios, en este caso, tendremos un formulario de
     // busqueda, que se utilizara como un filtrador de datos
     const { handleSubmit, control, formState: { errors }, reset, setValue, register } = useForm();
+    const navigate = useNavigate(); // declaro la funcion de navegacion
+    const [planesAlumnos, setPlanesAlumnos] = useState([]); // estado en el que voy a almacenar todos los datos de los planes y sus alumnos
 
+    // traigo los datos a mostrar en la grilla desde el backend
+    useEffect(() => {
+        const traerPlanesAlumnos = async () => {
+            const response = await axios.post(`http://localhost:4001/flextrainer/planesAlumnos/byFilters`);
+            setPlanesAlumnos(response.data);
+        }
+        traerPlanesAlumnos();
+    }, [])
+
+    // funcion que se va a ejecutar si el usuario pulsa el boton de LIMPIAR los filtros
     const handleClean = () => {
-        reset()
-        // Limpia visualmente usando setValue
-        setValue('dni', '');
+        reset(); // resetea los valores internos de los campos
+        setValue('dni', ''); // Limpia visualmente usando setValue
         setValue('nombre', '');
         setValue('apellido', '');
-
-        // Limpiar visualmente el checkbox
-        setValue('dadosBaja', false);  // Suponiendo que el campo para el checkbox se llama 'dadosBaja'
+        setValue('dadosBaja', false); // Limpiar visualmente el checkbox
     }
-
-
 
     // funcion que se va a ejecutar en cuanto el usuario pulse BUSCAR, enviando los datos ingresados en los filtros
     // al backend
     const onSubmit = async (data) => {
-        data.dni = parseInt(data.dni)
+        data.dni = parseInt(data.dni); // parseo el dni
 
+        // parseo el checkbox de dados de baja
         if (data.dadosBaja === false) {
             data.dadosBaja = 1;
         } else {
             data.dadosBaja = 0;
         }
-        console.log("a enviar al backend", data);
-
-        const response = await axios.post(`http://localhost:4001/flextrainer/planesAlumnos/byFilters`, data)
-        console.log("rta: ", response.data)
-        setCurrentPage(1);
-        setPlanesAlumnos(response.data)
-
+        console.log("a enviar al backend", data); // muestro los datos a enviar al backend
+        const response = await axios.post(`http://localhost:4001/flextrainer/planesAlumnos/byFilters`, data); // llevo a cabo la peticion
+        console.log("rta: ", response.data); // muestro por consola la respuesta
+        setCurrentPage(1); // seteo la pagina actual como la primera
+        setPlanesAlumnos(response.data); // seteo los planes traidos como el valor de la respuesta de la api
     };
 
-    // gestion de la grilla, temas de paginacion
+    // GESTION DE LA GRILLA Y TEMAS DE PAGINACION
     const [currentPage, setCurrentPage] = useState(1); // que pagina se esta mostrando en el momento
     const [itemsPerPage, setItemsPerPage] = useState(10); // Inicialmente mostrar 10 filas por página
-
     const totalPages = Math.ceil(planesAlumnos.length / itemsPerPage); // calcular la cantidad de paginas
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-
     const currentData = planesAlumnos.slice(startIndex, endIndex);
 
     // setear la pagina actual en la que pulse el usuario
@@ -203,7 +197,6 @@ const ConsultarPlanesPorAlumno = () => {
                                             id='checkbox-busqueda-usuarios'
                                             label='Incluir dados de baja'
                                             {...register('dadosBaja')}
-                                        // style={{ border: '4px red solid' }}
                                         />
                                     </div>
                                 </div>

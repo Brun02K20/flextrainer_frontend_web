@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // importando React y funcionalidades nativas del mismo
+import React from 'react'; // importando React y funcionalidades nativas del mismo
 import { useNavigate } from 'react-router-dom'; // importando funcion de navegacion entre componentes
 import Modal from 'react-bootstrap/Modal'; // importando el componente Modal de react-bootstrap
 import Button from 'react-bootstrap/Button'; // importando el componente Button de react-bootstrap
@@ -7,16 +7,14 @@ import './CerrarSesionModal.css'; // importando los estilos CSS asociados a este
 
 // declarando el compoennte y explicitando las props que este recibira
 const CerrarSesionModal = ({ show, handleClose, setUsuarioEnSesion }) => {
-
-    // declarando la funcion de navegacion
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // declarando la funcion de navegacion
 
     // funcion que se ejecutara si el usuario hace click en cerrar sesion,
     // NOTA: setearemos el usuarioEnSesion como un {} en esta funcion, indicando que el usuario ya no esta logueado en la app
     const cerrarSesion = () => {
         setUsuarioEnSesion({}); // indicando que el usuario que usa la app ya no esta logueado
         handleClose(); // cerrando el modal de Cerrar Sesion
-        navigate('/'); // redirigiendo al Home
+        navigate('/'); // redirigiendo al Home, donde el usuario no esta logueado
     };
 
     return (
