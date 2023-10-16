@@ -41,16 +41,22 @@ const VerDetalleEjercicio = ({ show, handleClose, idEjercicioElegido, setIdEjerc
                             <p>DESCRIPCION: {ejercicio ? ejercicio.descripcion : ''}</p>
                             <p>ZONA DEL CUERPO QUE TRABAJA: {ejercicio ? ejercicio.nombreZonaCuerpo : ''}</p>
                             <p>CATEGORIA DEL EJERCICIO:  {ejercicio ? ejercicio.nombreCategoria : ''}</p>
-                            <iframe
-                                width="100%"
-                                height="315"
-                                src={ejercicio !== null ? (ejercicio.Video ? ejercicio.Video.url : 'https://www.youtube.com/embed/e18WN3syp6g?si=XDDceDQOxidQHCfz') : 'https://www.youtube.com/embed/e18WN3syp6g?si=XDDceDQOxidQHCfz'}
-                                title="YouTube video player"
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowFullScreen
-                            >
-                            </iframe>
+                            {(ejercicio !== null && ejercicio.Video) ? (
+                                <iframe
+                                    width="100%"
+                                    height="315"
+                                    src={ejercicio !== null ? (ejercicio.Video ? ejercicio.Video.url : 'https://www.youtube.com/embed/e18WN3syp6g?si=XDDceDQOxidQHCfz') : 'https://www.youtube.com/embed/e18WN3syp6g?si=XDDceDQOxidQHCfz'}
+                                    title="YouTube video player"
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowFullScreen
+                                >
+                                </iframe>
+                            ) : (
+                                <div className='col s12 center' style={{ width: '100%', height: '315px' }}>
+                                    <h3 style={{ textAlign: 'center' }}>NO HAY VIDEO ASOCIADO A ESTE EJERCICIO</h3>
+                                </div>
+                            )}
                         </Card.Body>
                     </Card>
                 </div>
