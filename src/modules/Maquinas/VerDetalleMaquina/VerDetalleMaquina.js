@@ -13,42 +13,31 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { VerDetalleEjercicio } from '../../Ejercicios/VerDetalleEjercicio/VerDetalleEjercicio';
 import axios from 'axios';
 
-
 const VerDetalleMaquina = () => {
     const { id } = useParams(); // Obtenemos el parámetro 'id' de la URL
     const navigate = useNavigate(); // declaro la funcion de navegacion 
-    const [maquina, setMaquina] = useState(null); // estado en el que voy a almacenar los datos de la maquina y sus ejercicios
-
-    // traer la maquina y sus ejercicios desde el backend
-    useEffect(() => {
-        const traerMaquina = async () => {
-            const response = await axios.get(`http://localhost:4001/flextrainer/maquinas/maquina/${id}`)
-            setMaquina(response.data)
-        }
-
-        traerMaquina()
-    }, []);
+    const [maquina, setMaquina] = useState({}); // estado en el que voy a almacenar los datos de la maquina y sus ejercicios
 
     useEffect(() => {
         console.log("maquina en este momento: ", maquina)
     }, [maquina])
-
-    const data = [
-        {
-            id: 4,
-            name: 'a',
-        },
-        {
-            id: 6,
-            name: 'b'
-        }
-    ];
 
     // gestion del modal del detalle de un ejercicio:
     const [idEjercicioElegido, setIdEjercicioElegido] = useState(0);
     const [showME, setShowME] = useState(false);
     const handleCloseME = () => setShowME(false);
     const handleShowME = () => setShowME(true);
+
+    // traer la maquina y sus ejercicios desde el backend
+    useEffect(() => {
+        const traerMaquina = async () => {
+            if (id !== null && id != 0 && !showME && idEjercicioElegido == 0) {
+                const response = await axios.get(`http://localhost:4001/flextrainer/maquinas/maquina/${id}`)
+                setMaquina(response.data)
+            }
+        }
+        traerMaquina()
+    }, []);
 
     // GESTION DE LA GRILLA Y TEMAS DE PAGINACION
     const [currentPage, setCurrentPage] = useState(1); // que pagina se esta mostrando en el momento
@@ -74,13 +63,14 @@ const VerDetalleMaquina = () => {
     // funcion que se va a ejecutar si el usuairo pulsa el boton VOLVER, por ahora solo lo lleva a la pantalla de bienvenida
     const handleBack = () => {
         navigate('/maquinas')
+        setMaquina({})
     }
 
     return (
         <>
             <Navbar style={{ backgroundColor: 'red' }}>
                 <Container>
-                    <Navbar.Brand style={{ color: 'white', fontWeight: 'bold' }}>Detalle Maquina</Navbar.Brand>
+                    <Navbar.Brand style={{ color: 'white', fontWeight: 'bold' }}>{maquina.nombre}</Navbar.Brand>
                     {/* aca sustituir por el nombre de la maquina */}
                 </Container>
             </Navbar>
@@ -179,12 +169,14 @@ const VerDetalleMaquina = () => {
                 </Button>
             </div>
 
-            <VerDetalleEjercicio
-                show={showME}
-                handleClose={handleCloseME}
-                idEjercicioElegido={idEjercicioElegido}
-                setIdEjercicioElegido={setIdEjercicioElegido}
-            />
+            {showME && (
+                <VerDetalleEjercicio
+                    show={showME}
+                    handleClose={handleCloseME}
+                    idEjercicioElegido={idEjercicioElegido}
+                    setIdEjercicioElegido={setIdEjercicioElegido}
+                />
+            )}
         </>
     )
 }

@@ -30,11 +30,6 @@ const ConsultarMaquinas = () => {
         traerMaquinas()
     }, [])
 
-    // mostrando las maquinas por consola, cada vez que estas cambien
-    useEffect(() => {
-        console.log("maquinas ahora: ", maquinas)
-    }, [maquinas])
-
     // funcion que se va a ejecutar en cuanto el usuario pulse BUSCAR, enviando los datos al backend para su procesamiento
     const onSubmit = async (data) => {
         // convierte el filtro de dados baja, de booleano, a entero, para su procesamiento en el backend

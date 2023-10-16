@@ -8,17 +8,20 @@ import './VerDetalleEjercicio.css'; // importar estilos asociados a este compone
 import axios from 'axios';
 
 const VerDetalleEjercicio = ({ show, handleClose, idEjercicioElegido, setIdEjercicioElegido }) => {
-    const [ejercicio, setEjercicio] = useState(null); // estado en el que almacenare los datos del ejrcicio
+    const [ejercicio, setEjercicio] = useState({}); // estado en el que almacenare los datos del ejrcicio
 
     // efecto para traer la informacion del ejercicio
     useEffect(() => {
         const traerEjercicio = async () => {
-            const response = await axios.get(`http://localhost:4001/flextrainer/ejercicios/ejercicio/${idEjercicioElegido}`);
-            setEjercicio(response.data)
+            if (idEjercicioElegido !== null && idEjercicioElegido !== 0 && show) {
+                const response = await axios.get(`http://localhost:4001/flextrainer/ejercicios/ejercicio/${idEjercicioElegido}`);
+                setEjercicio(response.data)
+            }
         }
         traerEjercicio();
     }, [idEjercicioElegido]);
 
+    // mostrando por consola el ejercicio elegido
     useEffect(() => {
         console.log("ejercicio elegido ahora: ", ejercicio)
     }, [idEjercicioElegido])
@@ -26,7 +29,7 @@ const VerDetalleEjercicio = ({ show, handleClose, idEjercicioElegido, setIdEjerc
     return (
         <>
             {/* misma explicacion de declaracion de Modal que en LoginModal.js, al igual que el header de este modal */}
-            <Modal show={show} onHide={() => { setIdEjercicioElegido(null); handleClose() }}>
+            <Modal show={show} onHide={() => { setIdEjercicioElegido(0); handleClose(); setEjercicio(null) }}>
                 <Modal.Header closeButton className='verEjercicio-modal-header'>
                     <Modal.Title className='verEjercicio-modal-title'>Detalle Ejercicio</Modal.Title>
                 </Modal.Header>
@@ -41,9 +44,9 @@ const VerDetalleEjercicio = ({ show, handleClose, idEjercicioElegido, setIdEjerc
                             <iframe
                                 width="100%"
                                 height="315"
-                                src="https://www.youtube.com/embed/v4yPFSDJyJ0?si=Bt-NESBbdsGMkG9a"
+                                src={ejercicio !== null ? (ejercicio.Video ? ejercicio.Video.url : 'https://www.youtube.com/embed/e18WN3syp6g?si=XDDceDQOxidQHCfz') : 'https://www.youtube.com/embed/e18WN3syp6g?si=XDDceDQOxidQHCfz'}
                                 title="YouTube video player"
-                                frameborder="0"
+                                frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 allowFullScreen
                             >
@@ -53,7 +56,7 @@ const VerDetalleEjercicio = ({ show, handleClose, idEjercicioElegido, setIdEjerc
                 </div>
 
                 <Modal.Footer>
-                    <Button variant="danger" onClick={() => { setIdEjercicioElegido(null); handleClose() }}>
+                    <Button variant="danger" onClick={() => { setIdEjercicioElegido(0); handleClose(); setEjercicio(null) }}>
                         Cerrar
                     </Button>
                 </Modal.Footer>
