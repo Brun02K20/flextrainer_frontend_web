@@ -1,10 +1,12 @@
 /* estilos en cascada, recordar que siempre van de arriba hacia abajo en funcion de la ubicacion de los componentes
 en el respectivo archivo .js */
 #header-navbar-home {
-    background-color: rgb(224, 117, 117); /* color de fondo, se lo puede configurar, o incluso almacenar en variables*/
-    width: 100%; /* ancho total de la pantalla */
+    background-color: rgb(224, 117, 117);
+    /* color de fondo, se lo puede configurar, o incluso almacenar en variables*/
+    width: 100%;
+    /* ancho total de la pantalla */
     /* fijando el header en la parte superior de la pantalla */
-    position: fixed; 
+    position: fixed;
     top: 0;
     right: 0;
 }
@@ -18,47 +20,31 @@ en el respectivo archivo .js */
     font-size: 24px;
     cursor: pointer;
     color: white;
-    z-index: 10;
-    padding: 4px;
+}
+
+.flex-logo {
+    opacity: 0.75;
 }
 
 .centered-image-home {
     display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    height: 100vh; /* Establece la altura al 73.7% del viewport para que la imagen se ajuste al centro de la pantalla */
+    justify-content: center;
+    /* Centra horizontalmente */
+    align-items: center;
+    /* Centra verticalmente */
+    height: 100vh;
+    /* Establece la altura al 73.7% del viewport para que la imagen se ajuste al centro de la pantalla */
 }
 
 .icon-text-container {
     display: flex;
     align-items: center;
     /* Alinea verticalmente los elementos en el centro */
-    position: relative;
-    overflow: hidden;
-    padding: 5px;
-    border-radius: 8px;
-}
-
-.icon-text-container2 {
-    display: flex;
-    align-items: center;
-    /* Alinea verticalmente los elementos en el centro */
-    position: relative;
-    overflow: hidden;
-    padding: 5px;
-        border-radius: 8px;
 }
 
 .icon-text-container i {
     margin-right: 8px;
     /* Espacio entre el icono y el texto, puedes ajustarlo según tus preferencias */
-    z-index: 10;
-    padding-left: 4px;
-}
-
-.bi-person-circle {
-    z-index: 10;
-    padding-right: 8px;
 }
 
 #footer-home {
@@ -70,9 +56,7 @@ en el respectivo archivo .js */
 }
 
 .footer-home-link-socialNetwork {
-    color: white;
-    z-index: 10;
-    padding: 4px;
+    color: white
 }
 
 @media (max-width: 560px) {
@@ -86,44 +70,5 @@ en el respectivo archivo .js */
 
     .footer-home-link-socialNetwork {
         display: none
-    }
-}
-
-.icon-text-container::before {
-    content: '';
-    position: absolute;
-    left: -130px;
-    width: 300%;
-    height: 300%;
-    background: linear-gradient(black, white);
-    animation: animate 4s linear infinite;
-    border-radius: 4px;
-}
-
-.icon-text-container2::before {
-    content: '';
-    position: absolute;
-    left: -170px;
-    width: 300%;
-    height: 300px;
-    background: linear-gradient(black, white);
-    animation: animate 4s linear infinite
-}
-
-.icon-text-container::after, .icon-text-container2::after {
-    content: '';
-    position: absolute;
-    background: red;
-    inset: 4px;
-    border-radius: 4px;
-}
-
-@keyframes animate {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
     }
 }

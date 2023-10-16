@@ -68,9 +68,9 @@ const VerDetalleMaquina = () => {
 
     return (
         <>
-            <Navbar style={{ backgroundColor: 'red' }}>
+            <Navbar style={{ backgroundColor: '#881313' }}>
                 <Container>
-                    <Navbar.Brand style={{ color: 'white', fontWeight: 'bold' }}>{maquina.nombre}</Navbar.Brand>
+                    <Navbar.Brand style={{ color: 'white', fontWeight: 'bold' }}>{maquina.nombre ? maquina.nombre.toUpperCase() : ''}</Navbar.Brand>
                     {/* aca sustituir por el nombre de la maquina */}
                 </Container>
             </Navbar>
@@ -123,7 +123,7 @@ const VerDetalleMaquina = () => {
                                                             </Tooltip>
                                                         }
                                                     >
-                                                        <Button variant="secondary" style={{ backgroundColor: 'blue', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => { console.log(row.id); setIdEjercicioElegido(row.id); handleShowME() }}>
+                                                        <Button variant="secondary" style={{ backgroundColor: '#881313', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => { console.log(row.id); setIdEjercicioElegido(row.id); handleShowME() }}>
                                                             <i className="bi bi-camera-video-fill" style={{ fontSize: '16px' }}></i>
                                                         </Button>
                                                     </OverlayTrigger>
@@ -164,7 +164,7 @@ const VerDetalleMaquina = () => {
             <br></br>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button style={{ marginBottom: '16px' }} onClick={handleBack}>
+                <Button style={{ marginBottom: '16px', backgroundColor: 'grey', border: 'black 2px solid', fontWeight: '600' }} onClick={handleBack}>
                     Volver
                 </Button>
             </div>

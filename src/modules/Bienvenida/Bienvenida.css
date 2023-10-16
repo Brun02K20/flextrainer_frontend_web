@@ -19,19 +19,13 @@
     font-size: 24px;
     cursor: pointer;
     color: white;
-    z-index: 10;
-    padding: 4px;
 }
 
 #user-icon-bienvenida {
     font-size: 2rem;
-    color: white; 
-    margin-left: 8px; 
+    color: white;
+    margin-left: 8px;
     cursor: pointer
-}
-
-.flex-logo {
-    opacity: 0.75;
 }
 
 .dropdown-user-bienvenida {
@@ -54,7 +48,8 @@
     /* Alinea verticalmente los elementos en el centro */
 }
 
-#opciones-responsive-dropdown-bienvenida-1, #opciones-responsive-dropdown-bienvenida-2 {
+#opciones-responsive-dropdown-bienvenida-1,
+#opciones-responsive-dropdown-bienvenida-2 {
     display: none
 }
 
@@ -73,9 +68,11 @@
 }
 
 .footer-bienvenida-link-socialNetwork {
-    color: white;
-    z-index: 10;
-        padding: 4px;
+    color: white
+}
+
+.flex-logo {
+    opacity: 0.75;
 }
 
 /* si esta en dispositivos cuyo ancho sea menor a 420px, en vez de ejecutarse los estilos de arriba, se ejecutan 

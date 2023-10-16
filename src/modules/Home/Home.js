@@ -28,7 +28,7 @@ const Home = ({ showModal, handleOpenModal, handleCloseModal, setUsuarioEnSesion
                     <img src={logoFLEXTRAINER} alt='logo FLEXTRAINER' className='logo-home-navbar' />
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
-                            <div className="icon-text-container2">
+                            <div className="icon-text-container">
                                 <span className='login-button-home' onClick={handleOpenModal}>Iniciar Sesion</span>
                                 <i
                                     className="bi bi-person-circle"
@@ -43,7 +43,7 @@ const Home = ({ showModal, handleOpenModal, handleCloseModal, setUsuarioEnSesion
 
             {/* El logo centralizado en la pantalla  */}
             <div className="centered-image-home">
-                <img src={logoFLEXTRAINER} alt="logo FLEXTRAINER" width='400' />
+                <img src={logoFLEXTRAINER} alt="logo FLEXTRAINER" width='400' className='flex-logo' />
             </div>
 
             {/* Footer de la aplicacion */}

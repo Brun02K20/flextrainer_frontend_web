@@ -35,7 +35,7 @@ const VerDetalleUsuario = () => {
 
     return (
         <>
-            <Navbar style={{ backgroundColor: 'red' }}>
+            <Navbar style={{ backgroundColor: '#881313' }}>
                 <Container>
                     <Navbar.Brand style={{ color: 'white' }}>Detalle de Usuario</Navbar.Brand>
                 </Container>
@@ -210,7 +210,7 @@ const VerDetalleUsuario = () => {
             <br></br>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button style={{ marginBottom: '16px' }} onClick={handleBack}>
+                <Button style={{ marginBottom: '16px', backgroundColor: 'grey', border: 'black 2px solid', fontWeight: '600' }} onClick={handleBack}>
                     Volver
                 </Button>
             </div>

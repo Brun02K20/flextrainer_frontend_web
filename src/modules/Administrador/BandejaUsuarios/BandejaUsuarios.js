@@ -135,9 +135,9 @@ const BandejaUsuarios = () => {
     // renderizando todo (NOTA: ESTARIA BUENO MODULAR ESTA SECCION, EN VARIOS ARCHIVOS)
     return (
         <>
-            <Navbar style={{ backgroundColor: 'red' }}>
+            <Navbar style={{ backgroundColor: '#881313' }}>
                 <Container>
-                    <Navbar.Brand style={{ color: 'white', fontWeight: 'bold' }}>Consultar Usuarios</Navbar.Brand>
+                    <Navbar.Brand style={{ color: 'white', fontWeight: 'bold', marginLeft: 0 }}>Consultar Usuarios</Navbar.Brand>
                 </Container>
             </Navbar>
 
@@ -446,7 +446,7 @@ const BandejaUsuarios = () => {
             <br></br>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button style={{ marginBottom: '16px' }} onClick={handleBack}>
+                <Button style={{ marginBottom: '16px', backgroundColor: 'grey', border: 'black 2px solid', fontWeight: '600' }} onClick={handleBack}>
                     Volver
                 </Button>
             </div>

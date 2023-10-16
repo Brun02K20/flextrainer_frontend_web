@@ -71,7 +71,7 @@ const CrearUsuario = () => {
     return (
         <>
             {/* Header del formulario de registro */}
-            <Navbar style={{ backgroundColor: 'red' }}>
+            <Navbar style={{ backgroundColor: '#881313' }}>
                 <Container>
                     <Navbar.Brand style={{ color: 'white' }}>Registrarse</Navbar.Brand>
                 </Container>

@@ -44,6 +44,7 @@ const ActivarUsuario = ({ showModalActivarUsuario, handleCloseActivarUsuario, se
                         <Card.Body>
                             <div className='text-center'>
                                 <span className='activateUser-alertText'>¿Estás seguro de que querés reactivar al usuario?</span>
+                                <br></br>
                                 <span className='activateUser-alertText'>{selectedUser?.nombre} {selectedUser?.apellido}</span>
                                 <br></br>
                                 <br></br>

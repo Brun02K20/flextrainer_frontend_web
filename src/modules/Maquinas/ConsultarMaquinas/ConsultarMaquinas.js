@@ -80,7 +80,7 @@ const ConsultarMaquinas = () => {
 
     return (
         <>
-            <Navbar style={{ backgroundColor: 'red' }}>
+            <Navbar style={{ backgroundColor: '#881313' }}>
                 <Container>
                     <Navbar.Brand style={{ color: 'white', fontWeight: 'bold' }}>Consultar Maquinas</Navbar.Brand>
                 </Container>
@@ -193,7 +193,7 @@ const ConsultarMaquinas = () => {
                                                             </Tooltip>
                                                         }
                                                     >
-                                                        <Button variant="secondary" style={{ backgroundColor: 'blue', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => navigate(`/maquina/${row.id}`)} >
+                                                        <Button variant="secondary" style={{ backgroundColor: '#881313', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => navigate(`/maquina/${row.id}`)} >
                                                             <i className="bi bi-grid-3x2" style={{ fontSize: '16px' }}></i>
                                                         </Button>
                                                     </OverlayTrigger>
@@ -234,7 +234,7 @@ const ConsultarMaquinas = () => {
             <br></br>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button style={{ marginBottom: '16px' }} onClick={handleBack}>
+                <Button style={{ marginBottom: '16px', backgroundColor: 'grey', border: 'black 2px solid', fontWeight: '600' }} onClick={handleBack}>
                     Volver
                 </Button>
             </div>

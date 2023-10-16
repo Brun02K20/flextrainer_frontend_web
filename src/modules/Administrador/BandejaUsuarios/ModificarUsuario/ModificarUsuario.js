@@ -88,7 +88,7 @@ const ModificarUsuario = () => {
     return (
         <>
             {/* Header del formulario */}
-            <Navbar style={{ backgroundColor: 'red' }}>
+            <Navbar style={{ backgroundColor: '#881313' }}>
                 <Container>
                     <Navbar.Brand style={{ color: 'white' }}>Modificar Usuario {dni}</Navbar.Brand>
                 </Container>

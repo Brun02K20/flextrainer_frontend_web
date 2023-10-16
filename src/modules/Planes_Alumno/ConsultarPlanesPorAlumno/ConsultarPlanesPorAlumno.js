@@ -85,7 +85,7 @@ const ConsultarPlanesPorAlumno = () => {
 
     return (
         <>
-            <Navbar style={{ backgroundColor: 'red' }}>
+            <Navbar style={{ backgroundColor: '#881313' }}>
                 <Container>
                     <Navbar.Brand style={{ color: 'white', fontWeight: 'bold' }}>Consultar Planes Por Alumno</Navbar.Brand>
                 </Container>
@@ -313,7 +313,7 @@ const ConsultarPlanesPorAlumno = () => {
             <br></br>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button style={{ marginBottom: '16px' }} onClick={handleBack}>
+                <Button style={{ marginBottom: '16px', backgroundColor: 'grey', border: 'black 2px solid', fontWeight: '600' }} onClick={handleBack}>
                     Volver
                 </Button>
             </div>

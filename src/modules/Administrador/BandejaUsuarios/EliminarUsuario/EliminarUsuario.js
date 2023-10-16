@@ -50,6 +50,7 @@ const EliminarUsuario = ({ showModalEliminarUsuario, handleCloseEliminarUsuario,
                         <Card.Body>
                             <div className='text-center'>
                                 <span className='deleteUser-alertText'>¿Estás seguro de que querés eliminar al usuario?</span>
+                                <br></br>
                                 <span className='deleteUser-alertText'>{selectedUser?.nombre} {selectedUser?.apellido}</span>
                                 <br></br>
                                 <br></br>
