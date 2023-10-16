@@ -19,6 +19,8 @@
     font-size: 24px;
     cursor: pointer;
     color: white;
+    z-index: 10;
+    padding: 4px;
 }
 
 #user-icon-bienvenida {
@@ -67,7 +69,9 @@
 }
 
 .footer-bienvenida-link-socialNetwork {
-    color: white
+    color: white;
+    z-index: 10;
+        padding: 4px;
 }
 
 /* si esta en dispositivos cuyo ancho sea menor a 420px, en vez de ejecutarse los estilos de arriba, se ejecutan 

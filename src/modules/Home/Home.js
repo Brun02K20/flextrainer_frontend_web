@@ -28,7 +28,7 @@ const Home = ({ showModal, handleOpenModal, handleCloseModal, setUsuarioEnSesion
                     <img src={logoFLEXTRAINER} alt='logo FLEXTRAINER' className='logo-home-navbar' />
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
-                            <div className="icon-text-container">
+                            <div className="icon-text-container2">
                                 <span className='login-button-home' onClick={handleOpenModal}>Iniciar Sesion</span>
                                 <i
                                     className="bi bi-person-circle"

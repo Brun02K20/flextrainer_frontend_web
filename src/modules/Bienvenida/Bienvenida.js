@@ -38,7 +38,7 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
                     <Navbar.Collapse id='navbar-collapse-bienvenida'>
                         <NavDropdown
                             title={
-                                <div className="icon-text-container">
+                                <div className="icon-text-container2">
                                     <span className='user-bienvenida'>{usuarioEnSesion.nombre.toUpperCase()} {usuarioEnSesion.apellido.toUpperCase()}</span>
                                     <i
                                         className="bi bi-person-circle"
