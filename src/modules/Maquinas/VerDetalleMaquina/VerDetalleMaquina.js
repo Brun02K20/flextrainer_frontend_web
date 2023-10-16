@@ -78,7 +78,7 @@ const VerDetalleMaquina = () => {
             <br></br>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <img src='https://i.pinimg.com/236x/81/56/85/815685403a6280474199bdb772d3dac4.jpg' width='200' height='200'></img>
+                <img src='https://http2.mlstatic.com/D_NQ_NP_810616-MLA52061690613_102022-O.webp' width='200' height='200'></img>
             </div>
 
             <br></br>
