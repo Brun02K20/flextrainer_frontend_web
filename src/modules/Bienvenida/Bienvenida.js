@@ -69,7 +69,7 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
                 </div>
 
                 {/* imagen centrada en la pantalla */}
-                <img src={logoFLEXTRAINER} alt="logo FLEXTRAINER" width='400' />
+                <img src={logoFLEXTRAINER} alt="logo FLEXTRAINER" width='400' className='flex-logo' />
 
                 {/* contenedor de los botones alojados a la izquierda y a la derecha */}
                 <div className="d-flex justify-content-between">

@@ -30,6 +30,10 @@
     cursor: pointer
 }
 
+.flex-logo {
+    opacity: 0.75;
+}
+
 .dropdown-user-bienvenida {
     top: 110%;
 }
