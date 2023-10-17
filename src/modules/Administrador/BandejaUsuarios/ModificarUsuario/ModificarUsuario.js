@@ -165,7 +165,7 @@ const ModificarUsuario = () => {
                                                         },
                                                         pattern: {
                                                             value: /^[a-zA-Z]+$/,
-                                                            message: 'Porfavor, ingresa solo letras en este campo. Si tu nombre tiene una ñ, bueno, `ni` flaco'
+                                                            message: 'Porfavor, ingresa solo letras en este campo. Si tu nombre tiene una ñ, porfavor usa `ni`'
                                                         },
                                                         maxLength: {
                                                             value: 30,
@@ -198,7 +198,7 @@ const ModificarUsuario = () => {
                                                         },
                                                         pattern: {
                                                             value: /^[a-zA-Z]+$/,
-                                                            message: 'Porfavor, ingresa solo letras en este campo. Si tu nombre tiene una ñ, bueno, `ni` flaco'
+                                                            message: 'Porfavor, ingresa solo letras en este campo. Si tu nombre tiene una ñ, porfavor usa `ni`'
                                                         },
                                                         maxLength: {
                                                             value: 30,

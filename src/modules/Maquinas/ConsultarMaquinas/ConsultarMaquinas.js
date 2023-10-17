@@ -106,7 +106,7 @@ const ConsultarMaquinas = () => {
                                                         {
                                                             pattern: {
                                                                 value: /^[a-zA-Z]+$/,
-                                                                message: 'Porfavor, ingresa solo letras en este campo. Si tu nombre tiene una ñ, bueno, `ni` flaco'
+                                                                message: 'Porfavor, ingresa solo letras en este campo. Si el nombre de la maquina tiene una ñ, por favor usa `ni`'
                                                             },
                                                             maxLength: {
                                                                 value: 30,

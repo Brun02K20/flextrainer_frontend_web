@@ -193,7 +193,7 @@ const BandejaUsuarios = () => {
                                                     {
                                                         pattern: {
                                                             value: /^[a-zA-Z]+$/,
-                                                            message: 'Porfavor, ingresa solo letras en este campo. Si tu nombre tiene una ñ, bueno, `ni` flaco'
+                                                            message: 'Porfavor, ingresa solo letras en este campo. Si el nombre tiene una ñ, por favor usa `ni`'
                                                         },
                                                         maxLength: {
                                                             value: 30,
@@ -222,7 +222,7 @@ const BandejaUsuarios = () => {
                                                     {
                                                         pattern: {
                                                             value: /^[a-zA-Z]+$/,
-                                                            message: 'Porfavor, ingresa solo letras en este campo. Si tu apellido tiene una ñ, bueno, `ni` flaco'
+                                                            message: 'Porfavor, ingresa solo letras en este campo. Si el apellido tiene una ñ, porfavor usa `ni`'
                                                         },
                                                         maxLength: {
                                                             value: 30,
