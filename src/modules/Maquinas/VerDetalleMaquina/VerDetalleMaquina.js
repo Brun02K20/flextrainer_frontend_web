@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react'; // importo funcionalidades r
 import { useNavigate, useParams } from 'react-router-dom'; // importando funcion de navegacion entre componentes de react-router-dom
 
 // importo componentes de estilos propios de la libreria react-bootstrap
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { Nav, Table, Pagination } from 'react-bootstrap';
@@ -12,6 +10,8 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { VerDetalleEjercicio } from '../../Ejercicios/VerDetalleEjercicio/VerDetalleEjercicio';
 import axios from 'axios';
+import { NavHeader } from '../../../components/NavHeader/NavHeader';
+import { BackButton } from '../../../components/BackButton/BackButton';
 
 const VerDetalleMaquina = () => {
     const { id } = useParams(); // Obtenemos el parámetro 'id' de la URL
@@ -68,12 +68,7 @@ const VerDetalleMaquina = () => {
 
     return (
         <>
-            <Navbar style={{ backgroundColor: '#881313' }}>
-                <Container>
-                    <Navbar.Brand style={{ color: 'white', fontWeight: 'bold' }}>{maquina.nombre ? maquina.nombre.toUpperCase() : ''}</Navbar.Brand>
-                    {/* aca sustituir por el nombre de la maquina */}
-                </Container>
-            </Navbar>
+            <NavHeader encabezado={maquina.nombre ? maquina.nombre.toUpperCase() : ''} />
 
             <br></br>
 
@@ -114,7 +109,7 @@ const VerDetalleMaquina = () => {
                                             <tr key={row.id}>
                                                 <td>{index + 1}</td>
                                                 <td>{row.nombre}</td>
-                                                <td className="d-flex justify-content-between">
+                                                <td className="d-flex justify-content-center">
                                                     <OverlayTrigger
                                                         placement='top'
                                                         overlay={
@@ -163,11 +158,7 @@ const VerDetalleMaquina = () => {
 
             <br></br>
 
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button style={{ marginBottom: '16px', backgroundColor: 'grey', border: 'black 2px solid', fontWeight: '600' }} onClick={handleBack}>
-                    Volver
-                </Button>
-            </div>
+            <BackButton handleBack={handleBack} />
 
             {showME && (
                 <VerDetalleEjercicio

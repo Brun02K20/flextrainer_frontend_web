@@ -6,12 +6,11 @@ import { useForm, Controller } from 'react-hook-form'; // importo las funcionali
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
 import Modal from 'react-bootstrap/Modal';
 
 import './ModificarUsuario.css'; // importo los estilos asociados a esta pantalla
 import axios from 'axios'; // importo axios para poder llevar a cabo la peticion
+import { NavHeader } from '../../../../components/NavHeader/NavHeader';
 
 const ModificarUsuario = () => {
     const { dni } = useParams(); // indico que este componente, va a tener un parametro en su URL, que va a ser el dni del usuario a modificar
@@ -44,13 +43,7 @@ const ModificarUsuario = () => {
         }
     }, [setValue, user]);
 
-    // NOTA: VER QUE HACER CON LOS CAMPOS DE DNI Y DE PASSWORD
-    // DNI por ser PK, y PASSWORD por hasheo
-    // estado que se utilizara para que el usuario pueda ver lo que esta ingresando en el campo de contraseña
-    const [passwordVisible, setPasswordVisible] = useState(false);
-    const togglePasswordVisibility = () => {
-        setPasswordVisible(!passwordVisible);
-    };
+    // NOTA: VER QUE HACER CON EL CMAPO DE DNI, POR SE PK
 
     // funcion que se ejecutara en cuanto el usuario pulse REGISTRARSE, la cual procesara los datos ingresados, 
     // levara a cabo las respectivas validaciones, y enviara los datos al backend si dichas validaciones son todas exitosas
@@ -88,11 +81,7 @@ const ModificarUsuario = () => {
     return (
         <>
             {/* Header del formulario */}
-            <Navbar style={{ backgroundColor: '#881313' }}>
-                <Container>
-                    <Navbar.Brand style={{ color: 'white' }}>Modificar Usuario {dni}</Navbar.Brand>
-                </Container>
-            </Navbar>
+            <NavHeader encabezado={`Modificar Usuario ${dni}`} />
 
             <br></br>
 

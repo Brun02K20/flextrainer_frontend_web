@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom'; // importando funcion de navegac
 import { useForm, Controller } from 'react-hook-form'; // importando funcionalidades necesarias para la gestion de formularios
 
 // importando componentes de react-bootstrap necesarios
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { Nav, Table, Pagination } from 'react-bootstrap';
@@ -14,6 +12,8 @@ import Tooltip from 'react-bootstrap/Tooltip';
 
 // importo axios para poder realizar las peticiones necesarias al backend
 import axios from 'axios';
+import { NavHeader } from '../../../components/NavHeader/NavHeader';
+import { BackButton } from '../../../components/BackButton/BackButton';
 
 const ConsultarPlanesPorAlumno = () => {
     // declaro las funcionalidades necesarias para gestionar formularios, en este caso, tendremos un formulario de
@@ -85,11 +85,7 @@ const ConsultarPlanesPorAlumno = () => {
 
     return (
         <>
-            <Navbar style={{ backgroundColor: '#881313' }}>
-                <Container>
-                    <Navbar.Brand style={{ color: 'white', fontWeight: 'bold' }}>Consultar Planes Por Alumno</Navbar.Brand>
-                </Container>
-            </Navbar>
+            <NavHeader encabezado='Consultar Planes por Alumno' />
 
             <br></br>
 
@@ -251,7 +247,7 @@ const ConsultarPlanesPorAlumno = () => {
                                                 <td>{row.Usuario.nombre}</td>
                                                 <td>{row.Usuario.apellido}</td>
                                                 <td>{row.Plane.nombre}</td>
-                                                <td className="d-flex justify-content-between">
+                                                <td className="d-flex justify-content-center">
                                                     <OverlayTrigger
                                                         placement='top'
                                                         overlay={
@@ -312,11 +308,7 @@ const ConsultarPlanesPorAlumno = () => {
 
             <br></br>
 
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button style={{ marginBottom: '16px', backgroundColor: 'grey', border: 'black 2px solid', fontWeight: '600' }} onClick={handleBack}>
-                    Volver
-                </Button>
-            </div>
+            <BackButton handleBack={handleBack} />
         </>
     )
 }

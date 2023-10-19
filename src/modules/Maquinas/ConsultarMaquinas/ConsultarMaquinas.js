@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom'; // importando funcion de navegac
 import { useForm, Controller } from 'react-hook-form'; // importando funcionalidades necesarias para la gestion de formularios
 
 // importo componentes de estilos propios de la libreria react-bootstrap
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { Nav, Table, Pagination } from 'react-bootstrap';
@@ -12,6 +10,8 @@ import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import axios from 'axios';
+import { NavHeader } from '../../../components/NavHeader/NavHeader';
+import { BackButton } from '../../../components/BackButton/BackButton';
 
 
 const ConsultarMaquinas = () => {
@@ -80,11 +80,7 @@ const ConsultarMaquinas = () => {
 
     return (
         <>
-            <Navbar style={{ backgroundColor: '#881313' }}>
-                <Container>
-                    <Navbar.Brand style={{ color: 'white', fontWeight: 'bold' }}>Consultar Maquinas</Navbar.Brand>
-                </Container>
-            </Navbar>
+            <NavHeader encabezado='Consultar Maquinas' />
 
             <br></br>
 
@@ -233,11 +229,7 @@ const ConsultarMaquinas = () => {
 
             <br></br>
 
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button style={{ marginBottom: '16px', backgroundColor: 'grey', border: 'black 2px solid', fontWeight: '600' }} onClick={handleBack}>
-                    Volver
-                </Button>
-            </div>
+            <BackButton handleBack={handleBack} />
         </>
     );
 }

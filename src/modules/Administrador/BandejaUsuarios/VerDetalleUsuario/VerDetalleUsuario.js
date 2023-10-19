@@ -3,14 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom'; // importo la funcion
 import { useForm, Controller } from 'react-hook-form'; // importo las funcionalidades necesarias para la gestion de formularios a travves de react-hook-form
 
 // importo componentes bootstrap necesarios
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
 
 import './VerDetalleUsuario.css'; // importar estilos asociados al componente
 import axios from 'axios'; // importo axios para llevar a cabo la peticion
+import { NavHeader } from '../../../../components/NavHeader/NavHeader';
+import { BackButton } from '../../../../components/BackButton/BackButton';
 
 const VerDetalleUsuario = () => {
     const { control, formState: { errors } } = useForm(); // declaro las funciones necearias para la gestion del formulario de registro
@@ -35,11 +34,7 @@ const VerDetalleUsuario = () => {
 
     return (
         <>
-            <Navbar style={{ backgroundColor: '#881313' }}>
-                <Container>
-                    <Navbar.Brand style={{ color: 'white' }}>Detalle de Usuario</Navbar.Brand>
-                </Container>
-            </Navbar>
+            <NavHeader encabezado='Detalle de Usuario' />
 
             <br></br>
 
@@ -209,11 +204,7 @@ const VerDetalleUsuario = () => {
 
             <br></br>
 
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button style={{ marginBottom: '16px', backgroundColor: 'grey', border: 'black 2px solid', fontWeight: '600' }} onClick={handleBack}>
-                    Volver
-                </Button>
-            </div>
+            <BackButton handleBack={handleBack} />
         </>
     )
 }

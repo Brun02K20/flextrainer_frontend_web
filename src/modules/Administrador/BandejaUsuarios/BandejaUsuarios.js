@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom'; // importando funcion de navegac
 import { useForm, Controller } from 'react-hook-form'; // importando funcionalidades necesarias para la gestion de formularios
 
 // importando componentes de react-bootstrap necesarios
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { Nav, Table, Pagination } from 'react-bootstrap';
@@ -18,6 +16,8 @@ import { EliminarUsuario } from './EliminarUsuario/EliminarUsuario.js';
 import { ActivarUsuario } from './ActivarUsuario/ActivarUsuario.js';
 
 import axios from 'axios'; // importo axios para llevar a cabo las peticiones al backend
+import { NavHeader } from '../../../components/NavHeader/NavHeader.js';
+import { BackButton } from '../../../components/BackButton/BackButton.js';
 
 // lo mismo, declaro componente y explicito props que va a recibir
 const BandejaUsuarios = () => {
@@ -135,11 +135,7 @@ const BandejaUsuarios = () => {
     // renderizando todo (NOTA: ESTARIA BUENO MODULAR ESTA SECCION, EN VARIOS ARCHIVOS)
     return (
         <>
-            <Navbar style={{ backgroundColor: '#881313' }}>
-                <Container>
-                    <Navbar.Brand style={{ color: 'white', fontWeight: 'bold', marginLeft: 0 }}>Consultar Usuarios</Navbar.Brand>
-                </Container>
-            </Navbar>
+            <NavHeader encabezado="Consultar Usuarios" />
 
             <br></br>
 
@@ -342,7 +338,7 @@ const BandejaUsuarios = () => {
                                                 <td>{row.nombre}</td>
                                                 <td>{row.apellido}</td>
                                                 <td>{row.nombreRol}</td>
-                                                <td className="d-flex justify-content-between">
+                                                <td className="d-flex justify-content-center">
                                                     {row.idRol === 4 && (
                                                         <OverlayTrigger
                                                             placement='top'
@@ -445,11 +441,7 @@ const BandejaUsuarios = () => {
 
             <br></br>
 
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button style={{ marginBottom: '16px', backgroundColor: 'grey', border: 'black 2px solid', fontWeight: '600' }} onClick={handleBack}>
-                    Volver
-                </Button>
-            </div>
+            <BackButton handleBack={handleBack} />
 
             <AsignarRol
                 showModalAsignarRol={showModalAsignarRol}
