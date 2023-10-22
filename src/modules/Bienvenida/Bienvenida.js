@@ -60,13 +60,25 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
 
             {/* Body de la bienvenida */}
             <Container className="d-flex flex-column align-items-center justify-content-center" style={{ height: '100vh' }}>
-                <WelcomeButton
-                    containerStyles={{ marginTop: '10%' }}
-                    buttonClass='btn-top button-bienvenida'
-                    goTo={() => navigate('/bandejaUsuarios')}
-                    icon='bi bi-people-fill'
-                    legend='Bandeja de Usuarios'
-                />
+                {usuarioEnSesion.idRol === 3 && (
+                    <WelcomeButton
+                        containerStyles={{ marginTop: '10%' }}
+                        buttonClass='btn-top button-bienvenida'
+                        goTo={() => navigate('/bandejaUsuarios')}
+                        icon='bi bi-people-fill'
+                        legend='Bandeja de Usuarios'
+                    />
+                )}
+
+                {usuarioEnSesion.idRol === 1 && (
+                    <WelcomeButton
+                        containerStyles={{ marginTop: '10%' }}
+                        buttonClass='btn-top button-bienvenida'
+                        goTo={() => navigate('/generarPlan')}
+                        icon='bi bi-people-fill'
+                        legend='Generar Plan'
+                    />
+                )}
 
                 {/* imagen centrada en la pantalla */}
                 <img src={logoFLEXTRAINER} alt="logo FLEXTRAINER" width='400' className='flex-logo' />

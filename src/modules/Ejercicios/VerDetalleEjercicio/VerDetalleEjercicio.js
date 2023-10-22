@@ -37,15 +37,15 @@ const VerDetalleEjercicio = ({ show, handleClose, idEjercicioElegido, setIdEjerc
                 <div className='text-center'>
                     <Card>
                         <Card.Body>
-                            <p>NOMBRE: {ejercicio ? ejercicio.nombre : ''}</p>
-                            <p>DESCRIPCION: {ejercicio ? ejercicio.descripcion : ''}</p>
-                            <p>ZONA DEL CUERPO QUE TRABAJA: {ejercicio ? ejercicio.nombreZonaCuerpo : ''}</p>
-                            <p>CATEGORIA DEL EJERCICIO:  {ejercicio ? ejercicio.nombreCategoria : ''}</p>
-                            {(ejercicio !== null && ejercicio.Video) ? (
+                            <p>NOMBRE: {ejercicio.Ejercicio ? ejercicio.Ejercicio.nombre : ''}</p>
+                            <p>DESCRIPCION: {ejercicio.Ejercicio ? ejercicio.Ejercicio.descripcion : ''}</p>
+                            <p>ZONA DEL CUERPO QUE TRABAJA: {ejercicio.Ejercicio ? ejercicio.Ejercicio.Cuerpo_Zona.nombre : ''}</p>
+                            <p>CATEGORIA DEL EJERCICIO:  {ejercicio.Ejercicio ? ejercicio.Ejercicio.Categoria_Ejercicio.nombre : ''}</p>
+                            {(ejercicio.Ejercicio !== null && ejercicio.linkVideo) ? (
                                 <iframe
                                     width="100%"
                                     height="315"
-                                    src={ejercicio !== null ? (ejercicio.Video ? ejercicio.Video.url : 'https://www.youtube.com/embed/e18WN3syp6g?si=XDDceDQOxidQHCfz') : 'https://www.youtube.com/embed/e18WN3syp6g?si=XDDceDQOxidQHCfz'}
+                                    src={ejercicio !== null ? (ejercicio.linkVideo ? ejercicio.linkVideo : 'https://www.youtube.com/embed/e18WN3syp6g?si=XDDceDQOxidQHCfz') : 'https://www.youtube.com/embed/e18WN3syp6g?si=XDDceDQOxidQHCfz'}
                                     title="YouTube video player"
                                     frameBorder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

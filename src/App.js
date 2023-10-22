@@ -22,6 +22,7 @@ import { VerDetalleMaquina } from './modules/Maquinas/VerDetalleMaquina/VerDetal
 
 // importacion de componentes del modulo de planes
 import { ConsultarPlanesPorAlumno } from './modules/Planes_Alumno/ConsultarPlanesPorAlumno/ConsultarPlanesPorAlumno.js';
+import { GenerarPlan } from './modules/Planes/GenerarPlan/GenerarPlan.js';
 
 
 // declaro la funcion principal de la aplicacion
@@ -123,6 +124,13 @@ function App() {
           element={
             <ConsultarPlanesPorAlumno
             />
+          }
+        />
+
+        <Route
+          path='/generarPlan'
+          element={
+            <GenerarPlan />
           }
         />
       </Routes>

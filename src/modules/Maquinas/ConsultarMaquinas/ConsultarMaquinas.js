@@ -80,7 +80,7 @@ const ConsultarMaquinas = () => {
 
     return (
         <>
-            <NavHeader encabezado='Consultar Maquinas' />
+            <NavHeader encabezado='Consultar Maquinas y Equipamientos' />
 
             <br></br>
 

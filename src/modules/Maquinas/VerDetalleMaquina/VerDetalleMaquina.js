@@ -108,7 +108,7 @@ const VerDetalleMaquina = () => {
                                         {currentData.map((row, index) => (
                                             <tr key={row.id}>
                                                 <td>{index + 1}</td>
-                                                <td>{row.nombre}</td>
+                                                <td>{row.Ejercicio.nombre}</td>
                                                 <td className="d-flex justify-content-center">
                                                     <OverlayTrigger
                                                         placement='top'
