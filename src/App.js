@@ -1,5 +1,7 @@
 // importo funcionalidades propias de la libreria, información necesaria para que funcione
 // la libreria de bootstrap, y funciones referidas a la definicion de rutas en la web app
+
+//hola soy viqui
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
