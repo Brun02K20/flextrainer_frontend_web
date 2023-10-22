@@ -13,6 +13,7 @@ import logoFLEXTRAINER from '../../images/logo-origi.png'; // importando el logo
 import { CerrarSesionModal } from '../../components/CerrarSesionModal/CerrarSesionModal';
 import { Footer } from '../../components/Footer/Footer';
 import { WelcomeButton } from '../../components/WelcomeButton/WelcomeButton';
+import { Button } from 'react-bootstrap';
 
 // Se decidio separar la pantalla del Home en 2, donde una es el Home en si, donde el usuario NO esta logueado, 
 // mientras que esta pantalla de bienvenida sera el Home del usuario que SI este logueado, se hizo esto

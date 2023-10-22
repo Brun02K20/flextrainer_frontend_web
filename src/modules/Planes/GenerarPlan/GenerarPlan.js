@@ -14,17 +14,15 @@ import { useNavigate } from 'react-router-dom';
 import { useForm, Controller, set } from 'react-hook-form';
 import { objetivosServices } from '../services/objetivos.service.js';
 import { cuerpoZonasServices } from '../services/cuerpoZonas.service.js';
+import { AgregarEjercicios } from './AgregarEjercicios.js';
 
 const GenerarPlan = () => {
     const navigate = useNavigate();
     const { formState: { errors }, register, setValue, handleSubmit, control } = useForm();
-    const [objetivosTraidos, setObjetivosTraidos] = useState([])
-    const [cuerpoZonasTraidos, setCuerpoZonasTraidos] = useState([])
-    const [ejerciciosByZC, setEjericiosByZC] = useState([])
     const [cantidadSesionesIndicadas, setCantidadSesionesIndicadas] = useState(0);
-    const [zonaCuerpoIndicada, setZonaCuerpoIndicada] = useState(0);
-    const [idEjercicioElegido, setIdEjercicioElegido] = useState(0);
-    const [ejercicioElegido, setEjercicioElegido] = useState({});
+    const [objetivosTraidos, setObjetivosTraidos] = useState([])
+    const [ejerciciosAgregados, setEjerciciosAgregados] = useState([]);
+    const [errorEjercicios, setErrorEjercicios] = useState(false);
 
     useEffect(() => {
         const traerObjetivos = async () => {
@@ -35,46 +33,37 @@ const GenerarPlan = () => {
     }, [])
 
     useEffect(() => {
-        const traerCuerpoZonas = async () => {
-            const response = await cuerpoZonasServices.getCuerpoZonas()
-            setCuerpoZonasTraidos(response)
-        }
-        traerCuerpoZonas()
-    }, [])
-
-    useEffect(() => {
-        const traerEjerciciosByZC = async () => {
-            const response = await axios.get(`http://localhost:4001/flextrainer/ejercicios/byZC/${zonaCuerpoIndicada}`)
-            setEjericiosByZC(response.data)
-        }
-        traerEjerciciosByZC();
-    }, [zonaCuerpoIndicada])
-
-    useEffect(() => {
-        console.log("objetivos: ", objetivosTraidos)
-    }, [objetivosTraidos])
-
-    useEffect(() => {
         console.log("cantidad de sesiones: ", cantidadSesionesIndicadas)
     }, [cantidadSesionesIndicadas])
 
-    useEffect(() => {
-        console.log("zona del cuerpo indicada", zonaCuerpoIndicada)
-        console.log("ejercicios traidos: ", ejerciciosByZC)
-    }, [ejerciciosByZC, zonaCuerpoIndicada])
-
-    useEffect(() => {
-        const traerDatosEjercicioElegido = async () => {
-            if (idEjercicioElegido !== 0) {
-                const response = await axios.get(`http://localhost:4001/flextrainer/ejercicios/ejercicio/${idEjercicioElegido}`)
-                setEjercicioElegido(response.data)
-            }
-        }
-        traerDatosEjercicioElegido()
-    }, [idEjercicioElegido])
-
-
     const onSubmit = async (data) => {
+        data.cantSesiones = cantidadSesionesIndicadas;
+
+        // Verifica que para cada número de sesión del 1 al cantidadSesiones haya al menos un objeto
+        // Crea un objeto que contará cuántas veces aparece cada número de sesión
+        const sesionesContadas = {};
+        for (const ejercicio of ejerciciosAgregados) {
+            const sesion = ejercicio.sesion;
+            sesionesContadas[sesion] = (sesionesContadas[sesion] || 0) + 1;
+        }
+
+        // Verifica que para cada número de sesión del 1 al cantidadSesionesIndicadas haya al menos un objeto
+        const validacionExitosa = Array.from({ length: cantidadSesionesIndicadas }, (_, index) => {
+            const numeroSesion = index + 1;
+            return sesionesContadas[numeroSesion] > 0;
+        }).every(Boolean);
+
+        if (!validacionExitosa) {
+            console.log("validacion fallo")
+            // Eliminar objetos con números de sesión mayores que cantidadSesionesIndicadas
+            const ejerciciosFiltrados = ejerciciosAgregados.filter(ejercicio => ejercicio.sesion <= cantidadSesionesIndicadas);
+            console.log('Objetos filtrados:', ejerciciosFiltrados);
+            setEjerciciosAgregados(ejerciciosFiltrados)
+            setErrorEjercicios(true)
+            return;
+        }
+
+        data.ejerciciosAgregados = ejerciciosAgregados;
         console.log(data)
     }
 
@@ -148,9 +137,13 @@ const GenerarPlan = () => {
                                         <Controller
                                             name="cantSesiones"
                                             control={control}
-                                            rules={{ required: 'Este campo es requerido' }}
                                             render={({ field }) => (
-                                                <Form.Select aria-label="select-sesiones-crear-plan" {...field} onChange={(e) => setCantidadSesionesIndicadas(e.target.value == '' ? 0 : parseInt(e.target.value))}>
+                                                <Form.Select
+                                                    aria-label="select-sesiones-crear-plan"
+                                                    required={false}
+                                                    {...field}
+                                                    onChange={(e) => setCantidadSesionesIndicadas(e.target.value ? parseInt(e.target.value) : 0)}
+                                                >
                                                     <option value=''>Sin Elegir</option>
                                                     <option value='1'>1</option>
                                                     <option value='2'>2</option>
@@ -162,7 +155,6 @@ const GenerarPlan = () => {
                                                 </Form.Select>
                                             )}
                                         />
-                                        {errors.cantSesiones && <p>{errors.cantSesiones.message}</p>}
                                     </Form.Group>
                                 </div>
                             </div>
@@ -171,192 +163,26 @@ const GenerarPlan = () => {
 
                     <br></br>
 
-                    <Card>
-                        <Card.Body>
-                            <div className="row">
-                                <p>EJERCICIOS</p>
-                                <div className="col-md-6">
-                                    {cantidadSesionesIndicadas !== 0 && (
-                                        <>
-                                            <div className="col-md-6">
-                                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-                                                    <Form.Label>Sesion*</Form.Label>
-                                                    <Controller
-                                                        name="sesion"
-                                                        control={control}
-                                                        render={({ field }) => (
-                                                            <Form.Select aria-label="select-sesion-crear-plan" {...field} >
-                                                                <option value=''>Sin Elegir</option>
-                                                                {Array.from({ length: cantidadSesionesIndicadas }, (_, index) => (
-                                                                    <option key={index + 1} value={index + 1}>
-                                                                        {index + 1}
-                                                                    </option>
-                                                                ))}
-                                                            </Form.Select>
-                                                        )}
-                                                    />
-                                                </Form.Group>
-                                            </div>
+                    <AgregarEjercicios
+                        cantidadSesionesIndicadas={cantidadSesionesIndicadas}
+                        ejerciciosAgregados={ejerciciosAgregados}
+                        setEjerciciosAgregados={setEjerciciosAgregados}
+                    />
 
-                                            <div className="col-md-6">
-                                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                                    <Form.Label>Zona del Cuerpo*</Form.Label>
-                                                    <Controller
-                                                        name="cuerpoZona"
-                                                        control={control}
-                                                        // rules={{ required: 'Este campo es requerido' }}
-                                                        render={({ field }) => (
-                                                            <Form.Select aria-label="select-zc-crear-plan" {...field} onChange={(e) => setZonaCuerpoIndicada(parseInt(e.target.value))}>
-                                                                <option value='0'>Sin Elegir</option>
-                                                                {cuerpoZonasTraidos.map((e, index) => (
-                                                                    <option key={index + 1} value={e.id}>{e.nombre}</option>
-                                                                ))}
-                                                            </Form.Select>
-                                                        )}
-                                                    />
-                                                    {errors.cuerpoZona && <p>{errors.cuerpoZona.message}</p>}
-                                                </Form.Group>
-                                            </div>
+                    {errorEjercicios && <span>Error. Tenes que tener al menos un ejercicio por cada sesion y ademas no podes tener un ejercicio para una sesion que no existe</span>}
 
-                                            <div className="col-md-6">
-                                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                                    <Form.Label>Ejercicio*</Form.Label>
-                                                    <Controller
-                                                        name="ejercicio"
-                                                        control={control}
-                                                        // rules={{ required: 'Este campo es requerido' }}
-                                                        render={({ field }) => (
-                                                            <Form.Select aria-label="select-ejercicio-crear-plan" {...field} onChange={(e) => setIdEjercicioElegido(parseInt(e.target.value))}>
-                                                                <option value='0'>Sin Elegir</option>
-                                                                {ejerciciosByZC.map((e, index) => (
-                                                                    <option key={index + 1} value={e.Ejercicio.id}>{e.Ejercicio.nombre}</option>
-                                                                ))}
-                                                            </Form.Select>
-                                                        )}
-                                                    />
-                                                    {errors.ejercicio && <p>{errors.ejercicio.message}</p>}
-                                                </Form.Group>
-                                            </div>
-
-                                            {idEjercicioElegido !== 0 && (
-                                                <>
-                                                    <div className="col-md-6">
-                                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput7">
-                                                            <Form.Label>Maquina/Elemento*</Form.Label>
-                                                            <Controller
-                                                                name="nombreMaquina"
-                                                                control={control}
-                                                                render={({ field }) => (
-                                                                    <Form.Control
-                                                                        type="text"
-                                                                        placeholder={ejercicioElegido.Maquina ? ejercicioElegido.Maquina.nombre : ''}
-                                                                        disabled
-                                                                        {...field}
-                                                                    />
-                                                                )}
-                                                            />
-                                                            {errors.nombreMaquina && <p>{errors.nombreMaquina.message}</p>}
-                                                        </Form.Group>
-                                                    </div>
-
-                                                    <>
-                                                        {ejercicioElegido.Ejercicio.Categoria_Ejercicio.tiempo !== null && (
-                                                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput8">
-                                                                <Form.Label>Tiempo*</Form.Label>
-                                                                <Controller
-                                                                    name="tiempoEjercicio"
-                                                                    control={control}
-                                                                    // rules={
-
-                                                                    // }
-                                                                    render={({ field }) => (
-                                                                        <Form.Control
-                                                                            type="text"
-                                                                            placeholder="Ingresá el tiempoEjercicio del plan"
-                                                                            {...field}
-                                                                        />
-                                                                    )}
-                                                                />
-                                                                {errors.tiempoEjercicio && <p>{errors.tiempoEjercicio.message}</p>}
-                                                            </Form.Group>
-                                                        )}
-                                                        {ejercicioElegido.Ejercicio.Categoria_Ejercicio.series !== null && (
-                                                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput8">
-                                                                <Form.Label>series*</Form.Label>
-                                                                <Controller
-                                                                    name="seriesEjercicio"
-                                                                    control={control}
-                                                                    // rules={
-
-                                                                    // }
-                                                                    render={({ field }) => (
-                                                                        <Form.Control
-                                                                            type="text"
-                                                                            placeholder="Ingresá el seriesEjercicio del plan"
-                                                                            {...field}
-                                                                        />
-                                                                    )}
-                                                                />
-                                                                {errors.seriesEjercicio && <p>{errors.seriesEjercicio.message}</p>}
-                                                            </Form.Group>
-                                                        )}
-                                                        {(ejercicioElegido.Ejercicio.Categoria_Ejercicio.repeticiones !== null) && (
-                                                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput9">
-                                                                <Form.Label>repeticiones*</Form.Label>
-                                                                <Controller
-                                                                    name="repsEjercicio"
-                                                                    control={control}
-                                                                    // rules={
-
-                                                                    // }
-                                                                    render={({ field }) => (
-                                                                        <Form.Control
-                                                                            type="text"
-                                                                            placeholder="Ingresá el repsEjercicio del plan"
-                                                                            {...field}
-                                                                        />
-                                                                    )}
-                                                                />
-                                                                {errors.repsEjercicio && <p>{errors.repsEjercicio.message}</p>}
-                                                            </Form.Group>
-                                                        )}
-                                                        {(ejercicioElegido.Ejercicio.Categoria_Ejercicio.descanso !== null) && (
-                                                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput10">
-                                                                <Form.Label>descanso*</Form.Label>
-                                                                <Controller
-                                                                    name="descanso"
-                                                                    control={control}
-                                                                    // rules={
-
-                                                                    // }
-                                                                    render={({ field }) => (
-                                                                        <Form.Control
-                                                                            type="text"
-                                                                            placeholder="Ingresá el descanso del plan"
-                                                                            {...field}
-                                                                        />
-                                                                    )}
-                                                                />
-                                                                {errors.descanso && <p>{errors.descanso.message}</p>}
-                                                            </Form.Group>
-                                                        )}
-                                                    </>
-                                                </>
-                                            )}
-
-                                            {Array.from({ length: cantidadSesionesIndicadas }).map((_, index) => (
-                                                <p key={index}>Hola</p>
-                                            ))}
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-                        </Card.Body>
-                    </Card>
+                    <div className='justify-content-start'>
+                        <Button variant="danger" style={{ marginRight: '8px' }}>
+                            Volver
+                        </Button>
+                        <Button variant="success" onClick={handleSubmit(onSubmit)}>
+                            Crear
+                        </Button>
+                    </div>
                 </Form>
             </div>
         </>
-    )
-}
+    );
+};
 
-export { GenerarPlan }
+export { GenerarPlan };
