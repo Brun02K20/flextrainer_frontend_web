@@ -78,6 +78,7 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
                         icon='bi bi-people-fill'
                         legend='Generar Plan'
                     />
+
                 )}
 
                 {/* imagen centrada en la pantalla */}

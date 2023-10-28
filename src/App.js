@@ -1,3 +1,5 @@
+//este es mio
+
 // importo funcionalidades propias de la libreria, información necesaria para que funcione
 // la libreria de bootstrap, y funciones referidas a la definicion de rutas en la web app
 import React, { useState } from 'react';
