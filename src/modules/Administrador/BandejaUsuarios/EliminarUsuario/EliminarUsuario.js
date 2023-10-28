@@ -55,7 +55,7 @@ const EliminarUsuario = ({ showModalEliminarUsuario, handleCloseEliminarUsuario,
                                 <br></br>
                                 <br></br>
                                 <br></br>
-                                <span>Todos los datos del usuario van a ser borrados, sin embargo, podes recuperarlos cuando quieras</span>
+                                <span>Todos los datos del usuario van a ser borrados, sin embargo, puedes recuperarlos cuando quieras</span>
                             </div>
                         </Card.Body>
                     </Card>
@@ -63,10 +63,10 @@ const EliminarUsuario = ({ showModalEliminarUsuario, handleCloseEliminarUsuario,
 
                 {/* Footer del modal, la parte final del mismo, que contendra los botones de cancelar y de eliminar  */}
                 <Modal.Footer>
-                    <Button variant="danger" onClick={() => { handleCloseEliminarUsuario(); handleClean() }}>
+                    <Button style={{ backgroundColor: '#555555', marginRight: '8px' }} onClick={() => { handleCloseEliminarUsuario(); handleClean() }}>
                         Cancelar
                     </Button>
-                    <Button variant="success" onClick={handleSubmit(onSubmit)}>
+                    <Button style={{ backgroundColor: '#910012', marginRight: '8px' }} onClick={handleSubmit(onSubmit)}>
                         Eliminar
                     </Button>
                 </Modal.Footer>
