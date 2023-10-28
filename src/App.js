@@ -132,7 +132,9 @@ function App() {
         <Route
           path='/generarPlan'
           element={
-            <GenerarPlan />
+            <GenerarPlan
+              usuarioEnSesion={usuarioEnSesion}
+            />
           }
         />
       </Routes>

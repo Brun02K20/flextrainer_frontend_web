@@ -163,71 +163,38 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                         {errorSesionIndicada && <span>Elegi sesion</span>}
                                     </div>
 
+
                                     {sesionIndicada !== 0 && (
                                         <div className="col-md-6">
-                                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput10">
-                                                <Form.Label>Nombre Sesion*</Form.Label>
+                                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                                                <Form.Label>Zona del Cuerpo*</Form.Label>
                                                 <Controller
-                                                    name="nombreSesion"
+                                                    name="cuerpoZona"
                                                     control={control}
-                                                    rules={
-                                                        {
-                                                            required: {
-                                                                value: true,
-                                                                message: 'Este campo es requerido'
-                                                            },
-                                                            pattern: {
-                                                                value: /^[a-zA-Z0-9 ]+$/,
-                                                                message: 'Por favor, ingresa solo letras y números en este campo. Si tu nombre tiene una ñ, por favor usa `ni`'
-                                                            },
-                                                            maxLength: {
-                                                                value: 30,
-                                                                message: 'Maximo 30 caracteres'
-                                                            }
-                                                        }
-                                                    }
                                                     render={({ field }) => (
-                                                        <Form.Control
-                                                            type="text"
-                                                            placeholder="Ingresá el nombreSesion del plan"
+                                                        <Form.Select
+                                                            aria-label="select-zc-crear-plan"
                                                             {...field}
-                                                        />
+                                                            onChange={(e) => {
+                                                                const selectedValue = e.target.value ? parseInt(e.target.value) : 0;
+                                                                setZonaCuerpoIndicada(selectedValue);
+                                                                // Configura el segundo select en "Sin Elegir" cuando cambia el primero
+                                                                setIdEjercicioElegido(0);
+                                                                setEjercicioElegido({})
+                                                            }}
+                                                            value={zonaCuerpoIndicada}
+                                                        >
+                                                            <option value=''>Sin Elegir</option>
+                                                            {cuerpoZonasTraidos.map((e, index) => (
+                                                                <option key={index + 1} value={e.id}>{e.nombre}</option>
+                                                            ))}
+                                                        </Form.Select>
                                                     )}
                                                 />
-                                                {errors.nombreSesion && <p>{errors.nombreSesion.message}</p>}
+                                                {errorZCIndicada && <span>Elegi ZC</span>}
                                             </Form.Group>
                                         </div>
                                     )}
-
-                                    <div className="col-md-6">
-                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                            <Form.Label>Zona del Cuerpo*</Form.Label>
-                                            <Controller
-                                                name="cuerpoZona"
-                                                control={control}
-                                                render={({ field }) => (
-                                                    <Form.Select
-                                                        aria-label="select-zc-crear-plan"
-                                                        {...field}
-                                                        onChange={(e) => {
-                                                            const selectedValue = e.target.value ? parseInt(e.target.value) : 0;
-                                                            setZonaCuerpoIndicada(selectedValue);
-                                                            // Configura el segundo select en "Sin Elegir" cuando cambia el primero
-                                                            setIdEjercicioElegido(0);
-                                                            setEjercicioElegido({})
-                                                        }}
-                                                        value={zonaCuerpoIndicada}
-                                                    >
-                                                        <option value=''>Sin Elegir</option>
-                                                        {cuerpoZonasTraidos.map((e, index) => (
-                                                            <option key={index + 1} value={e.id}>{e.nombre}</option>
-                                                        ))}
-                                                    </Form.Select>
-                                                )}
-                                            />
-                                            {errorZCIndicada && <span>Elegi ZC</span>}
-                                        </Form.Group>
-                                    </div>
 
                                     {zonaCuerpoIndicada !== 0 && (
                                         <div className="col-md-6">

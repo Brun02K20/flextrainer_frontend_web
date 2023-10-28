@@ -16,13 +16,18 @@ import { objetivosServices } from '../services/objetivos.service.js';
 import { cuerpoZonasServices } from '../services/cuerpoZonas.service.js';
 import { AgregarEjercicios } from './AgregarEjercicios.js';
 
-const GenerarPlan = () => {
+const GenerarPlan = ({ usuarioEnSesion }) => {
     const navigate = useNavigate();
     const { formState: { errors }, register, setValue, handleSubmit, control } = useForm();
     const [cantidadSesionesIndicadas, setCantidadSesionesIndicadas] = useState(0);
     const [objetivosTraidos, setObjetivosTraidos] = useState([])
     const [ejerciciosAgregados, setEjerciciosAgregados] = useState([]);
     const [errorEjercicios, setErrorEjercicios] = useState(false);
+    const [errorObjetivo, setErrorObjetivo] = useState(false);
+
+    useEffect(() => {
+        console.log("USUARIO EN GENERANDO PLAN: ", usuarioEnSesion)
+    }, [usuarioEnSesion])
 
     useEffect(() => {
         const traerObjetivos = async () => {
@@ -38,7 +43,6 @@ const GenerarPlan = () => {
 
     const onSubmit = async (data) => {
         data.cantSesiones = cantidadSesionesIndicadas;
-
         // Verifica que para cada número de sesión del 1 al cantidadSesiones haya al menos un objeto
         // Crea un objeto que contará cuántas veces aparece cada número de sesión
         const sesionesContadas = {};
@@ -63,7 +67,31 @@ const GenerarPlan = () => {
             return;
         }
 
-        data.ejerciciosAgregados = ejerciciosAgregados;
+        // si el objetivo es 0, que devuelva un requerido
+        if (parseInt(data.objetivo) === 0) {
+            setErrorObjetivo(true);
+            return;
+        }
+        setErrorObjetivo(false);
+
+        const ejerciciosAgrupados = ejerciciosAgregados.reduce((resultado, ejercicio) => {
+            const sesionExistente = resultado.find((item) => item.sesion === ejercicio.sesion);
+
+            if (sesionExistente) {
+                sesionExistente.ejercicios.push(ejercicio);
+            } else {
+                resultado.push({
+                    sesion: ejercicio.sesion,
+                    ejercicios: [ejercicio],
+                });
+            }
+
+            return resultado;
+        }, []);
+
+        data.ejercicios = ejerciciosAgrupados;
+        data.objetivo = parseInt(data.objetivo);
+        data.dniProfesor = usuarioEnSesion.dni;
         console.log(data)
     }
 
@@ -130,6 +158,7 @@ const GenerarPlan = () => {
                                         />
                                         {errors.objetivo && <p>{errors.objetivo.message}</p>}
                                     </Form.Group>
+                                    {errorObjetivo && <p>Este campo es requerido</p>}
                                 </div>
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
@@ -157,6 +186,31 @@ const GenerarPlan = () => {
                                         />
                                     </Form.Group>
                                 </div>
+                                <div className="col-md-6">
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                                        <Form.Label>Observaciones</Form.Label>
+                                        <Controller
+                                            name="observaciones"
+                                            control={control}
+                                            rules={
+                                                {
+                                                    maxLength: {
+                                                        value: 256,
+                                                        message: 'Maximo 256 caracteres'
+                                                    }
+                                                }
+                                            }
+                                            render={({ field }) => (
+                                                <Form.Control
+                                                    as="textarea"
+                                                    placeholder="Ingresá alguna informacion adicional"
+                                                    {...field}
+                                                />
+                                            )}
+                                        />
+                                        {errors.observaciones && <p>{errors.observaciones.message}</p>}
+                                    </Form.Group>
+                                </div>
                             </div>
                         </Card.Body>
                     </Card>
@@ -171,7 +225,7 @@ const GenerarPlan = () => {
 
                     {errorEjercicios && <span>Error. Tenes que tener al menos un ejercicio por cada sesion y ademas no podes tener un ejercicio para una sesion que no existe</span>}
 
-                    <div className='justify-content-start'>
+                    <div className='justify-content-end'>
                         <Button variant="danger" style={{ marginRight: '8px' }}>
                             Volver
                         </Button>
