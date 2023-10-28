@@ -323,11 +323,11 @@ const ModificarUsuario = () => {
                         </Card.Body>
 
                         <Modal.Footer>
-                            <Button variant="danger" style={{ marginRight: '8px' }} onClick={() => handleBack()}>
-                                Volver
+                            <Button style={{ backgroundColor: '#555555', marginRight: '8px' }} onClick={() => handleBack()}>
+                                Cancelar
                             </Button>
-                            <Button variant="success" onClick={handleSubmit(onSubmit)}>
-                                Modificar
+                            <Button style={{ backgroundColor: '#910012', marginRight: '8px' }}onClick={handleSubmit(onSubmit)}>
+                                Registrar
                             </Button>
                         </Modal.Footer>
                     </Card>

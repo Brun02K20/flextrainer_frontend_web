@@ -285,11 +285,11 @@ const BandejaUsuarios = () => {
                                         />
                                     </div>
                                 </div>
-                                <Nav style={{ backgroundColor: '#a5a3a3', borderRadius: '12px', marginTop: '8px' }} className="justify-content-end">
-                                    <Button variant="danger" style={{ margin: '8px' }} onClick={() => handleClean()}>
+                                <Nav style={{ backgroundColor: '#F2F2F2', borderRadius: '12px', marginTop: '8px' }} className="justify-content-end">
+                                    <Button style={{ backgroundColor: '#555555' }} onClick={() => handleClean()}>
                                         Limpiar
                                     </Button>
-                                    <Button variant="success" style={{ margin: '8px' }} onClick={handleSubmit(onSubmit)}>
+                                    <Button style={{ backgroundColor: '#910012' }} onClick={handleSubmit(onSubmit)}>
                                         {/* onClick = { handleSubmit(onSubmit) } */}
                                         Buscar
                                     </Button>
