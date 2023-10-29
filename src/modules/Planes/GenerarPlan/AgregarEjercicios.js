@@ -7,6 +7,7 @@ import { Nav, Table, Pagination } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { Modal } from 'react-bootstrap';
 
 import axios from 'axios'; // importo axios para llevar a cabo las peticiones al backend
 import { useForm, Controller, set } from 'react-hook-form';
@@ -58,7 +59,9 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
             setEjericiosByZC(response.data)
         }
         traerEjerciciosByZC();
-    }, [zonaCuerpoIndicada])
+    }, [zonaCuerpoIndicada]);
+
+
 
     useEffect(() => {
         console.log("zona del cuerpo indicada", zonaCuerpoIndicada)
@@ -82,6 +85,48 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
     useEffect(() => {
         console.log("sesion elegida: ", sesionIndicada)
     }, [sesionIndicada])
+
+    // gestion del modal de la modificacion de un ejercicio mientras se crea
+    const [modalOpen, setModalOpen] = useState(false);
+    const [ejercicioAModificar, setEjercicioAModificar] = useState(null);
+    const [modificarValores, setModificarValores] = useState({
+        tiempo: "",
+        series: "",
+        reps: "",
+        descanso: "",
+    });
+    const abrirModalModificar = (ejercicio) => {
+        setEjercicioAModificar(ejercicio); // Establece el ejercicio que se va a modificar
+        setModificarValores({
+            tiempo: ejercicio.tiempoEjercicio || "",
+            series: ejercicio.seriesEjercicio || "",
+            reps: ejercicio.repsEjercicio || "",
+            descanso: ejercicio.descanso || "",
+        });
+        setModalOpen(true);
+    };
+    const aplicarCambios = () => {
+        const ejerciciosActualizados = ejerciciosAgregados.map((ejercicio) => {
+            if (ejercicio.id === ejercicioAModificar.id) {
+                return {
+                    ...ejercicio,
+                    tiempoEjercicio: modificarValores.tiempo,
+                    seriesEjercicio: modificarValores.series,
+                    repsEjercicio: modificarValores.reps,
+                    descanso: modificarValores.descanso,
+                };
+            }
+            return ejercicio;
+        });
+        setEjercicioAModificar(null); // Reinicia la variable después de aplicar los cambios
+        setEjerciciosAgregados(ejerciciosActualizados); // Actualiza el estado con los ejercicios modificados
+        setModalOpen(false); // Cierra el modal
+    };
+
+
+    useEffect(() => {
+        console.log("ejm: ", ejercicioAModificar)
+    }, [ejercicioAModificar])
 
     const [nextId, setNextId] = useState(1)
     const onSubmit = async (data) => {
@@ -129,302 +174,396 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
     }
 
     return (
-        <Form>
-            <Card>
-                <Card.Body>
-                    <div className="row">
-                        <p>EJERCICIOS</p>
-                        <div className="col-md-6">
-                            {cantidadSesionesIndicadas !== 0 && (
-                                <>
-                                    <div className="col-md-6">
-                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-                                            <Form.Label>Sesion*</Form.Label>
-                                            <Controller
-                                                name="sesion"
-                                                control={control}
-                                                render={({ field }) => (
-                                                    <Form.Select
-                                                        aria-label="select-sesion-crear-plan"
-                                                        {...field}
-                                                        onChange={(e) => setSesionIndicada(e.target.value ? parseInt(e.target.value) : 0)}
-                                                        value={sesionIndicada}
-                                                    >
-                                                        <option value='0'>Sin Elegir</option>
-                                                        {Array.from({ length: cantidadSesionesIndicadas }, (_, index) => (
-                                                            <option key={index + 1} value={index + 1}>
-                                                                {index + 1}
-                                                            </option>
-                                                        ))}
-                                                    </Form.Select>
-                                                )}
-                                            />
-                                        </Form.Group>
-                                        {errorSesionIndicada && <span>Elegi sesion</span>}
-                                    </div>
-
-
-                                    {sesionIndicada !== 0 && (
+        <>
+            <Form>
+                <Card>
+                    <Card.Body>
+                        <div className="row">
+                            <p>EJERCICIOS</p>
+                            <div className="col-md-6">
+                                {cantidadSesionesIndicadas !== 0 && (
+                                    <>
                                         <div className="col-md-6">
-                                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                                <Form.Label>Zona del Cuerpo*</Form.Label>
+                                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+                                                <Form.Label>Sesion*</Form.Label>
                                                 <Controller
-                                                    name="cuerpoZona"
+                                                    name="sesion"
                                                     control={control}
                                                     render={({ field }) => (
                                                         <Form.Select
-                                                            aria-label="select-zc-crear-plan"
+                                                            aria-label="select-sesion-crear-plan"
                                                             {...field}
-                                                            onChange={(e) => {
-                                                                const selectedValue = e.target.value ? parseInt(e.target.value) : 0;
-                                                                setZonaCuerpoIndicada(selectedValue);
-                                                                // Configura el segundo select en "Sin Elegir" cuando cambia el primero
-                                                                setIdEjercicioElegido(0);
-                                                                setEjercicioElegido({})
-                                                            }}
-                                                            value={zonaCuerpoIndicada}
+                                                            onChange={(e) => setSesionIndicada(e.target.value ? parseInt(e.target.value) : 0)}
+                                                            value={sesionIndicada}
                                                         >
-                                                            <option value=''>Sin Elegir</option>
-                                                            {cuerpoZonasTraidos.map((e, index) => (
-                                                                <option key={index + 1} value={e.id}>{e.nombre}</option>
+                                                            <option value='0'>Sin Elegir</option>
+                                                            {Array.from({ length: cantidadSesionesIndicadas }, (_, index) => (
+                                                                <option key={index + 1} value={index + 1}>
+                                                                    {index + 1}
+                                                                </option>
                                                             ))}
                                                         </Form.Select>
                                                     )}
                                                 />
-                                                {errorZCIndicada && <span>Elegi ZC</span>}
                                             </Form.Group>
+                                            {errorSesionIndicada && <span>Elegi sesion</span>}
                                         </div>
-                                    )}
 
-                                    {zonaCuerpoIndicada !== 0 && (
-                                        <div className="col-md-6">
-                                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                                <Form.Label>Ejercicio*</Form.Label>
-                                                <Controller
-                                                    name="ejercicio"
-                                                    control={control}
-                                                    // rules={{ required: 'Este campo es requerido' }}
-                                                    render={({ field }) => (
-                                                        <Form.Select value={idEjercicioElegido} aria-label="select-ejercicio-crear-plan" {...field} onChange={(e) => setIdEjercicioElegido(e.target.value ? parseInt(e.target.value) : 0)}>
-                                                            <option value={0}>Sin Elegir</option>
-                                                            {ejerciciosByZC.map((e, index) => (
-                                                                <option key={index + 1} value={e.Ejercicio.id}>{e.Ejercicio.nombre}</option>
-                                                            ))}
-                                                        </Form.Select>
-                                                    )}
-                                                />
-                                                {errorEjElegido && <span>Elegi ejercicio</span>}
-                                            </Form.Group>
-                                        </div>
-                                    )}
 
-                                    {(idEjercicioElegido !== 0 && zonaCuerpoIndicada !== 0 && ejercicioElegido && ejerciciosByZC.length !== 0) && (
-                                        <>
+                                        {sesionIndicada !== 0 && (
                                             <div className="col-md-6">
-                                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput7">
-                                                    <Form.Label>Maquina/Elemento*</Form.Label>
+                                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                                                    <Form.Label>Zona del Cuerpo*</Form.Label>
                                                     <Controller
-                                                        name="nombreMaquina"
+                                                        name="cuerpoZona"
                                                         control={control}
                                                         render={({ field }) => (
-                                                            <Form.Control
-                                                                type="text"
-                                                                placeholder={ejercicioElegido.Maquina ? ejercicioElegido.Maquina.nombre : ''}
-                                                                disabled
+                                                            <Form.Select
+                                                                aria-label="select-zc-crear-plan"
                                                                 {...field}
-                                                            />
+                                                                onChange={(e) => {
+                                                                    const selectedValue = e.target.value ? parseInt(e.target.value) : 0;
+                                                                    setZonaCuerpoIndicada(selectedValue);
+                                                                    // Configura el segundo select en "Sin Elegir" cuando cambia el primero
+                                                                    setIdEjercicioElegido(0);
+                                                                    setEjercicioElegido({})
+                                                                }}
+                                                                value={zonaCuerpoIndicada}
+                                                            >
+                                                                <option value=''>Sin Elegir</option>
+                                                                {cuerpoZonasTraidos.map((e, index) => (
+                                                                    <option key={index + 1} value={e.id}>{e.nombre}</option>
+                                                                ))}
+                                                            </Form.Select>
                                                         )}
                                                     />
-                                                    {errors.nombreMaquina && <p>{errors.nombreMaquina.message}</p>}
+                                                    {errorZCIndicada && <span>Elegi ZC</span>}
                                                 </Form.Group>
                                             </div>
+                                        )}
 
-                                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={handleSubmit(onSubmit)}>
-                                                <Button variant="danger" >
-                                                    Agregar
-                                                </Button>
+                                        {zonaCuerpoIndicada !== 0 && (
+                                            <div className="col-md-6">
+                                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                                                    <Form.Label>Ejercicio*</Form.Label>
+                                                    <Controller
+                                                        name="ejercicio"
+                                                        control={control}
+                                                        // rules={{ required: 'Este campo es requerido' }}
+                                                        render={({ field }) => (
+                                                            <Form.Select value={idEjercicioElegido} aria-label="select-ejercicio-crear-plan" {...field} onChange={(e) => setIdEjercicioElegido(e.target.value ? parseInt(e.target.value) : 0)}>
+                                                                <option value={0}>Sin Elegir</option>
+                                                                {ejerciciosByZC.map((e, index) => (
+                                                                    <option key={index + 1} value={e.Ejercicio.id}>{e.Ejercicio.nombre}</option>
+                                                                ))}
+                                                            </Form.Select>
+                                                        )}
+                                                    />
+                                                    {errorEjElegido && <span>Elegi ejercicio</span>}
+                                                </Form.Group>
                                             </div>
+                                        )}
 
+                                        {(idEjercicioElegido !== 0 && zonaCuerpoIndicada !== 0 && ejercicioElegido && ejerciciosByZC.length !== 0) && (
                                             <>
-                                                {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.tiempo !== null) && (
-                                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput8">
-                                                        <Form.Label>Tiempo*</Form.Label>
+                                                <div className="col-md-6">
+                                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput7">
+                                                        <Form.Label>Maquina/Elemento*</Form.Label>
                                                         <Controller
-                                                            name="tiempoEjercicio"
+                                                            name="nombreMaquina"
                                                             control={control}
-                                                            rules={{
-                                                                required: {
-                                                                    value: true,
-                                                                    message: 'Ingresa Tiempo del ejercicio'
-                                                                },
-                                                                pattern: {
-                                                                    value: /^[1-9][0-9]*$/,
-                                                                    message: 'Por favor, ingresa solo números positivos en este campo.'
-                                                                },
-                                                            }}
                                                             render={({ field }) => (
                                                                 <Form.Control
                                                                     type="text"
-                                                                    placeholder="Ingresá el tiempoEjercicio del plan"
+                                                                    placeholder={ejercicioElegido.Maquina ? ejercicioElegido.Maquina.nombre : ''}
+                                                                    disabled
                                                                     {...field}
                                                                 />
                                                             )}
                                                         />
-                                                        {errors.tiempoEjercicio && <p>{errors.tiempoEjercicio.message}</p>}
+                                                        {errors.nombreMaquina && <p>{errors.nombreMaquina.message}</p>}
                                                     </Form.Group>
-                                                )}
+                                                </div>
 
-                                                {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.series !== null) && (
-                                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput8">
-                                                        <Form.Label>series*</Form.Label>
-                                                        <Controller
-                                                            name="seriesEjercicio"
-                                                            control={control}
-                                                            rules={{
-                                                                required: {
-                                                                    value: true,
-                                                                    message: 'Ingresa las series'
-                                                                },
-                                                                pattern: {
-                                                                    value: /^(?:[1-9]|[1-9][0-9])$/,
-                                                                    message: 'Por favor, ingresa un número entre 1 y 99.'
-                                                                },
-                                                            }}
-                                                            render={({ field }) => (
-                                                                <Form.Control
-                                                                    type="text"
-                                                                    placeholder="Ingresá el seriesEjercicio del plan"
-                                                                    {...field}
-                                                                />
-                                                            )}
-                                                        />
-                                                        {errors.seriesEjercicio && <p>{errors.seriesEjercicio.message}</p>}
-                                                    </Form.Group>
-                                                )}
-                                                {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.repeticiones !== null) && (
-                                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput9">
-                                                        <Form.Label>repeticiones*</Form.Label>
-                                                        <Controller
-                                                            name="repsEjercicio"
-                                                            control={control}
-                                                            rules={{
-                                                                required: {
-                                                                    value: true,
-                                                                    message: 'Ingresa las repeticiones'
-                                                                },
-                                                                pattern: {
-                                                                    value: /^(?:[1-9]|[1-9][0-9])$/,
-                                                                    message: 'Por favor, ingresa un número entre 1 y 99.'
-                                                                },
-                                                            }}
-                                                            render={({ field }) => (
-                                                                <Form.Control
-                                                                    type="text"
-                                                                    placeholder="Ingresá el repsEjercicio del plan"
-                                                                    {...field}
-                                                                />
-                                                            )}
-                                                        />
-                                                        {errors.repsEjercicio && <p>{errors.repsEjercicio.message}</p>}
-                                                    </Form.Group>
-                                                )}
-                                                {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.descanso !== null) && (
-                                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput10">
-                                                        <Form.Label>Descanso*</Form.Label>
-                                                        <Controller
-                                                            name="descanso"
-                                                            control={control}
-                                                            rules={{
-                                                                required: {
-                                                                    value: true,
-                                                                    message: 'Ingresa Descanso del ejercicio'
-                                                                },
-                                                                pattern: {
-                                                                    value: /^[1-9][0-9]*$/,
-                                                                    message: 'Por favor, ingresa solo números positivos en este campo.'
-                                                                },
-                                                            }}
-                                                            render={({ field }) => (
-                                                                <Form.Control
-                                                                    type="text"
-                                                                    placeholder="descanso en segundos"
-                                                                    {...field}
-                                                                />
-                                                            )}
-                                                        />
-                                                        {errors.descanso && <p>{errors.descanso.message}</p>}
-                                                    </Form.Group>
-                                                )}
+                                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={handleSubmit(onSubmit)}>
+                                                    <Button variant="danger" >
+                                                        Agregar
+                                                    </Button>
+                                                </div>
+
+                                                <>
+                                                    {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.tiempo !== null) && (
+                                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput8">
+                                                            <Form.Label>Tiempo*</Form.Label>
+                                                            <Controller
+                                                                name="tiempoEjercicio"
+                                                                control={control}
+                                                                rules={{
+                                                                    required: {
+                                                                        value: true,
+                                                                        message: 'Ingresa Tiempo del ejercicio'
+                                                                    },
+                                                                    pattern: {
+                                                                        value: /^[1-9][0-9]*$/,
+                                                                        message: 'Por favor, ingresa solo números positivos en este campo.'
+                                                                    },
+                                                                }}
+                                                                render={({ field }) => (
+                                                                    <Form.Control
+                                                                        type="text"
+                                                                        placeholder="Ingresá el tiempoEjercicio del plan"
+                                                                        {...field}
+                                                                    />
+                                                                )}
+                                                            />
+                                                            {errors.tiempoEjercicio && <p>{errors.tiempoEjercicio.message}</p>}
+                                                        </Form.Group>
+                                                    )}
+
+                                                    {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.series !== null) && (
+                                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput8">
+                                                            <Form.Label>series*</Form.Label>
+                                                            <Controller
+                                                                name="seriesEjercicio"
+                                                                control={control}
+                                                                rules={{
+                                                                    required: {
+                                                                        value: true,
+                                                                        message: 'Ingresa las series'
+                                                                    },
+                                                                    pattern: {
+                                                                        value: /^(?:[1-9]|[1-9][0-9])$/,
+                                                                        message: 'Por favor, ingresa un número entre 1 y 99.'
+                                                                    },
+                                                                }}
+                                                                render={({ field }) => (
+                                                                    <Form.Control
+                                                                        type="text"
+                                                                        placeholder="Ingresá el seriesEjercicio del plan"
+                                                                        {...field}
+                                                                    />
+                                                                )}
+                                                            />
+                                                            {errors.seriesEjercicio && <p>{errors.seriesEjercicio.message}</p>}
+                                                        </Form.Group>
+                                                    )}
+                                                    {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.repeticiones !== null) && (
+                                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput9">
+                                                            <Form.Label>repeticiones*</Form.Label>
+                                                            <Controller
+                                                                name="repsEjercicio"
+                                                                control={control}
+                                                                rules={{
+                                                                    required: {
+                                                                        value: true,
+                                                                        message: 'Ingresa las repeticiones'
+                                                                    },
+                                                                    pattern: {
+                                                                        value: /^(?:[1-9]|[1-9][0-9])$/,
+                                                                        message: 'Por favor, ingresa un número entre 1 y 99.'
+                                                                    },
+                                                                }}
+                                                                render={({ field }) => (
+                                                                    <Form.Control
+                                                                        type="text"
+                                                                        placeholder="Ingresá el repsEjercicio del plan"
+                                                                        {...field}
+                                                                    />
+                                                                )}
+                                                            />
+                                                            {errors.repsEjercicio && <p>{errors.repsEjercicio.message}</p>}
+                                                        </Form.Group>
+                                                    )}
+                                                    {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.descanso !== null) && (
+                                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput10">
+                                                            <Form.Label>Descanso*</Form.Label>
+                                                            <Controller
+                                                                name="descanso"
+                                                                control={control}
+                                                                rules={{
+                                                                    required: {
+                                                                        value: true,
+                                                                        message: 'Ingresa Descanso del ejercicio'
+                                                                    },
+                                                                    pattern: {
+                                                                        value: /^[1-9][0-9]*$/,
+                                                                        message: 'Por favor, ingresa solo números positivos en este campo.'
+                                                                    },
+                                                                }}
+                                                                render={({ field }) => (
+                                                                    <Form.Control
+                                                                        type="text"
+                                                                        placeholder="descanso en segundos"
+                                                                        {...field}
+                                                                    />
+                                                                )}
+                                                            />
+                                                            {errors.descanso && <p>{errors.descanso.message}</p>}
+                                                        </Form.Group>
+                                                    )}
+                                                </>
                                             </>
-                                        </>
-                                    )}
-                                </>
-                            )}
-                        </div>
+                                        )}
+                                    </>
+                                )}
+                            </div>
 
-                        <div className="col-md-12">
-                            {cantidadSesionesIndicadas !== 0 && (
-                                <>
-                                    {Array.from({ length: cantidadSesionesIndicadas }).map((_, index) => (
-                                        <div key={index}>
-                                            <h2>Tabla de Sesion {index + 1}</h2>
-                                            <Table striped bordered hover responsive key={index}>
-                                                <thead>
-                                                    <tr>
-                                                        <th>Indice</th>
-                                                        <th>Sesion</th>
-                                                        <th>Ejercicio</th>
-                                                        <th>Tiempo</th>
-                                                        <th>Series</th>
-                                                        <th>Repeticiones</th>
-                                                        <th>Descanso</th>
-                                                        <th>Maquina</th>
-                                                        <th>Acciones</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {ejerciciosAgregados.length !== 0
-                                                        &&
-                                                        ejerciciosAgregados
-                                                            .filter((row) => row.sesion === index + 1)
-                                                            .map((row, index) => (
-                                                                <tr key={index + 1}>
-                                                                    <td>{index}</td>
-                                                                    <td>{row.sesion}</td>
-                                                                    <td>{row.ejercicio.Ejercicio.nombre}</td>
-                                                                    <td>{row.tiempoEjercicio ? row.tiempoEjercicio : 'No aplica'}</td>
-                                                                    <td>{row.seriesEjercicio ? row.seriesEjercicio : 'No aplica'}</td>
-                                                                    <td>{row.repsEjercicio ? row.repsEjercicio : 'No aplica'}</td>
-                                                                    <td>{row.descanso ? row.descanso : 'No aplica'}</td>
-                                                                    <td>{row.ejercicio.Maquina ? row.ejercicio.Maquina.nombre : 'No aplica'}</td>
-                                                                    <td>
-                                                                        <OverlayTrigger
-                                                                            placement='top'
-                                                                            overlay={
-                                                                                <Tooltip id='intentandoesto'>
-                                                                                    <strong>Eliminar Ejercicio</strong>.
-                                                                                </Tooltip>
-                                                                            }
-                                                                        >
-                                                                            <Button variant="secondary" style={{ backgroundColor: 'red', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => { handleEliminarRegistro(row.id) }}>
-                                                                                <i className="bi bi-x" style={{ fontSize: '16px' }}></i>
-                                                                            </Button>
-                                                                        </OverlayTrigger>
-                                                                    </td>
-                                                                </tr>
-                                                            ))
-                                                    }
-                                                </tbody>
-                                            </Table>
-                                        </div>
-                                    ))}
-                                </>
-                            )}
+                            <div className="col-md-12">
+                                {cantidadSesionesIndicadas !== 0 && (
+                                    <>
+                                        {Array.from({ length: cantidadSesionesIndicadas }).map((_, index) => (
+                                            <div key={index}>
+                                                <h2>Tabla de Sesion {index + 1}</h2>
+                                                <Table striped bordered hover responsive key={index}>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Indice</th>
+                                                            <th>Sesion</th>
+                                                            <th>Ejercicio</th>
+                                                            <th>Tiempo</th>
+                                                            <th>Series</th>
+                                                            <th>Repeticiones</th>
+                                                            <th>Descanso</th>
+                                                            <th>Maquina</th>
+                                                            <th>Acciones</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {ejerciciosAgregados.length !== 0
+                                                            &&
+                                                            ejerciciosAgregados
+                                                                .filter((row) => row.sesion === index + 1)
+                                                                .map((row, index) => (
+                                                                    <tr key={index + 1}>
+                                                                        <td>{index}</td>
+                                                                        <td>{row.sesion}</td>
+                                                                        <td>{row.ejercicio.Ejercicio.nombre}</td>
+                                                                        <td>{row.tiempoEjercicio ? row.tiempoEjercicio : 'No aplica'}</td>
+                                                                        <td>{row.seriesEjercicio ? row.seriesEjercicio : 'No aplica'}</td>
+                                                                        <td>{row.repsEjercicio ? row.repsEjercicio : 'No aplica'}</td>
+                                                                        <td>{row.descanso ? row.descanso : 'No aplica'}</td>
+                                                                        <td>{row.ejercicio.Maquina ? row.ejercicio.Maquina.nombre : 'No aplica'}</td>
+                                                                        <td >
+                                                                            <>
+                                                                                <OverlayTrigger
+                                                                                    placement='top'
+                                                                                    overlay={
+                                                                                        <Tooltip id='intentandoesto'>
+                                                                                            <strong>Eliminar Ejercicio</strong>.
+                                                                                        </Tooltip>
+                                                                                    }
+                                                                                >
+                                                                                    <Button variant="secondary" style={{ backgroundColor: 'red', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => { handleEliminarRegistro(row.id) }}>
+                                                                                        <i className="bi bi-x" style={{ fontSize: '16px' }}></i>
+                                                                                    </Button>
+                                                                                </OverlayTrigger>
+                                                                            </>
+
+                                                                            <OverlayTrigger
+                                                                                placement='top'
+                                                                                overlay={
+                                                                                    <Tooltip id='intentandoesto2'>
+                                                                                        <strong>Modificar Ejercicio</strong>.
+                                                                                    </Tooltip>
+                                                                                }
+                                                                            >
+                                                                                <Button variant="secondary" style={{ backgroundColor: 'green', border: 'none', borderRadius: '50%', margin: '8px 2px 2px 2px' }} onClick={() => { abrirModalModificar(row) }}>
+                                                                                    <i className="bi bi-check" style={{ fontSize: '16px' }}></i>
+                                                                                </Button>
+                                                                            </OverlayTrigger>
+                                                                        </td>
+                                                                    </tr>
+                                                                ))
+                                                        }
+                                                    </tbody>
+                                                </Table>
+                                            </div>
+                                        ))}
+                                    </>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                </Card.Body>
-            </Card>
-        </Form>
+                    </Card.Body>
+                </Card>
+            </Form>
+
+            <Modal show={modalOpen} onHide={() => setModalOpen(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modificar Ejercicio</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {(ejercicioAModificar !== null && modificarValores.tiempo !== "") && (
+                        <Form.Group>
+                            <Form.Label>Tiempo</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={modificarValores.tiempo}
+                                onChange={(e) =>
+                                    setModificarValores({
+                                        ...modificarValores,
+                                        tiempo: e.target.value,
+                                    })
+                                }
+                            />
+                        </Form.Group>
+                    )}
+                    {(ejercicioAModificar !== null && modificarValores.series !== "") && (
+                        <Form.Group>
+                            <Form.Label>Series</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={modificarValores.series}
+                                onChange={(e) =>
+                                    setModificarValores({
+                                        ...modificarValores,
+                                        series: e.target.value,
+                                    })
+                                }
+                            />
+                        </Form.Group>
+                    )}
+                    {(ejercicioAModificar !== null && modificarValores.reps !== "") && (
+                        <Form.Group>
+                            <Form.Label>Repeticiones</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={modificarValores.reps}
+                                onChange={(e) =>
+                                    setModificarValores({
+                                        ...modificarValores,
+                                        reps: e.target.value,
+                                    })
+                                }
+                            />
+                        </Form.Group>
+                    )}
+                    {(ejercicioAModificar !== null && modificarValores.descanso !== "") && (
+                        <Form.Group>
+                            <Form.Label>Descanso</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={modificarValores.descanso}
+                                onChange={(e) =>
+                                    setModificarValores({
+                                        ...modificarValores,
+                                        descanso: e.target.value,
+                                    })
+                                }
+                            />
+                        </Form.Group>
+                    )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setModalOpen(false)}>
+                        Cerrar
+                    </Button>
+                    <Button variant="primary" onClick={aplicarCambios}>
+                        Aplicar cambios
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     )
 }
 
