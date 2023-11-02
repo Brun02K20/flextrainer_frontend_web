@@ -61,7 +61,7 @@ const LoginModal = ({ show, handleClose, setUsuarioEnSesion }) => {
 
             {/* Boton que si el usuario lo presiona, lo redirigira al componente de registrarse, de CrearUsuario.js */}
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '8px' }}>
-                <Button variant="primary" style={{ marginRight: '8px' }} onClick={() => navigate('/registrarse')}>Crear mi Cuenta</Button>
+                <Button className='botonCrearCuenta' onClick={() => navigate('/registrarse')}>Crear Cuenta</Button>
             </div>
 
             {/* Body del modal, el body es basicamente la parte principal del modal, este caso, va a ser un formulario de login */}
@@ -166,10 +166,10 @@ const LoginModal = ({ show, handleClose, setUsuarioEnSesion }) => {
 
             {/* Footer del modal, la parte final del mismo, que contendra los botones de cancelar y de ingresar  */}
             <Modal.Footer>
-                <Button variant="danger" onClick={handleClose}>
+                <Button style={{backgroundColor: 'grey', border: 'none'}} onClick={handleClose}>
                     Cancelar
                 </Button>
-                <Button variant="success" onClick={handleSubmit(onSubmit)}>
+                <Button style={{backgroundColor: 'darkred', border: 'none'}} variant="success" onClick={handleSubmit(onSubmit)}>
                     Ingresar
                 </Button>
             </Modal.Footer>
