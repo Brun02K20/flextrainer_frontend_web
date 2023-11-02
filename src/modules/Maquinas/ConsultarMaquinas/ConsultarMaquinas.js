@@ -138,10 +138,10 @@ const ConsultarMaquinas = () => {
                                     <Button style={{ margin: '8px', backgroundColor: 'grey' }} onClick={handleClean}>
                                         Limpiar
                                     </Button>
-                                    <Button style={{ backgroundColor: '#910012', marginRight: '8px' }} onClick={handleSubmit(onSubmit)}>
-                                        {/* onClick = { handleSubmit(onSubmit) } */}
+                                    <Button style={{ margin: '8px', backgroundColor: 'darkred' }} onClick={handleSubmit(onSubmit)}>
                                         Buscar
                                     </Button>
+
                                 </Nav>
                             </Form>
                         </Card.Body>
