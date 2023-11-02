@@ -24,6 +24,7 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
     const [ejerciciosAgregados, setEjerciciosAgregados] = useState([]);
     const [errorEjercicios, setErrorEjercicios] = useState(false);
     const [errorObjetivo, setErrorObjetivo] = useState(false);
+    const [errorCantidadSesiones, setErrorCantidadSesiones] = useState(false);
 
     useEffect(() => {
         console.log("USUARIO EN GENERANDO PLAN: ", usuarioEnSesion)
@@ -41,7 +42,19 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
         console.log("cantidad de sesiones: ", cantidadSesionesIndicadas)
     }, [cantidadSesionesIndicadas])
 
+    useEffect(() => {
+        if (cantidadSesionesIndicadas != 0) {
+            setErrorCantidadSesiones(false)
+        }
+    }, [cantidadSesionesIndicadas])
+
     const onSubmit = async (data) => {
+        if (cantidadSesionesIndicadas == 0) {
+            setErrorCantidadSesiones(true);
+            return;
+        }
+        setErrorCantidadSesiones(false);
+
         data.cantSesiones = cantidadSesionesIndicadas;
         // Verifica que para cada número de sesión del 1 al cantidadSesiones haya al menos un objeto
         // Crea un objeto que contará cuántas veces aparece cada número de sesión
@@ -89,10 +102,13 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
             return resultado;
         }, []);
 
-        data.ejercicios = ejerciciosAgrupados;
+        data.sesiones = ejerciciosAgrupados;
         data.objetivo = parseInt(data.objetivo);
         data.dniProfesor = usuarioEnSesion.dni;
         console.log(data)
+        setErrorEjercicios(false)
+
+        // NOTA: EL PARSEO DEL TIEMPO, SERIES, REPS, Y DESCANSO, LO VOY A HACER EN EL BACKEND
     }
 
     return (
@@ -119,13 +135,9 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
                                                         value: true,
                                                         message: 'Este campo es requerido'
                                                     },
-                                                    pattern: {
-                                                        value: /^[a-zA-Z]+$/,
-                                                        message: 'Porfavor, ingresa solo letras en este campo. Si tu nombre tiene una ñ, por favor usa `ni`'
-                                                    },
                                                     maxLength: {
-                                                        value: 30,
-                                                        message: 'Maximo 30 caracteres'
+                                                        value: 256,
+                                                        message: 'Maximo 256 caracteres'
                                                     }
                                                 }
                                             }
@@ -186,31 +198,7 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
                                         />
                                     </Form.Group>
                                 </div>
-                                <div className="col-md-6">
-                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                        <Form.Label>Observaciones</Form.Label>
-                                        <Controller
-                                            name="observaciones"
-                                            control={control}
-                                            rules={
-                                                {
-                                                    maxLength: {
-                                                        value: 256,
-                                                        message: 'Maximo 256 caracteres'
-                                                    }
-                                                }
-                                            }
-                                            render={({ field }) => (
-                                                <Form.Control
-                                                    as="textarea"
-                                                    placeholder="Ingresá alguna informacion adicional"
-                                                    {...field}
-                                                />
-                                            )}
-                                        />
-                                        {errors.observaciones && <p>{errors.observaciones.message}</p>}
-                                    </Form.Group>
-                                </div>
+                                {errorCantidadSesiones && <p>ERROR. ELEGI UNA CANTIDAD DE SESIONES</p>}
                             </div>
                         </Card.Body>
                     </Card>

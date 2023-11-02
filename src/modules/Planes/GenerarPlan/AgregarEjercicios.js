@@ -61,8 +61,6 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
         traerEjerciciosByZC();
     }, [zonaCuerpoIndicada]);
 
-
-
     useEffect(() => {
         console.log("zona del cuerpo indicada", zonaCuerpoIndicada)
         console.log("ejercicios traidos: ", ejerciciosByZC)
@@ -79,6 +77,10 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
     }, [idEjercicioElegido]);
 
     useEffect(() => {
+        console.log("ej elegido: ", ejercicioElegido)
+    }, [ejercicioElegido])
+
+    useEffect(() => {
         console.log("ejercicios hasta ahora: ", ejerciciosAgregados)
     }, [ejerciciosAgregados])
 
@@ -89,6 +91,12 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
     // gestion del modal de la modificacion de un ejercicio mientras se crea
     const [modalOpen, setModalOpen] = useState(false);
     const [ejercicioAModificar, setEjercicioAModificar] = useState(null);
+    const [camposVaciosIniciales, setCamposVaciosIniciales] = useState({
+        tiempo: true,
+        series: true,
+        reps: true,
+        descanso: true,
+    });
     const [modificarValores, setModificarValores] = useState({
         tiempo: "",
         series: "",
@@ -97,15 +105,53 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
     });
     const abrirModalModificar = (ejercicio) => {
         setEjercicioAModificar(ejercicio); // Establece el ejercicio que se va a modificar
+
         setModificarValores({
             tiempo: ejercicio.tiempoEjercicio || "",
             series: ejercicio.seriesEjercicio || "",
             reps: ejercicio.repsEjercicio || "",
             descanso: ejercicio.descanso || "",
         });
+
+        setCamposVaciosIniciales({
+            tiempo: !ejercicio.tiempoEjercicio,
+            series: !ejercicio.seriesEjercicio,
+            reps: !ejercicio.repsEjercicio,
+            descanso: !ejercicio.descanso,
+        });
         setModalOpen(true);
     };
+
+    const [errorModifTiempo, setErrorModifTiempo] = useState(false);
+    const [errorModifSeries, setErrorModifSeries] = useState(false);
+    const [errorModifReps, setErrorModifReps] = useState(false);
+    const [errorModifDescanso, setErrorModifDescanso] = useState(false);
+
     const aplicarCambios = () => {
+        if (!/^\d+$/.test(modificarValores.tiempo) && !camposVaciosIniciales.tiempo) {
+            setErrorModifTiempo(true)
+            return;
+        }
+        setErrorModifTiempo(false)
+
+        if (!/^\d+$/.test(modificarValores.series) && !camposVaciosIniciales.series) {
+            setErrorModifSeries(true)
+            return;
+        }
+        setErrorModifSeries(false)
+
+        if (!/^\d+$/.test(modificarValores.reps) && !camposVaciosIniciales.reps) {
+            setErrorModifReps(true)
+            return;
+        }
+        setErrorModifReps(false)
+
+        if (!/^\d+$/.test(modificarValores.descanso) && !camposVaciosIniciales.descanso) {
+            setErrorModifDescanso(true)
+            return;
+        }
+        setErrorModifDescanso(false)
+
         const ejerciciosActualizados = ejerciciosAgregados.map((ejercicio) => {
             if (ejercicio.id === ejercicioAModificar.id) {
                 return {
@@ -170,7 +216,6 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
         setZonaCuerpoIndicada(0)
         setEjericiosByZC([])
         // Incrementa el contador para el próximo 'id'
-
     }
 
     return (
@@ -292,7 +337,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                 </div>
 
                                                 <>
-                                                    {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.tiempo !== null) && (
+                                                    {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.tieneTiempo === true) && (
                                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput8">
                                                             <Form.Label>Tiempo*</Form.Label>
                                                             <Controller
@@ -320,7 +365,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                         </Form.Group>
                                                     )}
 
-                                                    {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.series !== null) && (
+                                                    {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.tieneSeries === true) && (
                                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput8">
                                                             <Form.Label>series*</Form.Label>
                                                             <Controller
@@ -347,7 +392,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                             {errors.seriesEjercicio && <p>{errors.seriesEjercicio.message}</p>}
                                                         </Form.Group>
                                                     )}
-                                                    {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.repeticiones !== null) && (
+                                                    {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.tieneRepeticiones === true) && (
                                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput9">
                                                             <Form.Label>repeticiones*</Form.Label>
                                                             <Controller
@@ -374,7 +419,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                             {errors.repsEjercicio && <p>{errors.repsEjercicio.message}</p>}
                                                         </Form.Group>
                                                     )}
-                                                    {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.descanso !== null) && (
+                                                    {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.tieneDescanso === true) && (
                                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput10">
                                                             <Form.Label>Descanso*</Form.Label>
                                                             <Controller
@@ -417,8 +462,8 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                 <Table striped bordered hover responsive key={index}>
                                                     <thead>
                                                         <tr>
-                                                            <th>Indice</th>
-                                                            <th>Sesion</th>
+                                                            {/* <th>Indice</th>
+                                                            <th>Sesion</th> */}
                                                             <th>Ejercicio</th>
                                                             <th>Tiempo</th>
                                                             <th>Series</th>
@@ -436,8 +481,8 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                                 .filter((row) => row.sesion === index + 1)
                                                                 .map((row, index) => (
                                                                     <tr key={index + 1}>
-                                                                        <td>{index}</td>
-                                                                        <td>{row.sesion}</td>
+                                                                        {/* <td>{index}</td>
+                                                                        <td>{row.sesion}</td> */}
                                                                         <td>{row.ejercicio.Ejercicio.nombre}</td>
                                                                         <td>{row.tiempoEjercicio ? row.tiempoEjercicio : 'No aplica'}</td>
                                                                         <td>{row.seriesEjercicio ? row.seriesEjercicio : 'No aplica'}</td>
@@ -493,7 +538,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                     <Modal.Title>Modificar Ejercicio</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {(ejercicioAModificar !== null && modificarValores.tiempo !== "") && (
+                    {(ejercicioAModificar !== null && !camposVaciosIniciales.tiempo) && (
                         <Form.Group>
                             <Form.Label>Tiempo</Form.Label>
                             <Form.Control
@@ -508,7 +553,9 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                             />
                         </Form.Group>
                     )}
-                    {(ejercicioAModificar !== null && modificarValores.series !== "") && (
+                    {errorModifTiempo && <p>ERROR. INGRESA UN NUMERO</p>}
+
+                    {(ejercicioAModificar !== null && !camposVaciosIniciales.series) && (
                         <Form.Group>
                             <Form.Label>Series</Form.Label>
                             <Form.Control
@@ -523,7 +570,9 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                             />
                         </Form.Group>
                     )}
-                    {(ejercicioAModificar !== null && modificarValores.reps !== "") && (
+                    {errorModifSeries && <p>ERROR. INGRESA UN NUMERO</p>}
+
+                    {(ejercicioAModificar !== null && !camposVaciosIniciales.reps) && (
                         <Form.Group>
                             <Form.Label>Repeticiones</Form.Label>
                             <Form.Control
@@ -538,7 +587,8 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                             />
                         </Form.Group>
                     )}
-                    {(ejercicioAModificar !== null && modificarValores.descanso !== "") && (
+                    {errorModifReps && <p>ERROR. INGRESA UN NUMERO</p>}
+                    {(ejercicioAModificar !== null && !camposVaciosIniciales.descanso) && (
                         <Form.Group>
                             <Form.Label>Descanso</Form.Label>
                             <Form.Control
@@ -553,6 +603,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                             />
                         </Form.Group>
                     )}
+                    {errorModifDescanso && <p>ERROR. INGRESA UN NUMERO</p>}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setModalOpen(false)}>
