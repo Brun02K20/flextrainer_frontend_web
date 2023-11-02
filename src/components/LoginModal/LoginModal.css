@@ -1,9 +1,9 @@
 .login-modal-header {
-    background-color: red;
+    background-color: darkred;
 }
 
 .btn-close {
-    color: white
+    color: white;
 }
 
 .login-modal-header closeButton {
@@ -12,4 +12,9 @@
 
 .login-modal-title {
     color: white
+}
+.botonCrearCuenta{
+    margin-right: 8px ;
+    background-color: darkred;
+    border: none;
 }

@@ -102,18 +102,18 @@ const ConsultarMaquinas = () => {
                                                         {
                                                             pattern: {
                                                                 value: /^[a-zA-Z]+$/,
-                                                                message: 'Porfavor, ingresa solo letras en este campo. Si el nombre de la maquina tiene una ñ, por favor usa `ni`'
+                                                                message: 'Por favor, ingresa solo letras en este campo. Si el nombre de la máquina tiene una ñ, por favor usa `ni`'
                                                             },
                                                             maxLength: {
                                                                 value: 30,
-                                                                message: 'Maximo 30 caracteres'
+                                                                message: 'Máximo 30 caracteres'
                                                             }
                                                         }
                                                     }
                                                     render={({ field }) => (
                                                         <Form.Control
                                                             type="text"
-                                                            placeholder="Ingresá el nombre de la maquina que estas buscando"
+                                                            placeholder="Ingresá el nombre de la máquina que estás buscando"
                                                             {...field}
                                                         />
                                                     )}
@@ -135,7 +135,7 @@ const ConsultarMaquinas = () => {
                                 </div>
 
                                 <Nav style={{ backgroundColor: '#a5a3a3', borderRadius: '12px', marginTop: '8px' }} className="justify-content-end">
-                                    <Button variant="danger" style={{ margin: '8px' }} onClick={handleClean}>
+                                    <Button style={{ margin: '8px' , backgroundColor: 'grey'}} onClick={handleClean}>
                                         Limpiar
                                     </Button>
                                     <Button variant="success" style={{ margin: '8px' }} onClick={handleSubmit(onSubmit)}>
