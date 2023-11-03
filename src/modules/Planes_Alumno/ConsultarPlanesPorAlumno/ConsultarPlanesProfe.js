@@ -15,17 +15,32 @@ import axios from 'axios';
 import { NavHeader } from '../../../components/NavHeader/NavHeader';
 import { BackButton } from '../../../components/BackButton/BackButton';
 
-const ConsultarPlanesPorAlumno = () => {
+// importo el servicio de traer los objetivos
+import { objetivosServices } from '../../Planes/services/objetivos.service.js';
+
+const ConsultarPlanesProfe = ({ usuarioEnSesion }) => {
     // declaro las funcionalidades necesarias para gestionar formularios, en este caso, tendremos un formulario de
     // busqueda, que se utilizara como un filtrador de datos
     const { handleSubmit, control, formState: { errors }, reset, setValue, register } = useForm();
     const navigate = useNavigate(); // declaro la funcion de navegacion
     const [planesAlumnos, setPlanesAlumnos] = useState([]); // estado en el que voy a almacenar todos los datos de los planes y sus alumnos
 
+
+    const [objetivosTraidos, setObjetivosTraidos] = useState([])
+
+    useEffect(() => {
+        const traerObjetivos = async () => {
+            const response = await objetivosServices.getObjetivos();
+            setObjetivosTraidos(response)
+        }
+        traerObjetivos();
+    }, [])
+
+
     // traigo los datos a mostrar en la grilla desde el backend
     useEffect(() => {
         const traerPlanesAlumnos = async () => {
-            const response = await axios.post(`http://localhost:4001/flextrainer/planesAlumnos/byFilters`);
+            const response = await axios.post(`http://localhost:4001/flextrainer/planes/getByProfeByFilters/${usuarioEnSesion.dni}`, { dadosBaja: 1 });
             setPlanesAlumnos(response.data);
         }
         traerPlanesAlumnos();
@@ -34,16 +49,24 @@ const ConsultarPlanesPorAlumno = () => {
     // funcion que se va a ejecutar si el usuario pulsa el boton de LIMPIAR los filtros
     const handleClean = () => {
         reset(); // resetea los valores internos de los campos
-        setValue('dni', ''); // Limpia visualmente usando setValue
         setValue('nombre', '');
-        setValue('apellido', '');
+        setValue('objetivo', '');
+        setValue('cantSesiones', '');
         setValue('dadosBaja', false); // Limpiar visualmente el checkbox
     }
 
     // funcion que se va a ejecutar en cuanto el usuario pulse BUSCAR, enviando los datos ingresados en los filtros
     // al backend
     const onSubmit = async (data) => {
-        data.dni = parseInt(data.dni); // parseo el dni
+        data.objetivo = parseInt(data.objetivo);
+        if (isNaN(data.objetivo)) {
+            data.objetivo = 0;
+        }
+
+        data.cantSesiones = parseInt(data.cantSesiones);
+        if (isNaN(data.cantSesiones)) {
+            data.cantSesiones = 0;
+        }
 
         // parseo el checkbox de dados de baja
         if (data.dadosBaja === false) {
@@ -52,7 +75,7 @@ const ConsultarPlanesPorAlumno = () => {
             data.dadosBaja = 0;
         }
         console.log("a enviar al backend", data); // muestro los datos a enviar al backend
-        const response = await axios.post(`http://localhost:4001/flextrainer/planesAlumnos/byFilters`, data); // llevo a cabo la peticion
+        const response = await axios.post(`http://localhost:4001/flextrainer/planes/getByProfeByFilters/${usuarioEnSesion.dni}`, data); // llevo a cabo la peticion
         console.log("rta: ", response.data); // muestro por consola la respuesta
         setCurrentPage(1); // seteo la pagina actual como la primera
         setPlanesAlumnos(response.data); // seteo los planes traidos como el valor de la respuesta de la api
@@ -85,9 +108,15 @@ const ConsultarPlanesPorAlumno = () => {
 
     return (
         <>
-            <NavHeader encabezado='Consultar Planes por Alumno' />
+            <NavHeader encabezado='Consultar Mis Planes' />
 
             <br></br>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: '6%' }}>
+                <Button style={{ backgroundColor: 'darkred', border: 'none', marginBottom: '8px' }} onClick={() => navigate('/generarPlan')}>
+                    Nuevo
+                </Button>
+            </div>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
@@ -97,39 +126,6 @@ const ConsultarPlanesPorAlumno = () => {
                             <Form>
                                 <div className="row">
                                     <div className="col-md-6">
-                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                            <Form.Label>DNI</Form.Label>
-                                            <Controller
-                                                name="dni"
-                                                control={control}
-                                                rules={
-                                                    {
-                                                        pattern: {
-                                                            value: /^[0-9]+$/,
-                                                            message: 'Solo se permiten números positivos en este campo'
-                                                        },
-                                                        maxLength: {
-                                                            value: 8,
-                                                            message: 'El DNI no puede tener mas de 8 caracteres'
-                                                        },
-                                                        minLength: {
-                                                            value: 7,
-                                                            message: 'El DNI no puede tener menos de 7 caracteres'
-                                                        }
-                                                    }
-                                                }
-                                                render={({ field }) => (
-                                                    <Form.Control
-                                                        type="number"
-                                                        placeholder="Ingresá tu DNI"
-                                                        {...field}
-                                                    />
-                                                )}
-                                            />
-                                            {errors.dni && <p>{errors.dni.message}</p>}
-                                        </Form.Group>
-                                    </div>
-                                    <div className="col-md-6">
                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                                             <Form.Label>Nombre</Form.Label>
                                             <Controller
@@ -137,10 +133,6 @@ const ConsultarPlanesPorAlumno = () => {
                                                 control={control}
                                                 rules={
                                                     {
-                                                        pattern: {
-                                                            value: /^[a-zA-Z]+$/,
-                                                            message: 'Porfavor, ingresa solo letras en este campo. Si el nombre del alumno tiene una ñ, por favor usa `ni`'
-                                                        },
                                                         maxLength: {
                                                             value: 30,
                                                             message: 'Maximo 30 caracteres'
@@ -159,34 +151,50 @@ const ConsultarPlanesPorAlumno = () => {
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
-                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-                                            <Form.Label>Apellido</Form.Label>
+                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                                            <Form.Label>Objetivo*</Form.Label>
                                             <Controller
-                                                name="apellido"
+                                                name="objetivo"
                                                 control={control}
-                                                rules={
-                                                    {
-                                                        pattern: {
-                                                            value: /^[a-zA-Z]+$/,
-                                                            message: 'Porfavor, ingresa solo letras en este campo. Si el apellido del alumno tiene una ñ, por favor usa `ni`'
-                                                        },
-                                                        maxLength: {
-                                                            value: 30,
-                                                            message: 'Maximo 30 caracteres'
-                                                        }
-                                                    }
-                                                }
                                                 render={({ field }) => (
-                                                    <Form.Control
-                                                        type="text"
-                                                        placeholder="Ingresá tu apellido"
-                                                        {...field}
-                                                    />
+                                                    <Form.Select aria-label="select-objetivo-consultar-plan" {...field}>
+                                                        <option value='0'>Sin Elegir</option>
+                                                        {objetivosTraidos.map((e, index) => (
+                                                            <option key={index + 1} value={e.id}>{e.nombre}</option>
+                                                        ))}
+                                                    </Form.Select>
                                                 )}
                                             />
-                                            {errors.apellido && <p>{errors.apellido.message}</p>}
                                         </Form.Group>
                                     </div>
+
+                                    <div className="col-md-6">
+                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                                            <Form.Label>Cantidad de Sesiones*</Form.Label>
+                                            <Controller
+                                                name="cantSesiones"
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <Form.Select
+                                                        aria-label="select-sesiones-crear-plan"
+                                                        required={false}
+                                                        {...field}
+                                                    >
+                                                        <option value=''>Sin Elegir</option>
+                                                        <option value='1'>1</option>
+                                                        <option value='2'>2</option>
+                                                        <option value='3'>3</option>
+                                                        <option value='4'>4</option>
+                                                        <option value='5'>5</option>
+                                                        <option value='6'>6</option>
+                                                        <option value='7'>7</option>
+                                                    </Form.Select>
+                                                )}
+                                            />
+                                        </Form.Group>
+                                    </div>
+
+
                                     <div className='col-md-6'>
                                         <Form.Check
                                             type='checkbox'
@@ -233,30 +241,44 @@ const ConsultarPlanesPorAlumno = () => {
                                 <Table striped bordered hover responsive>
                                     <thead>
                                         <tr>
-                                            <th>DNI</th>
-                                            <th>Nombres</th>
-                                            <th>Apellidos</th>
-                                            <th>Plan</th>
+                                            <th>Nombre</th>
+                                            <th>Objetivo</th>
+                                            <th>Sesiones</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {currentData.map((row, index) => (
                                             <tr key={index + 1}>
-                                                <td>{row.dniAlumno}</td>
-                                                <td>{row.Usuario.nombre}</td>
-                                                <td>{row.Usuario.apellido}</td>
-                                                <td>{row.Plane.nombre}</td>
+                                                <td>{row.nombre}</td>
+                                                <td>{row.Objetivo.nombre}</td>
+                                                <td>{row.cantidadSesiones}</td>
                                                 <td className="d-flex justify-content-center">
+
                                                     <OverlayTrigger
                                                         placement='top'
                                                         overlay={
                                                             <Tooltip id='intentandoesto'>
-                                                                <strong>Ver Detalle</strong>.
+                                                                <strong>Asignar alumno</strong>.
                                                             </Tooltip>
                                                         }
                                                     >
-                                                        <Button variant="secondary" style={{ backgroundColor: '#EAD85A', border: 'none', borderRadius: '50%', margin: '2px' }}>
+                                                        <Button variant="secondary" style={{ backgroundColor: 'blue', border: 'none', borderRadius: '50%', margin: '2px' }} >
+                                                            {/* {onClick = {() => {handleRowClick(row); handleShowAsignarRol() }} } */}
+                                                            <i className="bi bi-person-circle" style={{ fontSize: '16px' }}></i>
+                                                        </Button>
+                                                    </OverlayTrigger>
+
+                                                    <OverlayTrigger
+                                                        placement='top'
+                                                        overlay={
+                                                            <Tooltip id='intentandoesto'>
+                                                                <strong>Ver mas info.</strong>.
+                                                            </Tooltip>
+                                                        }
+                                                    >
+                                                        <Button variant="secondary" style={{ backgroundColor: '#EAD85A', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => navigate(`/verPlan/${row.id}`)}  >
+                                                            {/* {onClick = {() => navigate(`/verUsuario/${row.dni}`)}} */}
                                                             <i className="bi bi-eye" style={{ fontSize: '16px' }}></i>
                                                         </Button>
                                                     </OverlayTrigger>
@@ -264,14 +286,45 @@ const ConsultarPlanesPorAlumno = () => {
                                                         placement='top'
                                                         overlay={
                                                             <Tooltip id='intentandoesto'>
-                                                                <strong>Eliminar Plan</strong>.
+                                                                <strong>Modificar Plan</strong>.
                                                             </Tooltip>
                                                         }
                                                     >
-                                                        <Button variant="secondary" style={{ backgroundColor: 'red', border: 'none', borderRadius: '50%', margin: '2px' }}>
-                                                            <i className="bi bi-x" style={{ fontSize: '16px' }}></i>
+                                                        <Button variant="secondary" style={{ backgroundColor: '#55E14E', border: 'none', borderRadius: '50%', margin: '2px' }} >
+                                                            {/* {onClick = {() => navigate(`/modificarUsuario/${row.dni}`)}} */}
+                                                            <i className="bi bi-pencil-square" style={{ fontSize: '16px' }}></i>
                                                         </Button>
                                                     </OverlayTrigger>
+                                                    {row.esActivo === 1 && (
+                                                        <OverlayTrigger
+                                                            placement='top'
+                                                            overlay={
+                                                                <Tooltip id='intentandoesto'>
+                                                                    <strong>Eliminar Plan</strong>.
+                                                                </Tooltip>
+                                                            }
+                                                        >
+                                                            <Button variant="secondary" style={{ backgroundColor: 'red', border: 'none', borderRadius: '50%', margin: '2px' }} >
+                                                                {/* {onClick = {() => {handleRowClick(row); handleShowEliminarUsuario() }}} */}
+                                                                <i className="bi bi-x" style={{ fontSize: '16px' }}></i>
+                                                            </Button>
+                                                        </OverlayTrigger>
+                                                    )}
+                                                    {row.esActivo === 0 && (
+                                                        <OverlayTrigger
+                                                            placement='top'
+                                                            overlay={
+                                                                <Tooltip id='intentandoesto'>
+                                                                    <strong>Activar Plan</strong>.
+                                                                </Tooltip>
+                                                            }
+                                                        >
+                                                            <Button variant="secondary" style={{ backgroundColor: 'green', border: 'none', borderRadius: '50%', margin: '2px' }} >
+                                                                {/* {onClick = {() => {handleRowClick(row); handleShowActivarUsuario() }} } */}
+                                                                <i className="bi bi-check-lg" style={{ fontSize: '16px' }}></i>
+                                                            </Button>
+                                                        </OverlayTrigger>
+                                                    )}
                                                 </td>
                                             </tr>
                                         ))}
@@ -299,7 +352,7 @@ const ConsultarPlanesPorAlumno = () => {
                             </div>
                         ) : (
                             <div className='col s12 center'>
-                                <h3 style={{ textAlign: 'center' }}>NO HAY PLANES ASIGNADOS A ALUMNOS QUE CUMPLAN CON LO QUE INGRESASTE</h3>
+                                <h3 style={{ textAlign: 'center' }}>NO HAY PLANES QUE CUMPLAN CON LO QUE INGRESASTE</h3>
                             </div>
                         )}
                     </Card.Body>
@@ -313,4 +366,4 @@ const ConsultarPlanesPorAlumno = () => {
     )
 }
 
-export { ConsultarPlanesPorAlumno }
+export { ConsultarPlanesProfe }

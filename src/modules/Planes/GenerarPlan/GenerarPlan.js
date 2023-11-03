@@ -111,6 +111,10 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
         // NOTA: EL PARSEO DEL TIEMPO, SERIES, REPS, Y DESCANSO, LO VOY A HACER EN EL BACKEND
     }
 
+    const handleBack = () => {
+        navigate('/bienvenida')
+    }
+
     return (
         <>
             <NavHeader encabezado='Generar Plan' />
@@ -213,7 +217,7 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
 
                     {errorEjercicios && <span>Error. Tenes que tener al menos un ejercicio por cada sesion y ademas no podes tener un ejercicio para una sesion que no existe</span>}
 
-                    <div className='justify-content-end'>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '12px' }} onClick={() => handleBack()}>
                         <Button variant="danger" style={{ marginRight: '8px' }}>
                             Volver
                         </Button>
