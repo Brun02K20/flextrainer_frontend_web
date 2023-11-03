@@ -25,8 +25,9 @@ import { ConsultarMaquinas } from './modules/Maquinas/ConsultarMaquinas/Consulta
 import { VerDetalleMaquina } from './modules/Maquinas/VerDetalleMaquina/VerDetalleMaquina.js';
 
 // importacion de componentes del modulo de planes
-import { ConsultarPlanesPorAlumno } from './modules/Planes_Alumno/ConsultarPlanesPorAlumno/ConsultarPlanesPorAlumno.js';
+import { ConsultarPlanesProfe } from './modules/Planes_Alumno/ConsultarPlanesPorAlumno/ConsultarPlanesProfe.js';
 import { GenerarPlan } from './modules/Planes/GenerarPlan/GenerarPlan.js';
+import { VerDetallePlan } from './modules/Planes/VerDetallePlan/VerDetallePlan.js';
 
 
 // declaro la funcion principal de la aplicacion
@@ -124,9 +125,10 @@ function App() {
         />
 
         <Route
-          path='/planesPorAlumnos'
+          path='/planesProfe'
           element={
-            <ConsultarPlanesPorAlumno
+            <ConsultarPlanesProfe
+              usuarioEnSesion={usuarioEnSesion}
             />
           }
         />
@@ -137,6 +139,13 @@ function App() {
             <GenerarPlan
               usuarioEnSesion={usuarioEnSesion}
             />
+          }
+        />
+
+        <Route
+          path='/verPlan/:id'
+          element={
+            <VerDetallePlan />
           }
         />
       </Routes>

@@ -100,9 +100,9 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
                     <WelcomeButton
                         containerStyles={{ marginLeft: '10%', position: 'relative', top: '-200%', right: '-36%' }}
                         buttonClass='btn-right button-bienvenida'
-                        goTo={() => navigate('/planesPorAlumnos')}
+                        goTo={() => navigate('/planesProfe')}
                         icon='bi bi-archive-fill'
-                        legend='Planes por Alumno'
+                        legend='Mis Planes'
                     />
                 </div>
             </Container>
