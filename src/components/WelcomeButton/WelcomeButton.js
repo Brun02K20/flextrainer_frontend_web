@@ -9,7 +9,7 @@ const WelcomeButton = ({ containerStyles, buttonClass, goTo, icon, legend }) => 
             <Button className={buttonClass} style={{ backgroundColor: 'red', border: 'none' }} onClick={goTo}>
                 <i className={icon} style={{ fontSize: '32px' }}></i>
             </Button>
-            <p>{legend}</p>
+            <p style={{ textAlign: 'center', fontWeight: '600' }}>{legend}</p>
         </div>
     )
 }

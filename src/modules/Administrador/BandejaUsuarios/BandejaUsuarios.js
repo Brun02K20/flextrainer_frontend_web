@@ -18,6 +18,7 @@ import { ActivarUsuario } from './ActivarUsuario/ActivarUsuario.js';
 import axios from 'axios'; // importo axios para llevar a cabo las peticiones al backend
 import { NavHeader } from '../../../components/NavHeader/NavHeader.js';
 import { BackButton } from '../../../components/BackButton/BackButton.js';
+import { AsignarProfesor } from './AsignarProfesor/AsignarProfesor.js';
 
 // lo mismo, declaro componente y explicito props que va a recibir
 const BandejaUsuarios = () => {
@@ -35,10 +36,7 @@ const BandejaUsuarios = () => {
         setUsuarios(usuariosTraidos.data);
     };
 
-    // imprime los usuarios por consola, cada vez que alguno de estos cambia
-    useEffect(() => {
-        console.log(usuarios);
-    }, [usuarios]);
+
 
     // funcion que se va a ejecutar si se pulsa el boton LIMPIAR del formulario, que borra los valores de todos los campos
     const handleClean = () => {
@@ -118,6 +116,11 @@ const BandejaUsuarios = () => {
     const handleCloseActivarUsuario = () => setShowModalActivarUsuario(false);
     const handleShowActivarUsuario = () => setShowModalActivarUsuario(true);
 
+    // gesiton de modal de Asignar Profesor
+    const [showModalAsignarProfe, setShowModalAsignarProfe] = useState(false);
+    const handleCloseAsignarProfe = () => setShowModalAsignarProfe(false);
+    const handleShowAsignarProfe = () => setShowModalAsignarProfe(true);
+
     // para que me muestre los datos del usuario en el modal que yo elija
     const [selectedUser, setSelectedUser] = useState(null);
     const [isUserSelected, setIsUserSelected] = useState(false);
@@ -129,8 +132,16 @@ const BandejaUsuarios = () => {
     // Cada vez que cambie el estado de muestra del modal del rol, trae los datos de los usuarios,
     // esto para quese muestre dinmicamente los entrendores disponibles en el caso de asignarle un profesor a un alumno
     useEffect(() => {
-        traerUsuarios();
-    }, [showModalAsignarRol])
+        const a = async () => {
+            await traerUsuarios();
+        }
+        a();
+    }, [showModalAsignarRol, selectedUser, showModalAsignarProfe])
+
+    // imprime los usuarios por consola, cada vez que alguno de estos cambia
+    useEffect(() => {
+        console.log(usuarios);
+    }, [usuarios, showModalAsignarRol, showModalAsignarProfe]);
 
     // renderizando todo (NOTA: ESTARIA BUENO MODULAR ESTA SECCION, EN VARIOS ARCHIVOS)
     return (
@@ -328,6 +339,7 @@ const BandejaUsuarios = () => {
                                             <th>Nombres</th>
                                             <th>Apellidos</th>
                                             <th>Rol</th>
+                                            <th>Profesor</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -338,6 +350,7 @@ const BandejaUsuarios = () => {
                                                 <td>{row.nombre}</td>
                                                 <td>{row.apellido}</td>
                                                 <td>{row.nombreRol}</td>
+                                                <td>{row.Usuario ? row.Usuario.nombre + ' ' + row.Usuario.apellido : 'No tiene o es Profesor'}</td>
                                                 <td className="d-flex justify-content-center">
                                                     {row.idRol === 4 && (
                                                         <OverlayTrigger
@@ -349,6 +362,20 @@ const BandejaUsuarios = () => {
                                                             }
                                                         >
                                                             <Button variant="secondary" style={{ backgroundColor: 'blue', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => { handleRowClick(row); handleShowAsignarRol() }}>
+                                                                <i className="bi bi-person-circle" style={{ fontSize: '16px' }}></i>
+                                                            </Button>
+                                                        </OverlayTrigger>
+                                                    )}
+                                                    {row.idRol === 2 && (
+                                                        <OverlayTrigger
+                                                            placement='top'
+                                                            overlay={
+                                                                <Tooltip id='intentandoesto'>
+                                                                    <strong>Asignar profe</strong>.
+                                                                </Tooltip>
+                                                            }
+                                                        >
+                                                            <Button variant="secondary" style={{ backgroundColor: 'blue', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => { handleRowClick(row); handleShowAsignarProfe() }}>
                                                                 <i className="bi bi-person-circle" style={{ fontSize: '16px' }}></i>
                                                             </Button>
                                                         </OverlayTrigger>
@@ -468,6 +495,16 @@ const BandejaUsuarios = () => {
             <ActivarUsuario
                 showModalActivarUsuario={showModalActivarUsuario}
                 handleCloseActivarUsuario={handleCloseActivarUsuario}
+                setSelectedUser={setSelectedUser}
+                setIsUserSelected={setIsUserSelected}
+                selectedUser={selectedUser}
+                traerUsuarios={traerUsuarios}
+                handleClean={handleClean}
+            />
+
+            <AsignarProfesor
+                showModalAsignarProfe={showModalAsignarProfe}
+                handleCloseAsignarProfe={handleCloseAsignarProfe}
                 setSelectedUser={setSelectedUser}
                 setIsUserSelected={setIsUserSelected}
                 selectedUser={selectedUser}

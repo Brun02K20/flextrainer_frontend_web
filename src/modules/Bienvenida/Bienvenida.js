@@ -60,51 +60,126 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
             </Navbar >
 
             {/* Body de la bienvenida */}
-            <Container className="d-flex flex-column align-items-center justify-content-center" style={{ height: '100vh' }}>
+            <Container>
                 {usuarioEnSesion.idRol === 3 && (
-                    <WelcomeButton
-                        containerStyles={{ marginTop: '10%' }}
-                        buttonClass='btn-top button-bienvenida'
-                        goTo={() => navigate('/bandejaUsuarios')}
-                        icon='bi bi-people-fill'
-                        legend='Bandeja de Usuarios'
-                    />
+                    <div style={{
+                        height: '100vh',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url(${logoFLEXTRAINER})`,
+                        backgroundSize: '100%',  // Puedes ajustar 'cover', 'contain' u otros valores según tus necesidades
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                    }}>
+                        <WelcomeButton
+                            containerStyles={{ marginRight: '12px' }}
+                            buttonClass='btn-top button-bienvenida'
+                            goTo={() => navigate('/bandejaUsuarios')}
+                            icon='bi bi-people-fill'
+                            legend='Bandeja de Usuarios'
+                        />
+                        <WelcomeButton
+                            containerStyles={{ marginLeft: '12px' }}
+                            buttonClass='btn-left button-bienvenida'
+                            goTo={() => navigate('/maquinas')}
+                            icon='bi bi-database'
+                            legend='Ver Equipamiento'
+                        />
+                    </div>
                 )}
 
                 {usuarioEnSesion.idRol === 1 && (
-                    <WelcomeButton
-                        containerStyles={{ marginTop: '10%' }}
-                        buttonClass='btn-top button-bienvenida'
-                        goTo={() => navigate('/generarPlan')}
-                        icon='bi bi-people-fill'
-                        legend='Generar Plan'
-                    />
+                    <div style={{
+                        height: '100vh',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url(${logoFLEXTRAINER})`,
+                        backgroundSize: '100%',  // Puedes ajustar 'cover', 'contain' u otros valores según tus necesidades
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                    }}>
+                        <WelcomeButton
+                            containerStyles={{ marginRight: '20px' }}
+                            buttonClass='btn-top button-bienvenida'
+                            goTo={() => navigate('/generarPlan')}
+                            icon='bi bi-people-fill'
+                            legend='Generar Plan'
+                        />
 
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '20px' }}>
+                            <WelcomeButton
+                                containerStyles={{ marginBottom: '20px' }}
+                                buttonClass='btn-left button-bienvenida'
+                                goTo={() => navigate('/maquinas')}
+                                icon='bi bi-database'
+                                legend='Ver Equipamiento'
+                            />
+
+                            <WelcomeButton
+                                containerStyles={{ marginTop: '20px' }}
+                                buttonClass='btn-right button-bienvenida'
+                                goTo={() => navigate('/planesProfe')}
+                                icon='bi bi-archive-fill'
+                                legend='Mis Planes'
+                            />
+                        </div>
+
+                        <WelcomeButton
+                            containerStyles={{ marginLeft: '20px' }}
+                            buttonClass='btn-right button-bienvenida'
+                            goTo={() => navigate('/alumnosProfe')}
+                            icon='bi bi-archive-fill'
+                            legend='Mis Alumnos'
+                        />
+                    </div>
                 )}
 
-                {/* imagen centrada en la pantalla */}
-                <img src={logoFLEXTRAINER} alt="logo FLEXTRAINER" width='400' className='flex-logo' />
+                {usuarioEnSesion.idRol === 2 && (
+                    <div style={{
+                        height: '100vh',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url(${logoFLEXTRAINER})`,
+                        backgroundSize: '100%',  // Puedes ajustar 'cover', 'contain' u otros valores según tus necesidades
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                    }}>
+                        <WelcomeButton
+                            containerStyles={{ marginRight: '12px' }}
+                            buttonClass='btn-top button-bienvenida'
+                            goTo={() => navigate('/')}
+                            icon='bi bi-people-fill'
+                            legend='Mi Plan'
+                        />
+                        <WelcomeButton
+                            containerStyles={{ marginLeft: '12px' }}
+                            buttonClass='btn-left button-bienvenida'
+                            goTo={() => navigate('/maquinas')}
+                            icon='bi bi-database'
+                            legend='Ver Equipamiento'
+                        />
+                    </div>
+                )}
 
-                {/* contenedor de los botones alojados a la izquierda y a la derecha */}
-                <div className="d-flex justify-content-between">
-                    {/* boton alojado a la izquierda */}
-                    <WelcomeButton
-                        containerStyles={{ marginRight: '10%', position: 'relative', top: '-200%', left: '-36%' }}
-                        buttonClass='btn-left button-bienvenida'
-                        goTo={() => navigate('/maquinas')}
-                        icon='bi bi-database'
-                        legend='Ver Equipamiento'
-                    />
+                {usuarioEnSesion.idRol === 4 && (
+                    <div style={{
+                        height: '100vh',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url(${logoFLEXTRAINER})`,
+                        backgroundSize: '100%',  // Puedes ajustar 'cover', 'contain' u otros valores según tus necesidades
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                    }}>
 
-                    {/* boton alojado a la derecha */}
-                    <WelcomeButton
-                        containerStyles={{ marginLeft: '10%', position: 'relative', top: '-200%', right: '-36%' }}
-                        buttonClass='btn-right button-bienvenida'
-                        goTo={() => navigate('/planesProfe')}
-                        icon='bi bi-archive-fill'
-                        legend='Mis Planes'
-                    />
-                </div>
+                        <h4 style={{ textAlign: 'center' }}>Bienvenido. Todavía no tenes un rol asignado, por favor, cerrá tu sesión y consultá en secretaría</h4>
+                    </div>
+                )}
+
             </Container>
 
             {/* Footer de la pantalla de bienvenida  */}

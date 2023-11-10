@@ -40,8 +40,11 @@ const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol, selectedUser, 
 
     // cada vez que cambien el usuario elegido, trae los usuarios del backend
     useEffect(() => {
-        traerUsuarios();
-    }, [selectedUser, isUserSelected]);
+        const a = async () => {
+            await traerUsuarios();
+        }
+        a();
+    }, [selectedUser, isUserSelected, showModalAsignarRol, rolElegido]);
 
     // funcion que se va a ejecutar en cuanto el usuario pulse el boton asignar, que procesara los datos
     // y los enviara al backend para llevar a cabo el correspondiente servicio de asignacion de rol
@@ -66,14 +69,14 @@ const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol, selectedUser, 
 
         // intentando llevar a cabo la peticion
         try {
-            const response = axios.put(`http://localhost:4001/flextrainer/usuarios/usuario/asignarRol`, data); // peticion
+            const response = await axios.put(`http://localhost:4001/flextrainer/usuarios/usuario/asignarRol`, data); // peticion
             console.log(response.data);
             setIsUserSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
             setSelectedUser({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
             handleCloseAsignarRol(); // cerrar el modal de asignacion de rol
             setRolElegido(''); // setear el rol elegido como que no eligio ninguno, para que cuando vuelva a abrir el modal, tenga que elegir de nuevo el rol
             setValue('entrenador', ''); // setear el atributo entrenador como '' de los datos a enviar al backend
-            traerUsuarios(); // traigo todos los usuarios desde el backend
+            await traerUsuarios(); // traigo todos los usuarios desde el backend
         } catch (error) {
             console.log("error al realizar la peticion de asignacion de rol: ", error);
         }
@@ -121,7 +124,6 @@ const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol, selectedUser, 
                                         <Controller
                                             name="entrenador"
                                             control={control}
-                                            rules={{ required: 'Este campo es requerido' }}
                                             render={({ field }) => (
                                                 <Form.Select aria-label="select-entrenador-asignacion-usuarios" {...field} >
                                                     <option value='' >Sin Asignar</option>
