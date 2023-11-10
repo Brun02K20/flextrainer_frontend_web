@@ -1,0 +1,17 @@
+.activatePlan-modal-header {
+    background-color: rgb(9, 78, 9);
+}
+
+.activatePlan-modal-header closeButton {
+    color: white
+}
+
+.activatePlan-modal-title {
+    color: white
+}
+
+.activatePlan-alertText {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+}

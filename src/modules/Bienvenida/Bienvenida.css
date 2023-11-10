@@ -32,16 +32,6 @@
     top: 110%;
 }
 
-.centered-image-bienvenida {
-    display: flex;
-    justify-content: center;
-    /* Centra horizontalmente */
-    align-items: center;
-    /* Centra verticalmente */
-    height: 73.7vh;
-    /* Establece la altura al 73.7% del viewport para que la imagen se ajuste al centro de la pantalla, ni yo se como hice pa que ande */
-}
-
 .icon-text-container {
     display: flex;
     align-items: center;

@@ -1,0 +1,17 @@
+.deletePlan-modal-header {
+    background-color: #881313;
+}
+
+.deletePlan-modal-header closeButton {
+    color: white
+}
+
+.deletePlan-modal-title {
+    color: white
+}
+
+.deletePlan-alertText {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+}

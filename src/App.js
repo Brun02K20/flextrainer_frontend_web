@@ -28,6 +28,8 @@ import { VerDetalleMaquina } from './modules/Maquinas/VerDetalleMaquina/VerDetal
 import { ConsultarPlanesProfe } from './modules/Planes_Alumno/ConsultarPlanesPorAlumno/ConsultarPlanesProfe.js';
 import { GenerarPlan } from './modules/Planes/GenerarPlan/GenerarPlan.js';
 import { VerDetallePlan } from './modules/Planes/VerDetallePlan/VerDetallePlan.js';
+import { ConsultarAlumnosProfe } from './modules/Planes_Alumno/ConsultarAlumnosProfe/ConsultarAlumnosProfe.js';
+import { VerDetalleAlumno } from './modules/Planes_Alumno/VerDetalleAlumno/VerDetalleAlumno.js';
 
 
 // declaro la funcion principal de la aplicacion
@@ -146,6 +148,24 @@ function App() {
           path='/verPlan/:id'
           element={
             <VerDetallePlan />
+          }
+        />
+
+        <Route
+          path='/alumnosProfe'
+          element={
+            <ConsultarAlumnosProfe
+              usuarioEnSesion={usuarioEnSesion}
+            />
+          }
+        />
+
+        <Route
+          path='/alumnoProfe/:id'
+          element={
+            <VerDetalleAlumno
+              usuarioEnSesion={usuarioEnSesion}
+            />
           }
         />
       </Routes>
