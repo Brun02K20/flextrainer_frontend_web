@@ -30,6 +30,7 @@ import { GenerarPlan } from './modules/Planes/GenerarPlan/GenerarPlan.js';
 import { VerDetallePlan } from './modules/Planes/VerDetallePlan/VerDetallePlan.js';
 import { ConsultarAlumnosProfe } from './modules/Planes_Alumno/ConsultarAlumnosProfe/ConsultarAlumnosProfe.js';
 import { VerDetalleAlumno } from './modules/Planes_Alumno/VerDetalleAlumno/VerDetalleAlumno.js';
+import { AsignarPlanAAlumno } from './modules/Planes_Alumno/AsignarPlanAAlumno/AsignarPlanAAlumno.js';
 
 
 // declaro la funcion principal de la aplicacion
@@ -164,6 +165,15 @@ function App() {
           path='/alumnoProfe/:id'
           element={
             <VerDetalleAlumno
+              usuarioEnSesion={usuarioEnSesion}
+            />
+          }
+        />
+
+        <Route
+          path='/asignarPlanAAlumno/:dniAlumno'
+          element={
+            <AsignarPlanAAlumno
               usuarioEnSesion={usuarioEnSesion}
             />
           }

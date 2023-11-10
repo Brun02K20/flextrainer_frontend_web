@@ -1,0 +1,17 @@
+.deleteAlumno-modal-header {
+    background-color: #881313;
+}
+
+.deleteAlumno-modal-header closeButton {
+    color: white
+}
+
+.deleteAlumno-modal-title {
+    color: white
+}
+
+.deleteAlumno-alertText {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+}

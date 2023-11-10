@@ -14,6 +14,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import axios from 'axios';
 import { NavHeader } from '../../../components/NavHeader/NavHeader.js';
 import { BackButton } from '../../../components/BackButton/BackButton.js';
+import { EliminarAlumno } from '../EliminarAlumno/EliminarAlumno.js';
 
 const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
     // declaro las funcionalidades necesarias para gestionar formularios, en este caso, tendremos un formulario de
@@ -102,6 +103,20 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
         setValue('genero', 0);
         setValue('idPlan', '');
     }
+
+    // GESTION DE MODALES
+    // gestion del modal de Eliminar Usuario
+    const [showModalEliminarAlumno, setShowModalEliminarAlumno] = useState(false);
+    const handleCloseEliminarAlumno = () => setShowModalEliminarAlumno(false);
+    const handleShowEliminarAlumno = () => setShowModalEliminarAlumno(true);
+
+    // para que me muestre los datos del usuario en el modal que yo elija
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [isUserSelected, setIsUserSelected] = useState(false);
+    const handleRowClick = (user) => {
+        setSelectedUser(user);
+        setIsUserSelected(true);
+    };
 
 
     return (
@@ -316,7 +331,7 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                                                             </Tooltip>
                                                         }
                                                     >
-                                                        <Button variant="secondary" style={{ backgroundColor: '#05a7e8', border: 'none', borderRadius: '50%', margin: '2px' }}   >
+                                                        <Button variant="secondary" style={{ backgroundColor: '#05a7e8', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => navigate(`/asignarPlanAAlumno/${row.alumno.dni}`)} >
                                                             {/* {onClick = {() => navigate(`/verUsuario/${row.dni}`)}} */}
                                                             <i className="bi bi-calendar-check-fill" style={{ fontSize: '16px' }}></i>
                                                         </Button>
@@ -344,7 +359,7 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                                                             </Tooltip>
                                                         }
                                                     >
-                                                        <Button variant="secondary" style={{ backgroundColor: 'red', border: 'none', borderRadius: '50%', margin: '2px' }} >
+                                                        <Button variant="secondary" style={{ backgroundColor: 'red', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => { handleRowClick(row); handleShowEliminarAlumno() }}>
                                                             <i className="bi bi-x" style={{ fontSize: '16px' }}></i>
                                                         </Button>
                                                     </OverlayTrigger>
@@ -385,6 +400,16 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
             <br></br>
 
             <BackButton handleBack={handleBack} />
+
+            <EliminarAlumno
+                showModalEliminarAlumno={showModalEliminarAlumno}
+                handleCloseEliminarAlumno={handleCloseEliminarAlumno}
+                selectedUser={selectedUser}
+                setSelectedUser={setSelectedUser}
+                setIsUserSelected={setIsUserSelected}
+                handleClean={handleClean}
+                traerAlumnos={traerAlumnosDelProfesor}
+            />
         </>
     );
 }
