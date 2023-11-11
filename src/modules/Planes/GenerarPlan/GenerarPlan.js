@@ -16,6 +16,8 @@ import { objetivosServices } from '../services/objetivos.service.js';
 import { cuerpoZonasServices } from '../services/cuerpoZonas.service.js';
 import { AgregarEjercicios } from './AgregarEjercicios.js';
 
+import { API } from '../../../constants/api.js';
+
 const GenerarPlan = ({ usuarioEnSesion }) => {
     const navigate = useNavigate();
     const { formState: { errors }, register, setValue, handleSubmit, control } = useForm();
@@ -106,7 +108,7 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
         data.objetivo = parseInt(data.objetivo);
         data.dniProfesor = usuarioEnSesion.dni;
         console.log(data)
-        await axios.post(`api/flextrainer/planes/createPlan`, data)
+        await axios.post(`${API}/flextrainer/planes/createPlan`, data)
         setErrorEjercicios(false)
 
         // NOTA: EL PARSEO DEL TIEMPO, SERIES, REPS, Y DESCANSO, LO VOY A HACER EN EL BACKEND

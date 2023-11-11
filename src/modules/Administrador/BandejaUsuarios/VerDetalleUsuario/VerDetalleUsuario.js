@@ -10,6 +10,7 @@ import './VerDetalleUsuario.css'; // importar estilos asociados al componente
 import axios from 'axios'; // importo axios para llevar a cabo la peticion
 import { NavHeader } from '../../../../components/NavHeader/NavHeader';
 import { BackButton } from '../../../../components/BackButton/BackButton';
+import { API } from '../../../../constants/api.js';
 
 const VerDetalleUsuario = () => {
     const { control, formState: { errors } } = useForm(); // declaro las funciones necearias para la gestion del formulario de registro
@@ -21,7 +22,7 @@ const VerDetalleUsuario = () => {
     //que elija un usuario distinto, es decir, cada vez que cambie el dni
     useEffect(() => {
         const traerDatosUsuario = async () => {
-            const user = await axios.get(`api/flextrainer/usuarios/usuario/${dni}`);
+            const user = await axios.get(`${API}/flextrainer/usuarios/usuario/${dni}`);
             setUser(user.data);
         }
         traerDatosUsuario();

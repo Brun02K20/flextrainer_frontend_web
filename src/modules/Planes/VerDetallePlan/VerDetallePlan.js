@@ -14,6 +14,7 @@ import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { BackButton } from '../../../components/BackButton/BackButton';
+import { API } from '../../../constants/api.js';
 
 const VerDetallePlan = () => {
     const { id } = useParams(); // Obtenemos el parámetro 'id' de la URL
@@ -23,7 +24,7 @@ const VerDetallePlan = () => {
 
     useEffect(() => {
         const traerPlan = async () => {
-            const response = await axios.get(`api/flextrainer/planes/plan/${id}`)
+            const response = await axios.get(`${API}/flextrainer/planes/plan/${id}`)
             setPlanTraido(response.data)
         }
         traerPlan()

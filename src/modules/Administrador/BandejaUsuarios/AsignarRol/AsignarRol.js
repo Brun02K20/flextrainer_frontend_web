@@ -10,6 +10,7 @@ import { Modal } from 'react-bootstrap';
 import './AsignarRol.css';
 import { entrenadoresActivosServices } from '../services/entrenadoresActivos.service';
 import axios from 'axios';
+import { API } from '../../../../constants/api.js';
 
 const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol, selectedUser, setIsUserSelected, setSelectedUser, isUserSelected, setUsuarios, usuarios, traerUsuarios }) => {
     const { handleSubmit, control, formState: { errors }, setValue } = useForm(); // funcionalidades y propiedades necesarias para la gestion del formulario
@@ -69,7 +70,7 @@ const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol, selectedUser, 
 
         // intentando llevar a cabo la peticion
         try {
-            const response = await axios.put(`api/flextrainer/usuarios/usuario/asignarRol`, data); // peticion
+            const response = await axios.put(`${API}/flextrainer/usuarios/usuario/asignarRol`, data); // peticion
             console.log(response.data);
             setIsUserSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
             setSelectedUser({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido

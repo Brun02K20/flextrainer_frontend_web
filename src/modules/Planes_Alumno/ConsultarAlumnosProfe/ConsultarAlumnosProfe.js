@@ -15,6 +15,7 @@ import axios from 'axios';
 import { NavHeader } from '../../../components/NavHeader/NavHeader.js';
 import { BackButton } from '../../../components/BackButton/BackButton.js';
 import { EliminarAlumno } from '../EliminarAlumno/EliminarAlumno.js';
+import { API } from '../../../constants/api.js';
 
 const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
     // declaro las funcionalidades necesarias para gestionar formularios, en este caso, tendremos un formulario de
@@ -30,13 +31,13 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
     }
 
     const traerAlumnosDelProfesor = async () => {
-        const alumnos = await axios.post(`api/flextrainer/planesAlumnos/alumnosProfeFiltrados/${usuarioEnSesion.dni}`, { dadosBaja: 1 })
+        const alumnos = await axios.post(`${API}/flextrainer/planesAlumnos/alumnosProfeFiltrados/${usuarioEnSesion.dni}`, { dadosBaja: 1 })
         setAlumnosProfe(alumnos.data)
     }
 
     useEffect(() => {
         const traerPlanesProfesor = async () => {
-            const planes = await axios.get(`api/flextrainer/planes/byProfesor/${usuarioEnSesion.dni}`)
+            const planes = await axios.get(`${API}/flextrainer/planes/byProfesor/${usuarioEnSesion.dni}`)
             setPlanesTraidos(planes.data)
         }
         traerPlanesProfesor()
@@ -88,7 +89,7 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
             data.dadosBaja = 0;
         }
         console.log(data)
-        const response = await axios.post(`api/flextrainer/planesAlumnos/alumnosProfeFiltrados/${usuarioEnSesion.dni}`, data); // llevo a cabo la peticion
+        const response = await axios.post(`${API}/flextrainer/planesAlumnos/alumnosProfeFiltrados/${usuarioEnSesion.dni}`, data); // llevo a cabo la peticion
         console.log("rta: ", response.data); // muestro por consola la respuesta
         setAlumnosProfe(response.data)
         setCurrentPage(1); // seteo la pagina actual como la primera

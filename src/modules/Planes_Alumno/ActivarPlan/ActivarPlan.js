@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { Card, Modal } from 'react-bootstrap';
 import axios from 'axios'; // importo axios para llevar a cabo las peticiones necesarias
 import './ActivarPlan.css'; // importo los estilos asociados a esta pantalla
+import { API } from '../../../constants/api.js';
 
 const ActivarPlan = ({ showModalActivarPlan, handleCloseActivarPlan, setSelectedPlan, setIsPlanSelected, selectedPlan, traerPlanes, handleClean }) => {
     const { handleSubmit } = useForm(); // funcionalidades y propiedades necesarias para la gestion del formulario
@@ -24,7 +25,7 @@ const ActivarPlan = ({ showModalActivarPlan, handleCloseActivarPlan, setSelected
     const onSubmit = async (data) => {
         data.id = selectedPlan.id;
         console.log(data);
-        await axios.put(`api/flextrainer/planes/plan/activate/${data.id}`); // peticion
+        await axios.put(`${API}/flextrainer/planes/plan/activate/${data.id}`); // peticion
         setSelectedPlan({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         setIsPlanSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         handleCloseActivarPlan(); // cierro el primer modal de eliminacion de usuario 

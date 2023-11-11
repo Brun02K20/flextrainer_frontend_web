@@ -13,6 +13,8 @@ import axios from 'axios';
 import { NavHeader } from '../../../components/NavHeader/NavHeader';
 import { BackButton } from '../../../components/BackButton/BackButton';
 
+import { API } from '../../../constants/api.js';
+
 const VerDetalleMaquina = () => {
     const { id } = useParams(); // Obtenemos el parámetro 'id' de la URL
     const navigate = useNavigate(); // declaro la funcion de navegacion 
@@ -32,7 +34,7 @@ const VerDetalleMaquina = () => {
     useEffect(() => {
         const traerMaquina = async () => {
             if (id !== null && id != 0 && !showME && idEjercicioElegido == 0) {
-                const response = await axios.get(`api/flextrainer/maquinas/maquina/${id}`)
+                const response = await axios.get(`${API}/flextrainer/maquinas/maquina/${id}`)
                 setMaquina(response.data)
             }
         }

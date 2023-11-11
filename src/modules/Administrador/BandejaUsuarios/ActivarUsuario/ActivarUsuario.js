@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { Card, Modal } from 'react-bootstrap';
 import axios from 'axios'; // importo axios para llevar a cabo las peticiones necesarias
 import './ActivarUsuario.css'; // importo los estilos asociados a esta pantalla
+import { API } from '../../../../constants/api.js';
 
 const ActivarUsuario = ({ showModalActivarUsuario, handleCloseActivarUsuario, setSelectedUser, setIsUserSelected, selectedUser, traerUsuarios, handleClean }) => {
     const { handleSubmit } = useForm(); // funcionalidades y propiedades necesarias para la gestion del formulario
@@ -24,7 +25,7 @@ const ActivarUsuario = ({ showModalActivarUsuario, handleCloseActivarUsuario, se
     const onSubmit = async (data) => {
         data.dni = selectedUser.dni;
         console.log(data);
-        await axios.put(`api/flextrainer/usuarios/usuario/activate/${data.dni}`); // peticion
+        await axios.put(`${API}/flextrainer/usuarios/usuario/activate/${data.dni}`); // peticion
         setSelectedUser({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         setIsUserSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         handleCloseActivarUsuario(); // cierro el primer modal de eliminacion de usuario 

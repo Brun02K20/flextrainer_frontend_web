@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import { Card, Modal } from 'react-bootstrap';
 import './EliminarAlumno.css'; // importando estilos asociados a esta pantalla
 import axios from 'axios'; // importando axios para poder llevar a cabo las peticiones al backend
+import { API } from '../../../constants/api.js';
 
 const EliminarAlumno = ({ showModalEliminarAlumno, handleCloseEliminarAlumno, setSelectedUser, setIsUserSelected, selectedUser, traerAlumnos, handleClean }) => {
 
@@ -28,7 +29,7 @@ const EliminarAlumno = ({ showModalEliminarAlumno, handleCloseEliminarAlumno, se
     const onSubmit = async (data) => {
         data.dni = selectedUser.alumno.dni;
         console.log(data);
-        await axios.put(`api/flextrainer/planesAlumnos/desAsociarAlumnoDeProfe/${data.dni}`);
+        await axios.put(`${API}/flextrainer/planesAlumnos/desAsociarAlumnoDeProfe/${data.dni}`);
         setSelectedUser({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         setIsUserSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         handleCloseEliminarAlumno(); // cierro el primer modal de eliminacion de usuario 

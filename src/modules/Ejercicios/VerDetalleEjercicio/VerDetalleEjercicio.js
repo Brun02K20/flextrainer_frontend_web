@@ -6,6 +6,7 @@ import Card from 'react-bootstrap/Card';// importando el componente Card de reac
 
 import './VerDetalleEjercicio.css'; // importar estilos asociados a este componente
 import axios from 'axios';
+import { API } from '../../../constants/api.js';
 
 const VerDetalleEjercicio = ({ show, handleClose, idEjercicioElegido, setIdEjercicioElegido }) => {
     const [ejercicio, setEjercicio] = useState({}); // estado en el que almacenare los datos del ejrcicio
@@ -14,7 +15,7 @@ const VerDetalleEjercicio = ({ show, handleClose, idEjercicioElegido, setIdEjerc
     useEffect(() => {
         const traerEjercicio = async () => {
             if (idEjercicioElegido !== null && idEjercicioElegido !== 0 && show) {
-                const response = await axios.get(`api/flextrainer/ejercicios/ejercicio/${idEjercicioElegido}`);
+                const response = await axios.get(`${API}/flextrainer/ejercicios/ejercicio/${idEjercicioElegido}`);
                 setEjercicio(response.data)
             }
         }

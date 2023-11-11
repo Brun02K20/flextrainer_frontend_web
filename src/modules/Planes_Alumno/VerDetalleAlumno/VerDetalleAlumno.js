@@ -13,6 +13,7 @@ import { Nav, Table, Pagination } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { API } from '../../../constants/api.js';
 
 
 const VerDetalleAlumno = ({ usuarioEnSesion }) => {
@@ -24,7 +25,7 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
 
     useEffect(() => {
         const traerAlumno = async () => {
-            const response = await axios.get(`api/flextrainer/planesAlumnos/alumnoProfe/${usuarioEnSesion.dni}/${id}`)
+            const response = await axios.get(`${API}/flextrainer/planesAlumnos/alumnoProfe/${usuarioEnSesion.dni}/${id}`)
             setAlumnoTraido(response.data)
         }
         traerAlumno()

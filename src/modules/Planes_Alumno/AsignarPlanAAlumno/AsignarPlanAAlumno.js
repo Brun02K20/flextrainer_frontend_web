@@ -21,7 +21,7 @@ import { BackButton } from '../../../components/BackButton/BackButton.js';
 
 // importo servicio que me trae los planes de un profe, esos planes deben ser activos, esto es solo para el combobox
 import { planesProfeServices } from '../../Planes/services/planesProfe.service.js';
-
+import { API } from '../../../constants/api.js';
 
 const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
     const { dniAlumno } = useParams();
@@ -37,7 +37,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
 
     useEffect(() => {
         const traerAlumno = async () => {
-            const response = await axios.get(`api/flextrainer/planesAlumnos/alumnoProfe/${usuarioEnSesion.dni}/${dniAlumno}`)
+            const response = await axios.get(`${API}/flextrainer/planesAlumnos/alumnoProfe/${usuarioEnSesion.dni}/${dniAlumno}`)
             setAlumnoTraido(response.data)
         }
         traerAlumno()
@@ -71,7 +71,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
     useEffect(() => {
         if (idElegido) {
             const traerDetailPlan = async () => {
-                const planazo = await axios.get(`api/flextrainer/planes/plan/${idElegido}`)
+                const planazo = await axios.get(`${API}/flextrainer/planes/plan/${idElegido}`)
                 setPlanElegido(planazo.data)
             }
             traerDetailPlan()
@@ -130,7 +130,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
         delete data.cantSesiones
         console.log(data)
 
-        await axios.post(`api/flextrainer/planesAlumnos/asignarPlanAAlumno`, data)
+        await axios.post(`${API}/flextrainer/planesAlumnos/asignarPlanAAlumno`, data)
         navigate('/alumnosProfe')
     }
 

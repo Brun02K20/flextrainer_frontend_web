@@ -16,6 +16,7 @@ import './LoginModal.css';
 
 // importo axios para llevar a cabo la peticion de login al backend
 import axios from 'axios';
+import { API } from '../../constants/api.js';
 
 // declaro el componente, explicitando las propiedades que recibira tal como se explico en el componente Home
 const LoginModal = ({ show, handleClose, setUsuarioEnSesion }) => {
@@ -37,7 +38,7 @@ const LoginModal = ({ show, handleClose, setUsuarioEnSesion }) => {
         console.log(data); // consoleando los datos ingresados por el usuario
 
         // haciendo la peticion de login al backend a traves de axios
-        const user = await axios.post('api/flextrainer/usuarios/login', data);
+        const user = await axios.post(`${API}/flextrainer/usuarios/login`, data);
         console.log(user.data); // imprime la respuesta por consola
 
         // si el backend devuelve un error, me setea el estado de error, como el valor correspondiente, y corta la funcion de peticion

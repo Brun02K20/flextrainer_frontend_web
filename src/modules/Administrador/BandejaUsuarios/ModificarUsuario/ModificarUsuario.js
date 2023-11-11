@@ -11,6 +11,7 @@ import Modal from 'react-bootstrap/Modal';
 import './ModificarUsuario.css'; // importo los estilos asociados a esta pantalla
 import axios from 'axios'; // importo axios para poder llevar a cabo la peticion
 import { NavHeader } from '../../../../components/NavHeader/NavHeader';
+import { API } from '../../../../constants/api.js';
 
 const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
     const { dni } = useParams(); // indico que este componente, va a tener un parametro en su URL, que va a ser el dni del usuario a modificar
@@ -24,7 +25,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
     // traer los datos del usaurio a modificar desde el backend
     useEffect(() => {
         const traerUser = async () => {
-            const response = await axios.get(`api/flextrainer/usuarios/usuario/${dni}`);
+            const response = await axios.get(`${API}/flextrainer/usuarios/usuario/${dni}`);
             setUser(response.data);
         }
         traerUser();
@@ -63,7 +64,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
         }
         setErrorFecha(''); // si supera la validacion desactiva el estado
         console.log("a ebviar al back: ", data); // consoleando lo que voy a enviar al backend
-        const response = await axios.put(`api/flextrainer/usuarios/usuario/update`, data); // llevando a cabo la peticion
+        const response = await axios.put(`${API}/flextrainer/usuarios/usuario/update`, data); // llevando a cabo la peticion
 
         // si hay un error en la respuesta, desde el backend, que active el estado de error al actualizar, y detenga la funcion onSubmit
         if (response.data.error) {

@@ -10,6 +10,7 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import { Nav } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
+import { API } from '../../constants/api.js';
 
 // importo los estilos asociados a esta pantalla
 import './CrearUsuario.css';
@@ -47,7 +48,7 @@ const CrearUsuario = () => {
         data.dni = parseInt(data.dni);
         console.log(data);
 
-        const response = await axios.post('api/flextrainer/usuarios/', data);
+        const response = await axios.post(`${API}/flextrainer/usuarios/`, data);
         console.log("rta creacion: ", response.data)
 
         if (response.data.error) {

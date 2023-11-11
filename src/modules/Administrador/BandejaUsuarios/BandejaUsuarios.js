@@ -19,6 +19,7 @@ import axios from 'axios'; // importo axios para llevar a cabo las peticiones al
 import { NavHeader } from '../../../components/NavHeader/NavHeader.js';
 import { BackButton } from '../../../components/BackButton/BackButton.js';
 import { AsignarProfesor } from './AsignarProfesor/AsignarProfesor.js';
+import { API } from '../../../constants/api.js';
 
 // lo mismo, declaro componente y explicito props que va a recibir
 const BandejaUsuarios = () => {
@@ -31,7 +32,7 @@ const BandejaUsuarios = () => {
 
     // funcion que trae a los usuarios del backend para almacenarlos en el estado.
     const traerUsuarios = async () => {
-        const usuariosTraidos = await axios.get(`api/flextrainer/usuarios/`);
+        const usuariosTraidos = await axios.get(`${API}/flextrainer/usuarios/`);
         console.log('Trayendo los cambios');
         setUsuarios(usuariosTraidos.data);
     };
@@ -69,7 +70,7 @@ const BandejaUsuarios = () => {
         data.idRol = parseInt(data.idRol); // parseando el rol ingresado por el usuario
         console.log(data); // consoleando lo que voy a enviar al backend
 
-        const response = await axios.post(`api/flextrainer/usuarios/byFilters`, data); // haciendo la peticion
+        const response = await axios.post(`${API}/flextrainer/usuarios/byFilters`, data); // haciendo la peticion
         setCurrentPage(1); // seteando l pagina que se va amostrar de la grilla
         setUsuarios(response.data); // seteo el estado de usuarios, como lo devuelto por la api
     };

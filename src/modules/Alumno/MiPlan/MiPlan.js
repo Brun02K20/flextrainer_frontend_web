@@ -16,6 +16,7 @@ import { Card } from 'react-bootstrap';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { VerDetalleEjercicio } from '../../Ejercicios/VerDetalleEjercicio/VerDetalleEjercicio.js';
+import { API } from '../../../constants/api.js';
 
 const MiPlan = ({ usuarioEnSesion }) => {
 
@@ -25,7 +26,7 @@ const MiPlan = ({ usuarioEnSesion }) => {
 
     useEffect(() => {
         const traerPlan = async () => {
-            const response = await axios.get(`api/flextrainer/planesAlumnos/planDeAlumno/${usuarioEnSesion.dni}`)
+            const response = await axios.get(`${API}/flextrainer/planesAlumnos/planDeAlumno/${usuarioEnSesion.dni}`)
             setPlanTraido(response.data)
         }
         traerPlan()

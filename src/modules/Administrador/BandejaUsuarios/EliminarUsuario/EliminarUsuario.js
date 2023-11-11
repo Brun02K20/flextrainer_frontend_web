@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import { Card, Modal } from 'react-bootstrap';
 import './EliminarUsuario.css'; // importando estilos asociados a esta pantalla
 import axios from 'axios'; // importando axios para poder llevar a cabo las peticiones al backend
+import { API } from '../../../../constants/api.js';
 
 const EliminarUsuario = ({ showModalEliminarUsuario, handleCloseEliminarUsuario, setSelectedUser, setIsUserSelected, selectedUser, traerUsuarios, handleClean }) => {
     // funcionalidades y propiedades necesarias para la gestion del formulario, que en este caso, solo consistira
@@ -27,7 +28,7 @@ const EliminarUsuario = ({ showModalEliminarUsuario, handleCloseEliminarUsuario,
     const onSubmit = async (data) => {
         data.dni = selectedUser.dni;
         console.log(data);
-        await axios.delete(`api/flextrainer/usuarios/usuario/delete/${data.dni}`);
+        await axios.delete(`${API}/flextrainer/usuarios/usuario/delete/${data.dni}`);
         setSelectedUser({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         setIsUserSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         handleCloseEliminarUsuario(); // cierro el primer modal de eliminacion de usuario 

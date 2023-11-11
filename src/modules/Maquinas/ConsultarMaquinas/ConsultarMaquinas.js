@@ -13,6 +13,8 @@ import axios from 'axios';
 import { NavHeader } from '../../../components/NavHeader/NavHeader';
 import { BackButton } from '../../../components/BackButton/BackButton';
 
+import { API } from '../../../constants/api.js';
+
 
 const ConsultarMaquinas = () => {
     // declaro las funcionalidades necesarias para gestionar formularios, en este caso, tendremos un formulario de
@@ -24,7 +26,7 @@ const ConsultarMaquinas = () => {
     // trayendo inicialmente las maquinas del backend
     useEffect(() => {
         const traerMaquinas = async () => {
-            const response = await axios.post('api/flextrainer/maquinas/byFilters');
+            const response = await axios.post(`${API}/flextrainer/maquinas/byFilters`);
             setMaquinas(response.data)
         }
         traerMaquinas()
@@ -40,7 +42,7 @@ const ConsultarMaquinas = () => {
         }
 
         console.log(data); // mostrando por consola que voy a enviar al backend
-        const response = await axios.post(`api/flextrainer/maquinas/byFilters`, data); // haciendo la peticion
+        const response = await axios.post(`${API}/flextrainer/maquinas/byFilters`, data); // haciendo la peticion
         setCurrentPage(1); // seteando l pagina que se va amostrar de la grilla
         setMaquinas(response.data); // seteo el estado de usuarios, como lo devuelto por la api
     }

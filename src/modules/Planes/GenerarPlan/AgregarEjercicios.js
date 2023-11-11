@@ -13,6 +13,8 @@ import axios from 'axios'; // importo axios para llevar a cabo las peticiones al
 import { useForm, Controller, set } from 'react-hook-form';
 import { cuerpoZonasServices } from '../services/cuerpoZonas.service.js';
 
+import { API } from '../../../constants/api.js';
+
 const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, setEjerciciosAgregados }) => {
     const { formState: { errors }, register, setValue, handleSubmit, control, reset } = useForm();
 
@@ -55,7 +57,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
             setIdEjercicioElegido('')
             setEjercicioElegido({})
             setEjericiosByZC([])
-            const response = await axios.get(`api/flextrainer/ejercicios/byZC/${zonaCuerpoIndicada}`)
+            const response = await axios.get(`${API}/flextrainer/ejercicios/byZC/${zonaCuerpoIndicada}`)
             setEjericiosByZC(response.data)
         }
         traerEjerciciosByZC();
@@ -69,7 +71,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
     useEffect(() => {
         const traerDatosEjercicioElegido = async () => {
             if (idEjercicioElegido !== 0 && idEjercicioElegido !== '') {
-                const response = await axios.get(`api/flextrainer/ejercicios/ejercicio/${idEjercicioElegido}`)
+                const response = await axios.get(`${API}/flextrainer/ejercicios/ejercicio/${idEjercicioElegido}`)
                 setEjercicioElegido(response.data)
             }
         }
