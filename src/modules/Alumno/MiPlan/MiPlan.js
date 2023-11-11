@@ -119,6 +119,7 @@ const MiPlan = ({ usuarioEnSesion }) => {
                                                 as='textarea'
                                                 placeholder={planTraido.aspectosBasicos ? (planTraido.aspectosBasicos.observaciones ? planTraido.aspectosBasicos.observaciones : 'Sin observaciones') : 'Sin observaciones'}
                                                 {...field}
+                                                disabled
                                             />
                                         )}
                                     />
