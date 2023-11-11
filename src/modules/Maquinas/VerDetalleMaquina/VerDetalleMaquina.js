@@ -32,7 +32,7 @@ const VerDetalleMaquina = () => {
     useEffect(() => {
         const traerMaquina = async () => {
             if (id !== null && id != 0 && !showME && idEjercicioElegido == 0) {
-                const response = await axios.get(`http://localhost:4001/flextrainer/maquinas/maquina/${id}`)
+                const response = await axios.get(`api/flextrainer/maquinas/maquina/${id}`)
                 setMaquina(response.data)
             }
         }

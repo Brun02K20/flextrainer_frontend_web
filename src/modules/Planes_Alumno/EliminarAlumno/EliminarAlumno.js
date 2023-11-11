@@ -28,7 +28,7 @@ const EliminarAlumno = ({ showModalEliminarAlumno, handleCloseEliminarAlumno, se
     const onSubmit = async (data) => {
         data.dni = selectedUser.alumno.dni;
         console.log(data);
-        await axios.put(`http://localhost:4001/flextrainer/planesAlumnos/desAsociarAlumnoDeProfe/${data.dni}`);
+        await axios.put(`api/flextrainer/planesAlumnos/desAsociarAlumnoDeProfe/${data.dni}`);
         setSelectedUser({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         setIsUserSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         handleCloseEliminarAlumno(); // cierro el primer modal de eliminacion de usuario 

@@ -55,7 +55,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
             setIdEjercicioElegido('')
             setEjercicioElegido({})
             setEjericiosByZC([])
-            const response = await axios.get(`http://localhost:4001/flextrainer/ejercicios/byZC/${zonaCuerpoIndicada}`)
+            const response = await axios.get(`api/flextrainer/ejercicios/byZC/${zonaCuerpoIndicada}`)
             setEjericiosByZC(response.data)
         }
         traerEjerciciosByZC();
@@ -69,7 +69,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
     useEffect(() => {
         const traerDatosEjercicioElegido = async () => {
             if (idEjercicioElegido !== 0 && idEjercicioElegido !== '') {
-                const response = await axios.get(`http://localhost:4001/flextrainer/ejercicios/ejercicio/${idEjercicioElegido}`)
+                const response = await axios.get(`api/flextrainer/ejercicios/ejercicio/${idEjercicioElegido}`)
                 setEjercicioElegido(response.data)
             }
         }

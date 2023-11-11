@@ -31,7 +31,7 @@ const BandejaUsuarios = () => {
 
     // funcion que trae a los usuarios del backend para almacenarlos en el estado.
     const traerUsuarios = async () => {
-        const usuariosTraidos = await axios.get(`http://localhost:4001/flextrainer/usuarios/`);
+        const usuariosTraidos = await axios.get(`api/flextrainer/usuarios/`);
         console.log('Trayendo los cambios');
         setUsuarios(usuariosTraidos.data);
     };
@@ -69,7 +69,7 @@ const BandejaUsuarios = () => {
         data.idRol = parseInt(data.idRol); // parseando el rol ingresado por el usuario
         console.log(data); // consoleando lo que voy a enviar al backend
 
-        const response = await axios.post(`http://localhost:4001/flextrainer/usuarios/byFilters`, data); // haciendo la peticion
+        const response = await axios.post(`api/flextrainer/usuarios/byFilters`, data); // haciendo la peticion
         setCurrentPage(1); // seteando l pagina que se va amostrar de la grilla
         setUsuarios(response.data); // seteo el estado de usuarios, como lo devuelto por la api
     };

@@ -24,7 +24,7 @@ const ConsultarMaquinas = () => {
     // trayendo inicialmente las maquinas del backend
     useEffect(() => {
         const traerMaquinas = async () => {
-            const response = await axios.post('http://localhost:4001/flextrainer/maquinas/byFilters');
+            const response = await axios.post('api/flextrainer/maquinas/byFilters');
             setMaquinas(response.data)
         }
         traerMaquinas()
@@ -40,7 +40,7 @@ const ConsultarMaquinas = () => {
         }
 
         console.log(data); // mostrando por consola que voy a enviar al backend
-        const response = await axios.post(`http://localhost:4001/flextrainer/maquinas/byFilters`, data); // haciendo la peticion
+        const response = await axios.post(`api/flextrainer/maquinas/byFilters`, data); // haciendo la peticion
         setCurrentPage(1); // seteando l pagina que se va amostrar de la grilla
         setMaquinas(response.data); // seteo el estado de usuarios, como lo devuelto por la api
     }

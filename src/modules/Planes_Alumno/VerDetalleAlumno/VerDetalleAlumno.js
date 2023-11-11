@@ -24,7 +24,7 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
 
     useEffect(() => {
         const traerAlumno = async () => {
-            const response = await axios.get(`http://localhost:4001/flextrainer/planesAlumnos/alumnoProfe/${usuarioEnSesion.dni}/${id}`)
+            const response = await axios.get(`api/flextrainer/planesAlumnos/alumnoProfe/${usuarioEnSesion.dni}/${id}`)
             setAlumnoTraido(response.data)
         }
         traerAlumno()

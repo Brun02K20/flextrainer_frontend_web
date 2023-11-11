@@ -36,7 +36,7 @@ const AsignarProfesor = ({ showModalAsignarProfe, handleCloseAsignarProfe, selec
         try {
             data.entrenador = parseInt(data.entrenador)
             data.dniUser = selectedUser.dni
-            const response = await axios.put(`http://localhost:4001/flextrainer/usuarios/usuario/asignarProfe`, data); // peticion
+            const response = await axios.put(`api/flextrainer/usuarios/usuario/asignarProfe`, data); // peticion
             console.log(response.data);
             setIsUserSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
             setSelectedUser({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido

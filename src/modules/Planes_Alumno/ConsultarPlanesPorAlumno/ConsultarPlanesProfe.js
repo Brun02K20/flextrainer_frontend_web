@@ -39,7 +39,7 @@ const ConsultarPlanesProfe = ({ usuarioEnSesion }) => {
     }, [])
 
     const traerPlanesAlumnos = async () => {
-        const response = await axios.post(`http://localhost:4001/flextrainer/planes/getByProfeByFilters/${usuarioEnSesion.dni}`, { dadosBaja: 1 });
+        const response = await axios.post(`api/flextrainer/planes/getByProfeByFilters/${usuarioEnSesion.dni}`, { dadosBaja: 1 });
         setPlanesAlumnos(response.data);
     }
 
@@ -77,7 +77,7 @@ const ConsultarPlanesProfe = ({ usuarioEnSesion }) => {
             data.dadosBaja = 0;
         }
         console.log("a enviar al backend", data); // muestro los datos a enviar al backend
-        const response = await axios.post(`http://localhost:4001/flextrainer/planes/getByProfeByFilters/${usuarioEnSesion.dni}`, data); // llevo a cabo la peticion
+        const response = await axios.post(`api/flextrainer/planes/getByProfeByFilters/${usuarioEnSesion.dni}`, data); // llevo a cabo la peticion
         console.log("rta: ", response.data); // muestro por consola la respuesta
         setCurrentPage(1); // seteo la pagina actual como la primera
         setPlanesAlumnos(response.data); // seteo los planes traidos como el valor de la respuesta de la api

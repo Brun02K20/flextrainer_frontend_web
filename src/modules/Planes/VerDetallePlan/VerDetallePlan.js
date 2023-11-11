@@ -23,7 +23,7 @@ const VerDetallePlan = () => {
 
     useEffect(() => {
         const traerPlan = async () => {
-            const response = await axios.get(`http://localhost:4001/flextrainer/planes/plan/${id}`)
+            const response = await axios.get(`api/flextrainer/planes/plan/${id}`)
             setPlanTraido(response.data)
         }
         traerPlan()

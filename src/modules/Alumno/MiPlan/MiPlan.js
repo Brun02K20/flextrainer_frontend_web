@@ -25,7 +25,7 @@ const MiPlan = ({ usuarioEnSesion }) => {
 
     useEffect(() => {
         const traerPlan = async () => {
-            const response = await axios.get(`http://localhost:4001/flextrainer/planesAlumnos/planDeAlumno/${usuarioEnSesion.dni}`)
+            const response = await axios.get(`api/flextrainer/planesAlumnos/planDeAlumno/${usuarioEnSesion.dni}`)
             setPlanTraido(response.data)
         }
         traerPlan()

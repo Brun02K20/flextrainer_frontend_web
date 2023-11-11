@@ -30,13 +30,13 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
     }
 
     const traerAlumnosDelProfesor = async () => {
-        const alumnos = await axios.post(`http://localhost:4001/flextrainer/planesAlumnos/alumnosProfeFiltrados/${usuarioEnSesion.dni}`, { dadosBaja: 1 })
+        const alumnos = await axios.post(`api/flextrainer/planesAlumnos/alumnosProfeFiltrados/${usuarioEnSesion.dni}`, { dadosBaja: 1 })
         setAlumnosProfe(alumnos.data)
     }
 
     useEffect(() => {
         const traerPlanesProfesor = async () => {
-            const planes = await axios.get(`http://localhost:4001/flextrainer/planes/byProfesor/${usuarioEnSesion.dni}`)
+            const planes = await axios.get(`api/flextrainer/planes/byProfesor/${usuarioEnSesion.dni}`)
             setPlanesTraidos(planes.data)
         }
         traerPlanesProfesor()
@@ -88,7 +88,7 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
             data.dadosBaja = 0;
         }
         console.log(data)
-        const response = await axios.post(`http://localhost:4001/flextrainer/planesAlumnos/alumnosProfeFiltrados/${usuarioEnSesion.dni}`, data); // llevo a cabo la peticion
+        const response = await axios.post(`api/flextrainer/planesAlumnos/alumnosProfeFiltrados/${usuarioEnSesion.dni}`, data); // llevo a cabo la peticion
         console.log("rta: ", response.data); // muestro por consola la respuesta
         setAlumnosProfe(response.data)
         setCurrentPage(1); // seteo la pagina actual como la primera

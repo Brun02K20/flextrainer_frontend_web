@@ -24,7 +24,7 @@ const ActivarUsuario = ({ showModalActivarUsuario, handleCloseActivarUsuario, se
     const onSubmit = async (data) => {
         data.dni = selectedUser.dni;
         console.log(data);
-        await axios.put(`http://localhost:4001/flextrainer/usuarios/usuario/activate/${data.dni}`); // peticion
+        await axios.put(`api/flextrainer/usuarios/usuario/activate/${data.dni}`); // peticion
         setSelectedUser({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         setIsUserSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         handleCloseActivarUsuario(); // cierro el primer modal de eliminacion de usuario 

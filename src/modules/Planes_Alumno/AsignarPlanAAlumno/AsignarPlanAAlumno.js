@@ -37,7 +37,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
 
     useEffect(() => {
         const traerAlumno = async () => {
-            const response = await axios.get(`http://localhost:4001/flextrainer/planesAlumnos/alumnoProfe/${usuarioEnSesion.dni}/${dniAlumno}`)
+            const response = await axios.get(`api/flextrainer/planesAlumnos/alumnoProfe/${usuarioEnSesion.dni}/${dniAlumno}`)
             setAlumnoTraido(response.data)
         }
         traerAlumno()
@@ -71,7 +71,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
     useEffect(() => {
         if (idElegido) {
             const traerDetailPlan = async () => {
-                const planazo = await axios.get(`http://localhost:4001/flextrainer/planes/plan/${idElegido}`)
+                const planazo = await axios.get(`api/flextrainer/planes/plan/${idElegido}`)
                 setPlanElegido(planazo.data)
             }
             traerDetailPlan()
@@ -130,7 +130,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
         delete data.cantSesiones
         console.log(data)
 
-        await axios.post(`http://localhost:4001/flextrainer/planesAlumnos/asignarPlanAAlumno`, data)
+        await axios.post(`api/flextrainer/planesAlumnos/asignarPlanAAlumno`, data)
         navigate('/alumnosProfe')
     }
 

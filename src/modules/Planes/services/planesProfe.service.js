@@ -4,7 +4,7 @@ import axios from "axios";
 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:4001';  // declaracion de variable de entorno de la API
 
 const getPlanes = async (dniProfe) => {
-    const planesTraidos = await axios.get(`${apiUrl}/flextrainer/planes/byProfesor/${dniProfe}`);
+    const planesTraidos = await axios.get(`api/flextrainer/planes/byProfesor/${dniProfe}`);
     const planes = planesTraidos.data;
     return planes
 }

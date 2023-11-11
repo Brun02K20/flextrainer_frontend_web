@@ -106,7 +106,7 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
         data.objetivo = parseInt(data.objetivo);
         data.dniProfesor = usuarioEnSesion.dni;
         console.log(data)
-        await axios.post(`http://localhost:4001/flextrainer/planes/createPlan`, data)
+        await axios.post(`api/flextrainer/planes/createPlan`, data)
         setErrorEjercicios(false)
 
         // NOTA: EL PARSEO DEL TIEMPO, SERIES, REPS, Y DESCANSO, LO VOY A HACER EN EL BACKEND

@@ -37,7 +37,7 @@ const LoginModal = ({ show, handleClose, setUsuarioEnSesion }) => {
         console.log(data); // consoleando los datos ingresados por el usuario
 
         // haciendo la peticion de login al backend a traves de axios
-        const user = await axios.post('http://localhost:4001/flextrainer/usuarios/login', data);
+        const user = await axios.post('api/flextrainer/usuarios/login', data);
         console.log(user.data); // imprime la respuesta por consola
 
         // si el backend devuelve un error, me setea el estado de error, como el valor correspondiente, y corta la funcion de peticion
@@ -166,10 +166,10 @@ const LoginModal = ({ show, handleClose, setUsuarioEnSesion }) => {
 
             {/* Footer del modal, la parte final del mismo, que contendra los botones de cancelar y de ingresar  */}
             <Modal.Footer>
-                <Button style={{backgroundColor: 'grey', border: 'none'}} onClick={handleClose}>
+                <Button style={{ backgroundColor: 'grey', border: 'none' }} onClick={handleClose}>
                     Cancelar
                 </Button>
-                <Button style={{backgroundColor: 'darkred', border: 'none'}} variant="success" onClick={handleSubmit(onSubmit)}>
+                <Button style={{ backgroundColor: 'darkred', border: 'none' }} variant="success" onClick={handleSubmit(onSubmit)}>
                     Ingresar
                 </Button>
             </Modal.Footer>

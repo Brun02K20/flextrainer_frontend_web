@@ -4,7 +4,7 @@ import axios from "axios";
 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:4001';  // declaracion de variable de entorno de la API
 
 const getObjetivos = async () => {
-    const objetivosTraidos = await axios.get(`${apiUrl}/flextrainer/objetivos/`);
+    const objetivosTraidos = await axios.get(`api/flextrainer/objetivos/`);
     const objetivos = objetivosTraidos.data;
     return objetivos
 }

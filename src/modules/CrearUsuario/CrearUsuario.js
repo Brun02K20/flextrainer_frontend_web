@@ -47,7 +47,7 @@ const CrearUsuario = () => {
         data.dni = parseInt(data.dni);
         console.log(data);
 
-        const response = await axios.post('http://localhost:4001/flextrainer/usuarios/', data);
+        const response = await axios.post('api/flextrainer/usuarios/', data);
         console.log("rta creacion: ", response.data)
 
         if (response.data.error) {
