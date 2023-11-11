@@ -1,7 +1,7 @@
 let API = "";
 
 if (window.location.href.includes("flextrainer")) {
-    API = "api";
+    API = "https://flextrainer.com.ar/api";
 } else {
     API = "http://localhost:4001";
 }
