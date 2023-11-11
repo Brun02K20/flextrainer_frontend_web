@@ -12,7 +12,7 @@ import './ModificarUsuario.css'; // importo los estilos asociados a esta pantall
 import axios from 'axios'; // importo axios para poder llevar a cabo la peticion
 import { NavHeader } from '../../../../components/NavHeader/NavHeader';
 
-const ModificarUsuario = () => {
+const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
     const { dni } = useParams(); // indico que este componente, va a tener un parametro en su URL, que va a ser el dni del usuario a modificar
     const { handleSubmit, control, formState: { errors }, setValue } = useForm(); // declaro las funciones necearias para la gestion del formulario de registro
     const navigate = useNavigate(); // declaro la funcion de navegacion entre componentes
@@ -62,7 +62,7 @@ const ModificarUsuario = () => {
             return;
         }
         setErrorFecha(''); // si supera la validacion desactiva el estado
-        console.log(data); // consoleando lo que voy a enviar al backend
+        console.log("a ebviar al back: ", data); // consoleando lo que voy a enviar al backend
         const response = await axios.put(`http://localhost:4001/flextrainer/usuarios/usuario/update`, data); // llevando a cabo la peticion
 
         // si hay un error en la respuesta, desde el backend, que active el estado de error al actualizar, y detenga la funcion onSubmit
@@ -71,11 +71,18 @@ const ModificarUsuario = () => {
             return;
         }
         setErrorAlActualizar(''); // si no hubo errores desde el backend a la hora de actualizar, desactivar el estado
+
+        console.log("datos rta modificacion: ", response.data)
+
+        // si se modifico a si mismo, actualizar los datos del usuario en sesion
+        if (dni == usuarioEnSesion.dni) {
+            setUsuarioEnSesion(response.data)
+        }
     };
 
     // funcion que se va a ejecutar en cuanto el usuario pulse el boton de volver, la cual lo llevara al componente Home (NO logueado)
     const handleBack = () => {
-        navigate('/bandejaUsuarios');
+        navigate(-1);
     };
 
     return (
@@ -122,7 +129,8 @@ const ModificarUsuario = () => {
                                                 render={({ field }) => (
                                                     <Form.Control
                                                         type="number"
-                                                        placeholder="Ingresá tu DNI"
+                                                        placeholder={user ? user.dni : ''}
+                                                        disabled
                                                         {...field}
                                                     />
                                                 )}
@@ -326,7 +334,7 @@ const ModificarUsuario = () => {
                             <Button style={{ backgroundColor: '#555555', marginRight: '8px' }} onClick={() => handleBack()}>
                                 Cancelar
                             </Button>
-                            <Button style={{ backgroundColor: '#910012', marginRight: '8px' }}onClick={handleSubmit(onSubmit)}>
+                            <Button style={{ backgroundColor: '#910012', marginRight: '8px' }} onClick={handleSubmit(onSubmit)}>
                                 Registrar
                             </Button>
                         </Modal.Footer>

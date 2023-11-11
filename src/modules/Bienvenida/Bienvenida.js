@@ -150,7 +150,7 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
                         <WelcomeButton
                             containerStyles={{ marginRight: '12px' }}
                             buttonClass='btn-top button-bienvenida'
-                            goTo={() => navigate('/')}
+                            goTo={() => navigate('/miPlan')}
                             icon='bi bi-people-fill'
                             legend='Mi Plan'
                         />

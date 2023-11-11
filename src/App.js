@@ -31,6 +31,7 @@ import { VerDetallePlan } from './modules/Planes/VerDetallePlan/VerDetallePlan.j
 import { ConsultarAlumnosProfe } from './modules/Planes_Alumno/ConsultarAlumnosProfe/ConsultarAlumnosProfe.js';
 import { VerDetalleAlumno } from './modules/Planes_Alumno/VerDetalleAlumno/VerDetalleAlumno.js';
 import { AsignarPlanAAlumno } from './modules/Planes_Alumno/AsignarPlanAAlumno/AsignarPlanAAlumno.js';
+import { MiPlan } from './modules/Alumno/MiPlan/MiPlan.js';
 
 
 // declaro la funcion principal de la aplicacion
@@ -93,6 +94,8 @@ function App() {
           path='/modificarUsuario/:dni'
           element={
             <ModificarUsuario
+              usuarioEnSesion={usuarioEnSesion}
+              setUsuarioEnSesion={setUsuarioEnSesion}
             />
           }
         />
@@ -174,6 +177,15 @@ function App() {
           path='/asignarPlanAAlumno/:dniAlumno'
           element={
             <AsignarPlanAAlumno
+              usuarioEnSesion={usuarioEnSesion}
+            />
+          }
+        />
+
+        <Route
+          path='/miPlan'
+          element={
+            <MiPlan
               usuarioEnSesion={usuarioEnSesion}
             />
           }
