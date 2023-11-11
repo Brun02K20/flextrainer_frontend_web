@@ -3,17 +3,16 @@ import { useNavigate, useParams } from 'react-router-dom'; // importando funcion
 
 // importo componentes de estilos propios de la libreria react-bootstrap
 import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
-import { Nav, Table, Pagination } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+import { Table } from 'react-bootstrap';
 import { VerDetalleEjercicio } from '../../Ejercicios/VerDetalleEjercicio/VerDetalleEjercicio';
 import axios from 'axios';
 import { NavHeader } from '../../../components/NavHeader/NavHeader';
 import { BackButton } from '../../../components/BackButton/BackButton';
 
 import { API } from '../../../constants/api.js';
+import { RowsPerPage } from '../../../components/Pagination/RowsPerPage.js';
+import { ActionButton } from '../../../components/ActionButton/ActionButton.js';
+import { Paginator } from '../../../components/Pagination/Pagination.js';
 
 const VerDetalleMaquina = () => {
     const { id } = useParams(); // Obtenemos el parámetro 'id' de la URL
@@ -86,18 +85,10 @@ const VerDetalleMaquina = () => {
                         <p>Ejercicios</p>
                         {currentData.length !== 0 ? (
                             <div>
-                                <div className="mb-3">
-                                    Filas por página:{' '}
-                                    <Form.Select
-                                        value={itemsPerPage}
-                                        onChange={handleItemsPerPageChange}
-                                        style={{ width: '25%' }}
-                                    >
-                                        <option value={5}>5</option>
-                                        <option value={10}>10</option>
-                                        <option value={15}>15</option>
-                                    </Form.Select>
-                                </div>
+                                <RowsPerPage
+                                    itemsPerPage={itemsPerPage}
+                                    handleItemsPerPageChange={handleItemsPerPageChange}
+                                />
                                 <Table striped bordered hover responsive>
                                     <thead>
                                         <tr>
@@ -112,42 +103,22 @@ const VerDetalleMaquina = () => {
                                                 <td>{index + 1}</td>
                                                 <td>{row.Ejercicio.nombre}</td>
                                                 <td className="d-flex justify-content-center">
-                                                    <OverlayTrigger
-                                                        placement='top'
-                                                        overlay={
-                                                            <Tooltip id='intentandoesto'>
-                                                                <strong>Ver Ejercicio</strong>.
-                                                            </Tooltip>
-                                                        }
-                                                    >
-                                                        <Button variant="secondary" style={{ backgroundColor: '#881313', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => { console.log(row.id); setIdEjercicioElegido(row.id); handleShowME() }}>
-                                                            <i className="bi bi-camera-video-fill" style={{ fontSize: '16px' }}></i>
-                                                        </Button>
-                                                    </OverlayTrigger>
+                                                    <ActionButton
+                                                        tooltipText="Ver Ejercicio"
+                                                        color="#881313"
+                                                        icon="bi-camera-video-fill"
+                                                        onClickFunction={() => { console.log(row.id); setIdEjercicioElegido(row.id); handleShowME() }}
+                                                    />
                                                 </td>
                                             </tr>
                                         ))}
                                     </tbody>
                                 </Table>
-                                <Pagination>
-                                    <Pagination.Prev
-                                        onClick={() => handlePageChange(currentPage - 1)}
-                                        disabled={currentPage === 1}
-                                    />
-                                    {[...Array(totalPages)].map((_, index) => (
-                                        <Pagination.Item
-                                            key={index + 1}
-                                            active={index + 1 === currentPage}
-                                            onClick={() => handlePageChange(index + 1)}
-                                        >
-                                            {index + 1}
-                                        </Pagination.Item>
-                                    ))}
-                                    <Pagination.Next
-                                        onClick={() => handlePageChange(currentPage + 1)}
-                                        disabled={currentPage === totalPages}
-                                    />
-                                </Pagination>
+                                <Paginator
+                                    currentPage={currentPage}
+                                    totalPages={totalPages}
+                                    handlePageChange={handlePageChange}
+                                />
                             </div>
                         ) : (
                             <div className='col s12 center'>

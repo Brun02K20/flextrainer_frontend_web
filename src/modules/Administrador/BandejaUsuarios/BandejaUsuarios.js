@@ -5,10 +5,7 @@ import { useForm, Controller } from 'react-hook-form'; // importando funcionalid
 // importando componentes de react-bootstrap necesarios
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import { Nav, Table, Pagination } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+import { Table } from 'react-bootstrap';
 
 // importar componentes desarrollados por mi
 import { AsignarRol } from './AsignarRol/AsignarRol.js';
@@ -20,6 +17,10 @@ import { NavHeader } from '../../../components/NavHeader/NavHeader.js';
 import { BackButton } from '../../../components/BackButton/BackButton.js';
 import { AsignarProfesor } from './AsignarProfesor/AsignarProfesor.js';
 import { API } from '../../../constants/api.js';
+import { SearchNavBar } from '../../../components/SearchNavbar/SearchNavBar.js';
+import { RowsPerPage } from '../../../components/Pagination/RowsPerPage.js';
+import { ActionButton } from '../../../components/ActionButton/ActionButton.js';
+import { Paginator } from '../../../components/Pagination/Pagination.js';
 
 // lo mismo, declaro componente y explicito props que va a recibir
 const BandejaUsuarios = () => {
@@ -297,15 +298,7 @@ const BandejaUsuarios = () => {
                                         />
                                     </div>
                                 </div>
-                                <Nav style={{ backgroundColor: '#F2F2F2', borderRadius: '12px', marginTop: '8px' }} className="justify-content-end">
-                                    <Button style={{ backgroundColor: '#555555' }} onClick={() => handleClean()}>
-                                        Limpiar
-                                    </Button>
-                                    <Button style={{ backgroundColor: '#910012' }} onClick={handleSubmit(onSubmit)}>
-                                        {/* onClick = { handleSubmit(onSubmit) } */}
-                                        Buscar
-                                    </Button>
-                                </Nav>
+                                <SearchNavBar handleClean={handleClean} handleSubmit={handleSubmit(onSubmit)} />
                             </Form>
                         </Card.Body>
                     </Card.Body>
@@ -320,19 +313,10 @@ const BandejaUsuarios = () => {
                         <p>Usuarios Encontrados</p>
                         {usuarios.length !== 0 ? (
                             <div>
-                                <div className="mb-3">
-                                    Filas por página:{' '}
-                                    <Form.Select
-                                        value={itemsPerPage}
-                                        onChange={handleItemsPerPageChange}
-                                        style={{ width: '25%' }}
-                                    >
-                                        <option value={5}>5</option>
-                                        <option value={10}>10</option>
-                                        <option value={15}>15</option>
-                                    </Form.Select>
-                                </div>
-
+                                <RowsPerPage
+                                    itemsPerPage={itemsPerPage}
+                                    handleItemsPerPageChange={handleItemsPerPageChange}
+                                />
                                 <Table striped bordered hover responsive>
                                     <thead>
                                         <tr>
@@ -354,109 +338,60 @@ const BandejaUsuarios = () => {
                                                 <td>{row.Usuario ? row.Usuario.nombre + ' ' + row.Usuario.apellido : 'No tiene o es Profesor'}</td>
                                                 <td className="d-flex justify-content-center">
                                                     {row.idRol === 4 && (
-                                                        <OverlayTrigger
-                                                            placement='top'
-                                                            overlay={
-                                                                <Tooltip id='intentandoesto'>
-                                                                    <strong>Asignar rol</strong>.
-                                                                </Tooltip>
-                                                            }
-                                                        >
-                                                            <Button variant="secondary" style={{ backgroundColor: 'blue', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => { handleRowClick(row); handleShowAsignarRol() }}>
-                                                                <i className="bi bi-person-circle" style={{ fontSize: '16px' }}></i>
-                                                            </Button>
-                                                        </OverlayTrigger>
+                                                        <ActionButton
+                                                            tooltipText="Asignar rol"
+                                                            color="blue"
+                                                            icon="bi-person-circle"
+                                                            onClickFunction={() => { handleRowClick(row); handleShowAsignarRol() }}
+                                                        />
                                                     )}
                                                     {row.idRol === 2 && (
-                                                        <OverlayTrigger
-                                                            placement='top'
-                                                            overlay={
-                                                                <Tooltip id='intentandoesto'>
-                                                                    <strong>Asignar profe</strong>.
-                                                                </Tooltip>
-                                                            }
-                                                        >
-                                                            <Button variant="secondary" style={{ backgroundColor: 'blue', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => { handleRowClick(row); handleShowAsignarProfe() }}>
-                                                                <i className="bi bi-person-circle" style={{ fontSize: '16px' }}></i>
-                                                            </Button>
-                                                        </OverlayTrigger>
+                                                        <ActionButton
+                                                            tooltipText="Asignar profe"
+                                                            color="blue"
+                                                            icon="bi-person-circle"
+                                                            onClickFunction={() => { handleRowClick(row); handleShowAsignarProfe() }}
+                                                        />
                                                     )}
-                                                    <OverlayTrigger
-                                                        placement='top'
-                                                        overlay={
-                                                            <Tooltip id='intentandoesto'>
-                                                                <strong>Ver Usuario</strong>.
-                                                            </Tooltip>
-                                                        }
-                                                    >
-                                                        <Button variant="secondary" style={{ backgroundColor: '#EAD85A', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => navigate(`/verUsuario/${row.dni}`)} >
-                                                            <i className="bi bi-eye" style={{ fontSize: '16px' }}></i>
-                                                        </Button>
-                                                    </OverlayTrigger>
-                                                    <OverlayTrigger
-                                                        placement='top'
-                                                        overlay={
-                                                            <Tooltip id='intentandoesto'>
-                                                                <strong>Modificar Usuario</strong>.
-                                                            </Tooltip>
-                                                        }
-                                                    >
-                                                        <Button variant="secondary" style={{ backgroundColor: '#55E14E', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => navigate(`/modificarUsuario/${row.dni}`)}>
-                                                            <i className="bi bi-pencil-square" style={{ fontSize: '16px' }}></i>
-                                                        </Button>
-                                                    </OverlayTrigger>
+                                                    <ActionButton
+                                                        tooltipText="Ver Usuario"
+                                                        color="#EAD85A"
+                                                        icon="bi-eye"
+                                                        onClickFunction={() => navigate(`/verUsuario/${row.dni}`)}
+                                                    />
+                                                    <ActionButton
+                                                        tooltipText="Modificar Usuario"
+                                                        color="#55E14E"
+                                                        icon="bi-pencil-square"
+                                                        onClickFunction={() => navigate(`/modificarUsuario/${row.dni}`)}
+                                                    />
+
                                                     {row.esActivo === 1 && (
-                                                        <OverlayTrigger
-                                                            placement='top'
-                                                            overlay={
-                                                                <Tooltip id='intentandoesto'>
-                                                                    <strong>Eliminar Usuario</strong>.
-                                                                </Tooltip>
-                                                            }
-                                                        >
-                                                            <Button variant="secondary" style={{ backgroundColor: 'red', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => { handleRowClick(row); handleShowEliminarUsuario() }}>
-                                                                <i className="bi bi-x" style={{ fontSize: '16px' }}></i>
-                                                            </Button>
-                                                        </OverlayTrigger>
+                                                        <ActionButton
+                                                            tooltipText="Eliminar Usuario"
+                                                            color="red"
+                                                            icon="bi-x"
+                                                            onClickFunction={() => { handleRowClick(row); handleShowEliminarUsuario() }}
+                                                        />
                                                     )}
                                                     {row.esActivo === 0 && (
-                                                        <OverlayTrigger
-                                                            placement='top'
-                                                            overlay={
-                                                                <Tooltip id='intentandoesto'>
-                                                                    <strong>Activar Usuario</strong>.
-                                                                </Tooltip>
-                                                            }
-                                                        >
-                                                            <Button variant="secondary" style={{ backgroundColor: 'green', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => { handleRowClick(row); handleShowActivarUsuario() }}>
-                                                                <i className="bi bi-check-lg" style={{ fontSize: '16px' }}></i>
-                                                            </Button>
-                                                        </OverlayTrigger>
+                                                        <ActionButton
+                                                            tooltipText="Activar Usuario"
+                                                            color="green"
+                                                            icon="bi-check-lg"
+                                                            onClickFunction={() => { handleRowClick(row); handleShowActivarUsuario() }}
+                                                        />
                                                     )}
                                                 </td>
                                             </tr>
                                         ))}
                                     </tbody>
                                 </Table>
-                                <Pagination>
-                                    <Pagination.Prev
-                                        onClick={() => handlePageChange(currentPage - 1)}
-                                        disabled={currentPage === 1}
-                                    />
-                                    {[...Array(totalPages)].map((_, index) => (
-                                        <Pagination.Item
-                                            key={index + 1}
-                                            active={index + 1 === currentPage}
-                                            onClick={() => handlePageChange(index + 1)}
-                                        >
-                                            {index + 1}
-                                        </Pagination.Item>
-                                    ))}
-                                    <Pagination.Next
-                                        onClick={() => handlePageChange(currentPage + 1)}
-                                        disabled={currentPage === totalPages}
-                                    />
-                                </Pagination>
+                                <Paginator
+                                    currentPage={currentPage}
+                                    totalPages={totalPages}
+                                    handlePageChange={handlePageChange}
+                                />
                             </div>
                         ) : (
                             <div className='col s12 center'>

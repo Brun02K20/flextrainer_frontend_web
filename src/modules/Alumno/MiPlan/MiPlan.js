@@ -10,13 +10,11 @@ import { BackButton } from '../../../components/BackButton/BackButton.js';
 
 // importando componentes de react-bootstrap necesarios
 import Form from 'react-bootstrap/Form';
-import { Nav, Table, Pagination } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
+import { Table } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
 import { VerDetalleEjercicio } from '../../Ejercicios/VerDetalleEjercicio/VerDetalleEjercicio.js';
 import { API } from '../../../constants/api.js';
+import { ActionButton } from '../../../components/ActionButton/ActionButton.js';
 
 const MiPlan = ({ usuarioEnSesion }) => {
 
@@ -166,18 +164,12 @@ const MiPlan = ({ usuarioEnSesion }) => {
                                                                 <td>{ejercicio["descanso"] ? ejercicio["descanso"] : 'No aplica'}</td>
                                                                 <td>{ejercicio["Ejercicio.Maquinas.nombre"] ? ejercicio["Ejercicio.Maquinas.nombre"] : 'No aplica'}</td>
                                                                 <td className="d-flex justify-content-center">
-                                                                    <OverlayTrigger
-                                                                        placement='top'
-                                                                        overlay={
-                                                                            <Tooltip id='intentandoesto'>
-                                                                                <strong>Ver Ejercicio</strong>.
-                                                                            </Tooltip>
-                                                                        }
-                                                                    >
-                                                                        <Button variant="secondary" style={{ backgroundColor: '#881313', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => { console.log(index); setIdEjercicioElegido(ejercicio["Ejercicioid"]); handleShowME(); }}>
-                                                                            <i className="bi bi-camera-video-fill" style={{ fontSize: '16px' }}></i>
-                                                                        </Button>
-                                                                    </OverlayTrigger>
+                                                                    <ActionButton
+                                                                        tooltipText='Ver Ejercicio'
+                                                                        color='#881313'
+                                                                        icon='bi-camera-video-fill'
+                                                                        onClickFunction={() => { console.log(index); setIdEjercicioElegido(ejercicio["Ejercicioid"]); handleShowME(); }}
+                                                                    />
                                                                 </td>
                                                             </tr>
                                                         ))}

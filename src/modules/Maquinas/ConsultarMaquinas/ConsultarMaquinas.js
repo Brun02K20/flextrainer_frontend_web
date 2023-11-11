@@ -5,15 +5,16 @@ import { useForm, Controller } from 'react-hook-form'; // importando funcionalid
 // importo componentes de estilos propios de la libreria react-bootstrap
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import { Nav, Table, Pagination } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+import { Table } from 'react-bootstrap';
 import axios from 'axios';
 import { NavHeader } from '../../../components/NavHeader/NavHeader';
 import { BackButton } from '../../../components/BackButton/BackButton';
 
 import { API } from '../../../constants/api.js';
+import { SearchNavBar } from '../../../components/SearchNavbar/SearchNavBar.js';
+import { Paginator } from '../../../components/Pagination/Pagination.js';
+import { RowsPerPage } from '../../../components/Pagination/RowsPerPage.js';
+import { ActionButton } from '../../../components/ActionButton/ActionButton.js';
 
 
 const ConsultarMaquinas = () => {
@@ -130,21 +131,11 @@ const ConsultarMaquinas = () => {
                                                 id='checkbox-busqueda-maquinas'
                                                 label='Incluir dados de baja'
                                                 {...register('dadosBaja')}
-                                            // style={{ border: '4px red solid' }}
                                             />
                                         </div>
                                     </div>
                                 </div>
-
-                                <Nav style={{ backgroundColor: '#F2F2F2', borderRadius: '12px', marginTop: '8px' }} className="justify-content-end">
-                                    <Button style={{ margin: '8px', backgroundColor: 'grey' }} onClick={handleClean}>
-                                        Limpiar
-                                    </Button>
-                                    <Button style={{ margin: '8px', backgroundColor: 'darkred' }} onClick={handleSubmit(onSubmit)}>
-                                        Buscar
-                                    </Button>
-
-                                </Nav>
+                                <SearchNavBar handleClean={handleClean} handleSubmit={handleSubmit(onSubmit)} />
                             </Form>
                         </Card.Body>
                     </Card.Body>
@@ -159,18 +150,10 @@ const ConsultarMaquinas = () => {
                         <p>Maquinas Encontradas</p>
                         {maquinas.length !== 0 ? (
                             <div>
-                                <div className="mb-3">
-                                    Filas por página:{' '}
-                                    <Form.Select
-                                        value={itemsPerPage}
-                                        onChange={handleItemsPerPageChange}
-                                        style={{ width: '25%' }}
-                                    >
-                                        <option value={5}>5</option>
-                                        <option value={10}>10</option>
-                                        <option value={15}>15</option>
-                                    </Form.Select>
-                                </div>
+                                <RowsPerPage
+                                    itemsPerPage={itemsPerPage}
+                                    handleItemsPerPageChange={handleItemsPerPageChange}
+                                />
                                 <Table striped bordered hover responsive>
                                     <thead>
                                         <tr>
@@ -183,42 +166,22 @@ const ConsultarMaquinas = () => {
                                             <tr key={index + 1}>
                                                 <td>{row.nombre}</td>
                                                 <td className="d-flex justify-content-center">
-                                                    <OverlayTrigger
-                                                        placement='top'
-                                                        overlay={
-                                                            <Tooltip id='intentandoesto'>
-                                                                <strong>Ver Detalle</strong>.
-                                                            </Tooltip>
-                                                        }
-                                                    >
-                                                        <Button variant="secondary" style={{ backgroundColor: '#881313', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => navigate(`/maquina/${row.id}`)} >
-                                                            <i className="bi bi-grid-3x2" style={{ fontSize: '16px' }}></i>
-                                                        </Button>
-                                                    </OverlayTrigger>
+                                                    <ActionButton
+                                                        tooltipText="Ver Detalle"
+                                                        color="#881313"
+                                                        icon="bi-grid-3x2"
+                                                        onClickFunction={() => navigate(`/maquina/${row.id}`)}
+                                                    />
                                                 </td>
                                             </tr>
                                         ))}
                                     </tbody>
                                 </Table>
-                                <Pagination>
-                                    <Pagination.Prev
-                                        onClick={() => handlePageChange(currentPage - 1)}
-                                        disabled={currentPage === 1}
-                                    />
-                                    {[...Array(totalPages)].map((_, index) => (
-                                        <Pagination.Item
-                                            key={index + 1}
-                                            active={index + 1 === currentPage}
-                                            onClick={() => handlePageChange(index + 1)}
-                                        >
-                                            {index + 1}
-                                        </Pagination.Item>
-                                    ))}
-                                    <Pagination.Next
-                                        onClick={() => handlePageChange(currentPage + 1)}
-                                        disabled={currentPage === totalPages}
-                                    />
-                                </Pagination>
+                                <Paginator
+                                    currentPage={currentPage}
+                                    totalPages={totalPages}
+                                    handlePageChange={handlePageChange}
+                                />
                             </div>
                         ) : (
                             <div className='col s12 center'>

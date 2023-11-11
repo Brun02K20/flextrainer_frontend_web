@@ -5,10 +5,7 @@ import { useForm, Controller } from 'react-hook-form'; // importando funcionalid
 // importando componentes de react-bootstrap necesarios
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import { Nav, Table, Pagination } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+import { Table } from 'react-bootstrap';
 
 // importo axios para poder realizar las peticiones necesarias al backend
 import axios from 'axios';
@@ -16,6 +13,10 @@ import { NavHeader } from '../../../components/NavHeader/NavHeader.js';
 import { BackButton } from '../../../components/BackButton/BackButton.js';
 import { EliminarAlumno } from '../EliminarAlumno/EliminarAlumno.js';
 import { API } from '../../../constants/api.js';
+import { SearchNavBar } from '../../../components/SearchNavbar/SearchNavBar.js';
+import { RowsPerPage } from '../../../components/Pagination/RowsPerPage.js';
+import { ActionButton } from '../../../components/ActionButton/ActionButton.js';
+import { Paginator } from '../../../components/Pagination/Pagination.js';
 
 const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
     // declaro las funcionalidades necesarias para gestionar formularios, en este caso, tendremos un formulario de
@@ -270,15 +271,7 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                                         />
                                     </div>
                                 </div>
-                                <Nav style={{ backgroundColor: '#F2F2F2', borderRadius: '12px', marginTop: '8px' }} className="justify-content-end">
-                                    <Button style={{ backgroundColor: '#555555' }} onClick={() => handleClean()}>
-                                        Limpiar
-                                    </Button>
-                                    <Button style={{ backgroundColor: '#910012' }} onClick={handleSubmit(onSubmit)}>
-                                        {/* onClick = { handleSubmit(onSubmit) } */}
-                                        Buscar
-                                    </Button>
-                                </Nav>
+                                <SearchNavBar handleClean={handleClean} handleSubmit={handleSubmit(onSubmit)} />
                             </Form>
                         </Card.Body>
                     </Card.Body>
@@ -293,18 +286,10 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                         <p>Alumnos Encontrados</p>
                         {alumnosProfe.length !== 0 ? (
                             <div>
-                                <div className="mb-3">
-                                    Filas por página:{' '}
-                                    <Form.Select
-                                        value={itemsPerPage}
-                                        onChange={handleItemsPerPageChange}
-                                        style={{ width: '25%' }}
-                                    >
-                                        <option value={5}>5</option>
-                                        <option value={10}>10</option>
-                                        <option value={15}>15</option>
-                                    </Form.Select>
-                                </div>
+                                <RowsPerPage
+                                    itemsPerPage={itemsPerPage}
+                                    handleItemsPerPageChange={handleItemsPerPageChange}
+                                />
                                 <Table striped bordered hover responsive>
                                     <thead>
                                         <tr>
@@ -323,71 +308,36 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                                                 <td>{row.alumno.apellido}</td>
                                                 <td>{row.plan ? row.plan.nombre : 'Sin Plan'}</td>
                                                 <td className="d-flex justify-content-center">
+                                                    <ActionButton
+                                                        tooltipText="Asignar Plan"
+                                                        color="#05a7e8"
+                                                        icon="bi-calendar-check-fill"
+                                                        onClickFunction={() => navigate(`/asignarPlanAAlumno/${row.alumno.dni}`)}
+                                                    />
 
-                                                    <OverlayTrigger
-                                                        placement='top'
-                                                        overlay={
-                                                            <Tooltip id='intentandoesto'>
-                                                                <strong>Asignar Plan</strong>.
-                                                            </Tooltip>
-                                                        }
-                                                    >
-                                                        <Button variant="secondary" style={{ backgroundColor: '#05a7e8', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => navigate(`/asignarPlanAAlumno/${row.alumno.dni}`)} >
-                                                            {/* {onClick = {() => navigate(`/verUsuario/${row.dni}`)}} */}
-                                                            <i className="bi bi-calendar-check-fill" style={{ fontSize: '16px' }}></i>
-                                                        </Button>
-                                                    </OverlayTrigger>
+                                                    <ActionButton
+                                                        tooltipText="Ver mas info."
+                                                        color="#EAD85A"
+                                                        icon="bi-eye"
+                                                        onClickFunction={() => navigate(`/alumnoProfe/${row.alumno.dni}`)}
+                                                    />
 
-                                                    <OverlayTrigger
-                                                        placement='top'
-                                                        overlay={
-                                                            <Tooltip id='intentandoesto'>
-                                                                <strong>Ver mas info.</strong>.
-                                                            </Tooltip>
-                                                        }
-                                                    >
-                                                        <Button variant="secondary" style={{ backgroundColor: '#EAD85A', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => navigate(`/alumnoProfe/${row.alumno.dni}`)}   >
-                                                            {/* {onClick = {() => navigate(`/verUsuario/${row.dni}`)}} */}
-                                                            <i className="bi bi-eye" style={{ fontSize: '16px' }}></i>
-                                                        </Button>
-                                                    </OverlayTrigger>
-
-                                                    <OverlayTrigger
-                                                        placement='top'
-                                                        overlay={
-                                                            <Tooltip id='intentandoesto'>
-                                                                <strong>Eliminar Alumno</strong>.
-                                                            </Tooltip>
-                                                        }
-                                                    >
-                                                        <Button variant="secondary" style={{ backgroundColor: 'red', border: 'none', borderRadius: '50%', margin: '2px' }} onClick={() => { handleRowClick(row); handleShowEliminarAlumno() }}>
-                                                            <i className="bi bi-x" style={{ fontSize: '16px' }}></i>
-                                                        </Button>
-                                                    </OverlayTrigger>
+                                                    <ActionButton
+                                                        tooltipText="Eliminar Alumno"
+                                                        color="red"
+                                                        icon="bi-x"
+                                                        onClickFunction={() => { handleRowClick(row); handleShowEliminarAlumno() }}
+                                                    />
                                                 </td>
                                             </tr>
                                         ))}
                                     </tbody>
                                 </Table>
-                                <Pagination>
-                                    <Pagination.Prev
-                                        onClick={() => handlePageChange(currentPage - 1)}
-                                        disabled={currentPage === 1}
-                                    />
-                                    {[...Array(totalPages)].map((_, index) => (
-                                        <Pagination.Item
-                                            key={index + 1}
-                                            active={index + 1 === currentPage}
-                                            onClick={() => handlePageChange(index + 1)}
-                                        >
-                                            {index + 1}
-                                        </Pagination.Item>
-                                    ))}
-                                    <Pagination.Next
-                                        onClick={() => handlePageChange(currentPage + 1)}
-                                        disabled={currentPage === totalPages}
-                                    />
-                                </Pagination>
+                                <Paginator
+                                    currentPage={currentPage}
+                                    totalPages={totalPages}
+                                    handlePageChange={handlePageChange}
+                                />
                             </div>
                         ) : (
                             <div className='col s12 center'>
