@@ -67,6 +67,10 @@ const VerDetalleMaquina = () => {
         setMaquina({})
     }
 
+    useEffect(() => {
+        console.log("por que no andaaaaaa?: ", API)
+    }, [API])
+
     return (
         <>
             <NavHeader encabezado={maquina.nombre ? maquina.nombre.toUpperCase() : ''} />
