@@ -106,7 +106,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
         const fechaInicioMoment = moment(data.fechaInicio, 'YYYY-MM-DD');
         const fechaFinMoment = moment(data.fechaFin, 'YYYY-MM-DD');
 
-        if (fechaInicioMoment.isSameOrBefore(hoy) || fechaFinMoment.isSameOrBefore(hoy)) {
+        if (fechaInicioMoment.isBefore(hoy, 'day') || fechaFinMoment.isBefore(hoy, 'day')) {
             // 1. Ambas fechas deben ser iguales o posteriores a hoy
             setErrorFecha('Las fechas deben ser posteriores o iguales que la fecha de hoy');
             return;
