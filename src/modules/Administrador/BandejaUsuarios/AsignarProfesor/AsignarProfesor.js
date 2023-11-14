@@ -89,10 +89,10 @@ const AsignarProfesor = ({ showModalAsignarProfe, handleCloseAsignarProfe, selec
                         )}
                     </>
                     <Modal.Footer>
-                        <Button variant="danger" onClick={handleCloseAsignarProfe}>
+                        <Button style={{ marginRight: '8px', border: 'none', backgroundColor: 'grey' }} onClick={handleCloseAsignarProfe}>
                             Cancelar
                         </Button>
-                        <Button variant="success" onClick={handleSubmit(onSubmit)}>
+                        <Button style={{ marginRight: '8px', border: 'none', backgroundColor: 'darkred' }} onClick={handleSubmit(onSubmit)}>
                             Asignar
                         </Button>
                     </Modal.Footer>

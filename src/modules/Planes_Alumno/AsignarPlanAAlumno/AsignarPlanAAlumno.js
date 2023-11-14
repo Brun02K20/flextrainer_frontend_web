@@ -130,7 +130,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
         delete data.cantSesiones
         console.log(data)
 
-        // await axios.post(`${API}/flextrainer/planesAlumnos/asignarPlanAAlumno`, data)
+        await axios.post(`${API}/flextrainer/planesAlumnos/asignarPlanAAlumno`, data)
         navigate('/alumnosProfe')
     }
 
