@@ -49,7 +49,7 @@ const EliminarAlumno = ({ showModalEliminarAlumno, handleCloseEliminarAlumno, se
             {/* // modales y formualrios ya lo explique en el modal de inicio de sesion, y ante la duda siempre me pueden mandar un wsp */}
             <Modal show={showModalEliminarAlumno} onHide={() => { handleCloseEliminarAlumno(); handleClean() }}>
                 <Modal.Header closeButton className='deleteAlumno-modal-header'>
-                    <Modal.Title className='deleteAlumno-modal-title'>Eliminar Alumno</Modal.Title>
+                    <Modal.Title className='deleteAlumno-modal-title'>Eliminar alumno</Modal.Title>
                 </Modal.Header>
 
                 {/* El cuerpo de este modal, tendra 2 textos centrados, de advertencia.  */}
@@ -59,7 +59,7 @@ const EliminarAlumno = ({ showModalEliminarAlumno, handleCloseEliminarAlumno, se
                             <div className='text-center'>
                                 <span className='deleteAlumno-alertText'>¿Estás seguro de que querés dar de baja a tu alumno?</span>
                                 <br></br>
-                                <span className='deleteAlumno-alertText'>{selectedUser?.alumno?.nombre} {selectedUser?.alumno?.apellido}</span>
+                                <span className='deleteAlumno-alertText'>{selectedUser?.alumno?.nombre?.toUpperCase()} {selectedUser?.alumno?.apellido?.toUpperCase()}</span>
                                 <br></br>
                                 <br></br>
                                 <span>Tu alumno ya no aparecerá mas en tu lista</span>
@@ -70,10 +70,10 @@ const EliminarAlumno = ({ showModalEliminarAlumno, handleCloseEliminarAlumno, se
 
                 {/* Footer del modal, la parte final del mismo, que contendra los botones de cancelar y de eliminar  */}
                 <Modal.Footer>
-                    <Button style={{ backgroundColor: '#555555', marginRight: '8px' }} onClick={() => { handleCloseEliminarAlumno(); handleClean() }}>
+                    <Button style={{ backgroundColor: 'grey', marginRight: '8px', border: 'none' }} onClick={() => { handleCloseEliminarAlumno(); handleClean() }}>
                         Cancelar
                     </Button>
-                    <Button style={{ backgroundColor: '#910012', marginRight: '8px' }} onClick={handleSubmit(onSubmit)}>
+                    <Button style={{ backgroundColor: 'darkred', marginRight: '8px', border: 'none' }} onClick={handleSubmit(onSubmit)}>
                         Eliminar
                     </Button>
                 </Modal.Footer>
@@ -83,21 +83,21 @@ const EliminarAlumno = ({ showModalEliminarAlumno, handleCloseEliminarAlumno, se
             en el primer modal, el cual simplemente muestra un mensaje */}
             <Modal show={showModalEliminado} onHide={handleCloseModalEliminado}>
                 <Modal.Header closeButton className='deleteAlumno-modal-header'>
-                    <Modal.Title className='deleteAlumno-modal-title'>Eliminar Alumno</Modal.Title>
+                    <Modal.Title className='deleteAlumno-modal-title'>Eliminar alumno</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                     <Card>
                         <Card.Body>
                             <div className='text-center'>
-                                <span>Diste de baja al alumno correctamente.</span>
+                                <span>Diste de baja al alumno correctamente</span>
                             </div>
                         </Card.Body>
                     </Card>
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="success" onClick={() => { handleCloseModalEliminado(); handleClean() }}>
+                    <Button style={{ backgroundColor: 'darkred', border: 'none' }} onClick={() => { handleCloseModalEliminado(); handleClean() }}>
                         Cerrar
                     </Button>
                 </Modal.Footer>

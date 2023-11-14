@@ -35,7 +35,7 @@ const VerDetalleUsuario = () => {
 
     return (
         <>
-            <NavHeader encabezado='Detalle de Usuario' />
+            <NavHeader encabezado='Detalle de usuario' />
 
             <br></br>
 
@@ -43,7 +43,7 @@ const VerDetalleUsuario = () => {
                 <Card style={{ width: '96%', marginTop: '16px' }}>
                     <Card.Body>
                         <Card style={{ padding: '16px' }}>
-                            <span>Información de Usuario</span>
+                            <span style={{ color: 'darkred', fontWeight: '600' }}>Información de Usuario</span>
                             <div className="row">
                                 <div className="col-md-6">
                                     <div className="col-md-12">
@@ -73,11 +73,11 @@ const VerDetalleUsuario = () => {
 
                     <Card.Body>
                         <Card style={{ padding: '16px' }}>
-                            <span>Información Personal</span>
+                            <span style={{ color: 'darkred', fontWeight: '600' }}>Información Personal</span>
                             <div className='row'>
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-                                        <Form.Label>Nombre*</Form.Label>
+                                        <Form.Label>Nombre</Form.Label>
                                         <Controller
                                             name="nombre"
                                             control={control}
@@ -96,7 +96,7 @@ const VerDetalleUsuario = () => {
                                 </div>
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                        <Form.Label>Apellido*</Form.Label>
+                                        <Form.Label>Apellido</Form.Label>
                                         <Controller
                                             name="apellido"
                                             control={control}
@@ -115,7 +115,7 @@ const VerDetalleUsuario = () => {
                                 </div>
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                                        <Form.Label>Fecha de Nacimiento*</Form.Label>
+                                        <Form.Label>Fecha de Nacimiento</Form.Label>
                                         <Controller
                                             name='fechaNacimiento'
                                             control={control}
@@ -134,7 +134,7 @@ const VerDetalleUsuario = () => {
                                 </div>
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                                        <Form.Label>Género*</Form.Label>
+                                        <Form.Label>Género</Form.Label>
                                         <Controller
                                             name="genero"
                                             control={control}
@@ -157,11 +157,11 @@ const VerDetalleUsuario = () => {
 
                     <Card.Body>
                         <Card style={{ padding: '16px' }}>
-                            <span>Información de Contacto*</span>
+                            <span style={{ color: 'darkred', fontWeight: '600' }}>Información de Contacto</span>
                             <div className='row'>
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput6">
-                                        <Form.Label>Correo Electronico</Form.Label>
+                                        <Form.Label>Correo Electrónico</Form.Label>
                                         <Controller
                                             name="email"
                                             control={control}
@@ -180,7 +180,7 @@ const VerDetalleUsuario = () => {
                                 </div>
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput7">
-                                        <Form.Label>Celular*</Form.Label>
+                                        <Form.Label>Celular</Form.Label>
                                         <Controller
                                             name="telefono"
                                             control={control}

@@ -15,6 +15,7 @@ import { API } from '../../constants/api.js';
 // importo los estilos asociados a esta pantalla
 import './CrearUsuario.css';
 import axios from 'axios';
+import { NavHeader } from '../../components/NavHeader/NavHeader.js';
 
 const CrearUsuario = () => {
     const { handleSubmit, control, formState: { errors } } = useForm(); // declaro las funciones necearias para la gestion del formulario de registro
@@ -40,7 +41,7 @@ const CrearUsuario = () => {
         const hoy = new Date()
         const fechaIngresada = new Date(data.fechaNacimiento)
         if (fechaIngresada >= hoy) {
-            setErrorFecha('Error, ingresa una fecha valida')
+            setErrorFecha('Error, ingresá una fecha valida')
             return
         }
         setErrorFecha('')
@@ -72,20 +73,16 @@ const CrearUsuario = () => {
     return (
         <>
             {/* Header del formulario de registro */}
-            <Navbar style={{ backgroundColor: '#881313' }}>
-                <Container>
-                    <Navbar.Brand style={{ color: 'white' }}>Registrarse</Navbar.Brand>
-                </Container>
-            </Navbar>
+            <NavHeader encabezado='Registrarse' />
 
             <br></br>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Form style={{ border: 'solid 1px red', width: '96%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px', borderRadius: '4px' }}>
                     <Card style={{ width: '96%', marginTop: '16px' }}>
-                        <p>Los campos marcados con (*) son obligatorios</p>
+                        <p style={{ color: 'darkred', fontWeight: '600' }}>Los campos marcados con (*) son obligatorios</p>
                         <Card.Body>
-                            <span>Información de Usuario</span>
+                            <span style={{ color: 'darkred', fontWeight: '600' }}>Información de Usuario</span>
                             <div className="row">
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -121,7 +118,7 @@ const CrearUsuario = () => {
                                                 />
                                             )}
                                         />
-                                        {errors.dni && <p>{errors.dni.message}</p>}
+                                        {errors.dni && <p style={{ color: 'darkred' }}>{errors.dni.message}</p>}
                                     </Form.Group>
                                 </div>
                                 <div className="col-md-6">
@@ -138,7 +135,7 @@ const CrearUsuario = () => {
                                                     },
                                                     maxLength: {
                                                         value: 15,
-                                                        message: 'La contraseña no puede tener mas de 15 caracteres'
+                                                        message: 'La contraseña no puede tener más de 15 caracteres'
                                                     },
                                                     minLength: {
                                                         value: 8,
@@ -168,7 +165,7 @@ const CrearUsuario = () => {
                                                 </div>
                                             )}
                                         />
-                                        {errors.password && <p>{errors.password.message}</p>}
+                                        {errors.password && <p style={{ color: 'darkred' }}>{errors.password.message}</p>}
                                     </Form.Group>
                                 </div>
                             </div>
@@ -177,7 +174,7 @@ const CrearUsuario = () => {
                         <br style={{ backgroundColor: 'red' }}></br>
 
                         <Card.Body>
-                            <span>Información Personal</span>
+                            <span style={{ color: 'darkred', fontWeight: '600' }}>Información Personal</span>
                             <div className='row'>
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
@@ -193,11 +190,11 @@ const CrearUsuario = () => {
                                                     },
                                                     pattern: {
                                                         value: /^[a-zA-Z]+$/,
-                                                        message: 'Porfavor, ingresa solo letras en este campo. Si tu nombre tiene una ñ, por favor usa `ni`'
+                                                        message: 'Porfavor, ingresá solo letras en este campo.'
                                                     },
                                                     maxLength: {
                                                         value: 30,
-                                                        message: 'Maximo 30 caracteres'
+                                                        message: 'Máximo 30 caracteres'
                                                     }
                                                 }
                                             }
@@ -209,7 +206,7 @@ const CrearUsuario = () => {
                                                 />
                                             )}
                                         />
-                                        {errors.nombre && <p>{errors.nombre.message}</p>}
+                                        {errors.nombre && <p style={{ color: 'darkred' }}>{errors.nombre.message}</p>}
                                     </Form.Group>
                                 </div>
                                 <div className="col-md-6">
@@ -226,11 +223,11 @@ const CrearUsuario = () => {
                                                     },
                                                     pattern: {
                                                         value: /^[a-zA-Z]+$/,
-                                                        message: 'Porfavor, ingresa solo letras en este campo. Si tu apellido tiene una ñ, por favor usa `ni`'
+                                                        message: 'Porfavor, ingresá solo letras en este campo.'
                                                     },
                                                     maxLength: {
                                                         value: 30,
-                                                        message: 'Maximo 30 caracteres'
+                                                        message: 'Máximo 30 caracteres'
                                                     }
                                                 }
                                             }
@@ -242,7 +239,7 @@ const CrearUsuario = () => {
                                                 />
                                             )}
                                         />
-                                        {errors.apellido && <p>{errors.apellido.message}</p>}
+                                        {errors.apellido && <p style={{ color: 'darkred' }}>{errors.apellido.message}</p>}
                                     </Form.Group>
                                 </div>
                             </div>
@@ -259,8 +256,8 @@ const CrearUsuario = () => {
                                             </div>
                                         )}
                                     />
-                                    {errors.fechaNacimiento && <p>{errors.fechaNacimiento.message}</p>}
-                                    {errorFecha && <p>{errorFecha}</p>}
+                                    {errors.fechaNacimiento && <p style={{ color: 'darkred' }}>{errors.fechaNacimiento.message}</p>}
+                                    {errorFecha && <p style={{ color: 'darkred' }}>{errorFecha}</p>}
                                 </Form.Group>
                             </div>
                             <div className="col-md-6">
@@ -279,7 +276,7 @@ const CrearUsuario = () => {
                                             </Form.Select>
                                         )}
                                     />
-                                    {errors.genero && <p>{errors.genero.message}</p>}
+                                    {errors.genero && <p style={{ color: 'darkred' }}>{errors.genero.message}</p>}
                                 </Form.Group>
                             </div>
                         </Card.Body>
@@ -287,11 +284,11 @@ const CrearUsuario = () => {
                         <br style={{ backgroundColor: 'red' }}></br>
 
                         <Card.Body>
-                            <span>Información de Contacto*</span>
+                            <span style={{ color: 'darkred', fontWeight: '600' }}>Información de Contacto</span>
                             <div className='row'>
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput6">
-                                        <Form.Label>Correo Electronico</Form.Label>
+                                        <Form.Label>Correo Electrónico</Form.Label>
                                         <Controller
                                             name="correoElectronico"
                                             control={control}
@@ -315,7 +312,7 @@ const CrearUsuario = () => {
                                                 />
                                             )}
                                         />
-                                        {errors.correoElectronico && <p>{errors.correoElectronico.message}</p>}
+                                        {errors.correoElectronico && <p style={{ color: 'darkred' }}>{errors.correoElectronico.message}</p>}
                                     </Form.Group>
                                 </div>
                                 <div className="col-md-6">
@@ -332,15 +329,15 @@ const CrearUsuario = () => {
                                                     },
                                                     maxLength: {
                                                         value: 13,
-                                                        message: 'El numero de telefono no puede tener mas de 13 caracteres'
+                                                        message: 'El número de teléfono no puede tener mas de 13 caracteres'
                                                     },
                                                     minLength: {
                                                         value: 10,
-                                                        message: 'El numero de telefono no puede tener menos de 10 caracteres'
+                                                        message: 'El número de teléfono no puede tener menos de 10 caracteres'
                                                     },
                                                     pattern: {
                                                         value: /^\+?\d+$/,
-                                                        message: 'El numero de telefono debe ser valido'
+                                                        message: 'El número de teléfono debe ser válido'
                                                     }
                                                 }
                                             }
@@ -352,16 +349,16 @@ const CrearUsuario = () => {
                                                 />
                                             )}
                                         />
-                                        {errors.numeroTelefono && <p>{errors.numeroTelefono.message}</p>}
-                                        {errorAlCrear && <p>{errorAlCrear}</p>}
+                                        {errors.numeroTelefono && <p style={{ color: 'darkred' }}>{errors.numeroTelefono.message}</p>}
+                                        {errorAlCrear && <p style={{ color: 'darkred' }}>{errorAlCrear}</p>}
                                     </Form.Group>
                                 </div>
                             </div>
                             <Modal.Footer>
-                                <Button variant="danger" style={{ marginRight: '8px' }} onClick={() => handleBack()}>
+                                <Button variant="danger" style={{ marginRight: '8px', border: 'none', backgroundColor: 'grey' }} onClick={() => handleBack()} >
                                     Cancelar
                                 </Button>
-                                <Button variant="success" onClick={handleSubmit(onSubmit)}>
+                                <Button variant="success" onClick={handleSubmit(onSubmit)} style={{ border: 'none', backgroundColor: 'darkred' }}>
                                     Registrarse
                                 </Button>
                             </Modal.Footer>

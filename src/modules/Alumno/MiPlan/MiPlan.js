@@ -47,14 +47,14 @@ const MiPlan = ({ usuarioEnSesion }) => {
 
     return (
         <>
-            <NavHeader encabezado={'VER DETALLE PLAN'} />
+            <NavHeader encabezado='Ver plan' />
 
             <br></br>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
-                        <p>Plan</p>
+                        <p style={{ color: "darkred", fontWeight: '600' }}>Plan</p>
                         <div className='row'>
                             <div className="col-md-6">
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
@@ -65,7 +65,7 @@ const MiPlan = ({ usuarioEnSesion }) => {
                                         render={({ field }) => (
                                             <Form.Control
                                                 type="text"
-                                                placeholder={planTraido.detallePlan ? planTraido.detallePlan.nombre : ''}
+                                                placeholder={planTraido.detallePlan ? planTraido.detallePlan.nombre?.toUpperCase() : ''}
                                                 {...field}
                                                 disabled
                                             />
@@ -83,7 +83,7 @@ const MiPlan = ({ usuarioEnSesion }) => {
                                         render={({ field }) => (
                                             <Form.Control
                                                 type="text"
-                                                placeholder={planTraido.detallePlan ? planTraido.detallePlan.objetivo.nombre : ''}
+                                                placeholder={planTraido.detallePlan ? planTraido.detallePlan.objetivo.nombre?.toUpperCase() : ''}
                                                 {...field}
                                                 disabled
                                             />
@@ -137,12 +137,13 @@ const MiPlan = ({ usuarioEnSesion }) => {
                 <Card border="danger" style={{ width: '96%' }}>
                     {(planTraido && !planTraido.error) ? (
                         <Card.Body>
+                            <p style={{ color: 'darkred', fontWeight: '600' }}>Ejercicios</p>
                             {planTraido ? (
                                 <>
                                     {planTraido.detallePlan && planTraido.detallePlan.sesiones && planTraido.detallePlan.sesiones.map((sesion, index) => (
                                         <>
                                             <div key={index}>
-                                                <h3>Tabla Sesion N° {index + 1}</h3>
+                                                <h3>Tabla de Sesión N° {index + 1}</h3>
                                                 <Table striped bordered hover responsive>
                                                     <thead>
                                                         <tr>
@@ -151,19 +152,19 @@ const MiPlan = ({ usuarioEnSesion }) => {
                                                             <th>Series</th>
                                                             <th>Repeticiones</th>
                                                             <th>Descanso</th>
-                                                            <th>Maquina</th>
-                                                            <th>Ver Ejercicio</th>
+                                                            <th>Máquina</th>
+                                                            <th>Ver ejercicio</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {sesion.ejercicios && sesion.ejercicios.map((ejercicio, ejercicioIndex) => (
                                                             <tr key={ejercicioIndex}>
-                                                                <td>{ejercicio["Ejercicio.nombre"]}</td>
-                                                                <td>{ejercicio["tiempo"] ? ejercicio["tiempo"] : 'No aplica'}</td>
+                                                                <td>{ejercicio["Ejercicio.nombre"]?.toUpperCase()}</td>
+                                                                <td>{ejercicio["tiempo"] ? ejercicio["tiempo"] + " ' " : 'No aplica'}</td>
                                                                 <td>{ejercicio["series"] ? ejercicio["series"] : 'No aplica'}</td>
                                                                 <td>{ejercicio["repeticiones"] ? ejercicio["repeticiones"] : 'No aplica'}</td>
-                                                                <td>{ejercicio["descanso"] ? ejercicio["descanso"] : 'No aplica'}</td>
-                                                                <td>{ejercicio["Ejercicio.Maquinas.nombre"] ? ejercicio["Ejercicio.Maquinas.nombre"] : 'No aplica'}</td>
+                                                                <td>{ejercicio["descanso"] ? ejercicio["descanso"] + " '' " : 'No aplica'}</td>
+                                                                <td>{ejercicio["Ejercicio.Maquinas.nombre"] ? ejercicio["Ejercicio.Maquinas.nombre"]?.toUpperCase() : 'No aplica'}</td>
                                                                 <td className="d-flex justify-content-center">
                                                                     <ActionButton
                                                                         tooltipText='Ver Ejercicio'

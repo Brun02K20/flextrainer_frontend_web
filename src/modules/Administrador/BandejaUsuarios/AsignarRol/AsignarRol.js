@@ -87,15 +87,15 @@ const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol, selectedUser, 
         // modales y formualrios ya lo explique en el modal de inicio de sesion, y ante la duda siempre me pueden mandar un wsp
         <Modal show={showModalAsignarRol} onHide={handleCloseAsignarRol}>
             <Modal.Header closeButton className='asignarRol-modal-header'>
-                <Modal.Title className='asignarRol-modal-title'>Asignar Rol</Modal.Title>
+                <Modal.Title className='asignarRol-modal-title'>Asignar rol</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
                 <Modal.Title>DNI: {selectedUser?.dni}</Modal.Title>
                 <br></br>
-                <Modal.Title>Nombres: {selectedUser?.nombre}</Modal.Title>
+                <Modal.Title>Nombres: {selectedUser?.nombre?.toUpperCase()}</Modal.Title>
                 <br></br>
-                <Modal.Title>Apellidos: {selectedUser?.apellido}</Modal.Title>
+                <Modal.Title>Apellidos: {selectedUser?.apellido?.toUpperCase()}</Modal.Title>
                 <br></br>
                 <Form>
                     <>
@@ -113,7 +113,7 @@ const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol, selectedUser, 
                                     </Form.Select>
                                 )}
                             />
-                            {errors.rol && <p>{errors.rol.message}</p>}
+                            {errors.rol && <p style={{ color: 'darkred' }}>{errors.rol.message}</p>}
                         </Form.Group>
                         {rolElegido === 'Alumno' && (
                             <>
@@ -134,17 +134,17 @@ const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol, selectedUser, 
                                                 </Form.Select>
                                             )}
                                         />
-                                        {errors.entrenador && <p>{errors.entrenador.message}</p>}
+                                        {errors.entrenador && <p style={{ color: 'darkred' }}>{errors.entrenador.message}</p>}
                                     </Form.Group>
                                 )}
                             </>
                         )}
                     </>
                     <Modal.Footer>
-                        <Button variant="danger" onClick={handleCloseAsignarRol}>
+                        <Button style={{ backgroundColor: 'grey', marginRight: '8px', border: 'none' }} onClick={handleCloseAsignarRol}>
                             Cancelar
                         </Button>
-                        <Button variant="success" onClick={handleSubmit(onSubmit)}>
+                        <Button style={{ backgroundColor: 'darkred', marginRight: '8px', border: 'none' }} onClick={handleSubmit(onSubmit)}>
                             Asignar
                         </Button>
                     </Modal.Footer>

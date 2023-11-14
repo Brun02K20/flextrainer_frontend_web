@@ -32,16 +32,16 @@ const VerDetalleEjercicio = ({ show, handleClose, idEjercicioElegido, setIdEjerc
             {/* misma explicacion de declaracion de Modal que en LoginModal.js, al igual que el header de este modal */}
             <Modal show={show} onHide={() => { setIdEjercicioElegido(0); handleClose(); setEjercicio(null) }}>
                 <Modal.Header closeButton className='verEjercicio-modal-header'>
-                    <Modal.Title className='verEjercicio-modal-title'>Detalle Ejercicio</Modal.Title>
+                    <Modal.Title className='verEjercicio-modal-title'>Detalle ejercicio</Modal.Title>
                 </Modal.Header>
 
                 <div className='text-center'>
                     <Card>
                         <Card.Body>
                             <p>NOMBRE: {ejercicio.Ejercicio ? ejercicio.Ejercicio.nombre : ''}</p>
-                            <p>DESCRIPCION: {ejercicio.Ejercicio ? ejercicio.Ejercicio.descripcion : ''}</p>
+                            <p>DESCRIPCIÓN: {ejercicio.Ejercicio ? ejercicio.Ejercicio.descripcion : ''}</p>
                             <p>ZONA DEL CUERPO QUE TRABAJA: {ejercicio.Ejercicio ? ejercicio.Ejercicio.Cuerpo_Zona.nombre : ''}</p>
-                            <p>CATEGORIA DEL EJERCICIO:  {ejercicio.Ejercicio ? ejercicio.Ejercicio.Categoria_Ejercicio.nombre : ''}</p>
+                            <p>CATEGORÍA DEL EJERCICIO:  {ejercicio.Ejercicio ? ejercicio.Ejercicio.Categoria_Ejercicio.nombre : ''}</p>
                             {(ejercicio.Ejercicio !== null && ejercicio.linkVideo) ? (
                                 <iframe
                                     width="100%"
@@ -63,7 +63,7 @@ const VerDetalleEjercicio = ({ show, handleClose, idEjercicioElegido, setIdEjerc
                 </div>
 
                 <Modal.Footer>
-                    <Button variant="danger" onClick={() => { setIdEjercicioElegido(0); handleClose(); setEjercicio(null) }}>
+                    <Button style={{ marginRight: '8px', border: 'none', backgroundColor: 'darkred' }} onClick={() => { setIdEjercicioElegido(0); handleClose(); setEjercicio(null) }}>
                         Cerrar
                     </Button>
                 </Modal.Footer>

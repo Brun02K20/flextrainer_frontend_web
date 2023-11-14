@@ -89,21 +89,21 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
     return (
         <>
             {/* Header del formulario */}
-            <NavHeader encabezado={`Modificar Usuario ${dni}`} />
+            <NavHeader encabezado={`Modificar usuario ${dni}`} />
 
             <br></br>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Form style={{ border: 'solid 1px red', width: '96%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px', borderRadius: '4px' }}>
                     <Card style={{ width: '96%', marginTop: '16px' }}>
-                        <p>Los campos marcados con (*) son obligatorios</p>
+                        <p style={{ color: 'darkred', fontWeight: '600' }}>Los campos marcados con (*) son obligatorios</p>
                         <Card.Body>
                             <Card style={{ padding: '16px' }}>
-                                <span>Información de Usuario</span>
+                                <span style={{ color: 'darkred', fontWeight: '600' }}>Información de Usuario</span>
                                 <div className="row">
                                     <div className="col-md-6">
                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                            <Form.Label>DNI*</Form.Label>
+                                            <Form.Label>DNI</Form.Label>
                                             <Controller
                                                 name="dni"
                                                 control={control}
@@ -136,7 +136,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
                                                     />
                                                 )}
                                             />
-                                            {errors.dni && <p>{errors.dni.message}</p>}
+                                            {errors.dni && <p style={{ color: 'darkred' }}>{errors.dni.message}</p>}
                                         </Form.Group>
                                     </div>
                                 </div>
@@ -147,7 +147,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
 
                         <Card.Body>
                             <Card style={{ padding: '16px' }}>
-                                <span>Información Personal</span>
+                                <span style={{ color: 'darkred', fontWeight: '600' }}>Información Personal</span>
                                 <div className='row'>
                                     <div className="col-md-6">
                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
@@ -163,11 +163,11 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
                                                         },
                                                         pattern: {
                                                             value: /^[a-zA-Z]+$/,
-                                                            message: 'Porfavor, ingresa solo letras en este campo. Si tu nombre tiene una ñ, porfavor usa `ni`'
+                                                            message: 'Porfavor, ingresá solo letras en este campo.'
                                                         },
                                                         maxLength: {
                                                             value: 30,
-                                                            message: 'Maximo 30 caracteres'
+                                                            message: 'Máximo 30 caracteres'
                                                         }
                                                     }
                                                 }
@@ -179,7 +179,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
                                                     />
                                                 )}
                                             />
-                                            {errors.nombre && <p>{errors.nombre.message}</p>}
+                                            {errors.nombre && <p style={{ color: 'darkred' }}>{errors.nombre.message}</p>}
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
@@ -196,11 +196,11 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
                                                         },
                                                         pattern: {
                                                             value: /^[a-zA-Z]+$/,
-                                                            message: 'Porfavor, ingresa solo letras en este campo. Si tu nombre tiene una ñ, porfavor usa `ni`'
+                                                            message: 'Porfavor, ingresá solo letras en este campo.'
                                                         },
                                                         maxLength: {
                                                             value: 30,
-                                                            message: 'Maximo 30 caracteres'
+                                                            message: 'Máximo 30 caracteres'
                                                         }
                                                     }
                                                 }
@@ -212,7 +212,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
                                                     />
                                                 )}
                                             />
-                                            {errors.apellido && <p>{errors.apellido.message}</p>}
+                                            {errors.apellido && <p style={{ color: 'darkred' }}>{errors.apellido.message}</p>}
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
@@ -229,7 +229,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
                                                 )}
                                             />
                                             {errors.fechaNacimiento && <p>{errors.fechaNacimiento.message}</p>}
-                                            {errorFecha && <p>{errorFecha}</p>}
+                                            {errorFecha && <p style={{ color: 'darkred' }}>{errorFecha}</p>}
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
@@ -247,7 +247,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
                                                     </Form.Select>
                                                 )}
                                             />
-                                            {errors.genero && <p>{errors.genero.message}</p>}
+                                            {errors.genero && <p style={{ color: 'darkred' }}>{errors.genero.message}</p>}
                                         </Form.Group>
                                     </div>
                                 </div>
@@ -258,11 +258,11 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
 
                         <Card.Body>
                             <Card style={{ padding: '16px' }}>
-                                <span>Información de Contacto*</span>
+                                <span style={{ color: 'darkred', fontWeight: '600' }}>Información de Contacto</span>
                                 <div className='row'>
                                     <div className="col-md-6">
                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput6">
-                                            <Form.Label>Correo Electronico</Form.Label>
+                                            <Form.Label>Correo Electrónico</Form.Label>
                                             <Controller
                                                 name="correoElectronico"
                                                 control={control}
@@ -286,7 +286,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
                                                     />
                                                 )}
                                             />
-                                            {errors.correoElectronico && <p>{errors.correoElectronico.message}</p>}
+                                            {errors.correoElectronico && <p style={{ color: 'darkred' }}>{errors.correoElectronico.message}</p>}
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
@@ -303,15 +303,15 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
                                                         },
                                                         maxLength: {
                                                             value: 13,
-                                                            message: 'El numero de telefono no puede tener mas de 13 caracteres'
+                                                            message: 'El número de teléfono no puede tener mas de 13 caracteres'
                                                         },
                                                         minLength: {
                                                             value: 10,
-                                                            message: 'El numero de telefono no puede tener menos de 10 caracteres'
+                                                            message: 'El número de teléfono no puede tener menos de 10 caracteres'
                                                         },
                                                         pattern: {
                                                             value: /^\+?\d+$/,
-                                                            message: 'El numero de telefono debe ser valido'
+                                                            message: 'El número de teléfono debe ser válido'
                                                         }
                                                     }
                                                 }
@@ -323,8 +323,8 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
                                                     />
                                                 )}
                                             />
-                                            {errors.numeroTelefono && <p>{errors.numeroTelefono.message}</p>}
-                                            {errorAlActualizar && <p>{errorAlActualizar}</p>}
+                                            {errors.numeroTelefono && <p style={{ color: 'darkred' }}>{errors.numeroTelefono.message}</p>}
+                                            {errorAlActualizar && <p style={{ color: 'darkred' }}>{errorAlActualizar}</p>}
                                         </Form.Group>
                                     </div>
                                 </div>
@@ -332,10 +332,10 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
                         </Card.Body>
 
                         <Modal.Footer>
-                            <Button style={{ backgroundColor: '#555555', marginRight: '8px' }} onClick={() => handleBack()}>
+                            <Button style={{ backgroundColor: '#555555', margin: '8px', border: 'none' }} onClick={() => handleBack()}>
                                 Cancelar
                             </Button>
-                            <Button style={{ backgroundColor: '#910012', marginRight: '8px' }} onClick={handleSubmit(onSubmit)}>
+                            <Button style={{ backgroundColor: '#910012', margin: '8px', border: 'none' }} onClick={handleSubmit(onSubmit)}>
                                 Registrar
                             </Button>
                         </Modal.Footer>

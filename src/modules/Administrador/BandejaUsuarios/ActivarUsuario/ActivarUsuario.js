@@ -37,7 +37,7 @@ const ActivarUsuario = ({ showModalActivarUsuario, handleCloseActivarUsuario, se
         <>
             <Modal show={showModalActivarUsuario} onHide={() => { handleCloseActivarUsuario(); handleClean() }}>
                 <Modal.Header closeButton className='activateUser-modal-header'>
-                    <Modal.Title className='activateUser-modal-title'>Activar Usuario</Modal.Title>
+                    <Modal.Title className='activateUser-modal-title'>Activar usuario</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -46,7 +46,7 @@ const ActivarUsuario = ({ showModalActivarUsuario, handleCloseActivarUsuario, se
                             <div className='text-center'>
                                 <span className='activateUser-alertText'>¿Estás seguro de que querés reactivar al usuario?</span>
                                 <br></br>
-                                <span className='activateUser-alertText'>{selectedUser?.nombre} {selectedUser?.apellido}</span>
+                                <span className='activateUser-alertText'>{selectedUser?.nombre?.toUpperCase()} {selectedUser?.apellido?.toUpperCase()}</span>
                                 <br></br>
                                 <br></br>
                                 <br></br>
@@ -57,10 +57,10 @@ const ActivarUsuario = ({ showModalActivarUsuario, handleCloseActivarUsuario, se
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="danger" onClick={() => { handleCloseActivarUsuario(); handleClean() }}>
+                    <Button style={{ marginRight: '8px', border: 'none', backgroundColor: 'grey' }} onClick={() => { handleCloseActivarUsuario(); handleClean() }}>
                         Cancelar
                     </Button>
-                    <Button variant="success" onClick={handleSubmit(onSubmit)}>
+                    <Button style={{ marginRight: '8px', border: 'none', backgroundColor: 'darkred' }} onClick={handleSubmit(onSubmit)}>
                         Activar
                     </Button>
                 </Modal.Footer>
@@ -70,21 +70,21 @@ const ActivarUsuario = ({ showModalActivarUsuario, handleCloseActivarUsuario, se
             en el primer modal, el cual simplemente muestra un mensaje */}
             <Modal show={showModalActivado} onHide={() => { handleCloseModalActivado(); }}>
                 <Modal.Header closeButton className='activateUser-modal-header'>
-                    <Modal.Title className='activateUser-modal-title'>Activar Usuario</Modal.Title>
+                    <Modal.Title className='activateUser-modal-title'>Activar usuario</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                     <Card>
                         <Card.Body>
                             <div className='text-center'>
-                                <span>Activaste al usuario correctamente.</span>
+                                <span>Activaste al usuario correctamente</span>
                             </div>
                         </Card.Body>
                     </Card>
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="success" onClick={() => { handleCloseModalActivado(); handleClean() }}>
+                    <Button style={{ marginRight: '8px', border: 'none', backgroundColor: 'darkred' }} onClick={() => { handleCloseModalActivado(); handleClean() }}>
                         Cerrar
                     </Button>
                 </Modal.Footer>

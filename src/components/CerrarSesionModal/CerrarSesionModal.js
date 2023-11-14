@@ -21,7 +21,7 @@ const CerrarSesionModal = ({ show, handleClose, setUsuarioEnSesion }) => {
         // misma explicacion de declaracion de Modal que en LoginModal.js, al igual que el header de este modal
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton className='closeSesion-modal-header'>
-                <Modal.Title className='closeSesion-modal-title'>Cerrar Sesión</Modal.Title>
+                <Modal.Title className='closeSesion-modal-title'>Cerrar sesión</Modal.Title>
             </Modal.Header>
 
             {/* Body del modal, que simplemenmte sera un texto */}
@@ -33,10 +33,10 @@ const CerrarSesionModal = ({ show, handleClose, setUsuarioEnSesion }) => {
 
             {/* misma explicacion que el Footer del modal de Login */}
             <Modal.Footer>
-                <Button variant="danger" onClick={handleClose}>
+                <Button style={{ backgroundColor: 'grey', border: 'none' }} onClick={handleClose}>
                     Cancelar
                 </Button>
-                <Button variant="primary" onClick={cerrarSesion}>
+                <Button style={{ backgroundColor: 'darkred', border: 'none' }} onClick={cerrarSesion}>
                     Aceptar
                 </Button>
             </Modal.Footer>

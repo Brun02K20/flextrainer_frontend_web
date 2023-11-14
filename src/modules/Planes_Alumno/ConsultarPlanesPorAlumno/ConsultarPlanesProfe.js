@@ -136,7 +136,7 @@ const ConsultarPlanesProfe = ({ usuarioEnSesion }) => {
 
     return (
         <>
-            <NavHeader encabezado='Consultar Mis Planes' />
+            <NavHeader encabezado='Consultar mis planes' />
 
             <br></br>
 
@@ -149,7 +149,7 @@ const ConsultarPlanesProfe = ({ usuarioEnSesion }) => {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
-                        <p>Filtros de búsqueda</p>
+                        <p style={{ color: 'darkred', fontWeight: '600' }}>Filtros de búsqueda</p>
                         <Card.Body>
                             <Form>
                                 <div className="row">
@@ -163,24 +163,24 @@ const ConsultarPlanesProfe = ({ usuarioEnSesion }) => {
                                                     {
                                                         maxLength: {
                                                             value: 30,
-                                                            message: 'Maximo 30 caracteres'
+                                                            message: 'Máximo 30 caracteres'
                                                         }
                                                     }
                                                 }
                                                 render={({ field }) => (
                                                     <Form.Control
                                                         type="text"
-                                                        placeholder="Ingresá tu nombre"
+                                                        placeholder="Ingresá nombre del plan"
                                                         {...field}
                                                     />
                                                 )}
                                             />
-                                            {errors.nombre && <p>{errors.nombre.message}</p>}
+                                            {errors.nombre && <p style={{ color: 'darkred' }}>{errors.nombre.message}</p>}
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                                            <Form.Label>Objetivo*</Form.Label>
+                                            <Form.Label>Objetivo</Form.Label>
                                             <Controller
                                                 name="objetivo"
                                                 control={control}
@@ -198,7 +198,7 @@ const ConsultarPlanesProfe = ({ usuarioEnSesion }) => {
 
                                     <div className="col-md-6">
                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                                            <Form.Label>Cantidad de Sesiones*</Form.Label>
+                                            <Form.Label>Cantidad de Sesiones</Form.Label>
                                             <Controller
                                                 name="cantSesiones"
                                                 control={control}
@@ -244,7 +244,7 @@ const ConsultarPlanesProfe = ({ usuarioEnSesion }) => {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
-                        <p>Planes Encontrados</p>
+                        <p style={{ color: 'darkred', fontWeight: '600' }}>Planes Encontrados</p>
                         {planesAlumnos.length !== 0 ? (
                             <div>
                                 <RowsPerPage
@@ -263,8 +263,8 @@ const ConsultarPlanesProfe = ({ usuarioEnSesion }) => {
                                     <tbody>
                                         {currentData.map((row, index) => (
                                             <tr key={index + 1}>
-                                                <td>{row.nombre}</td>
-                                                <td>{row.Objetivo.nombre}</td>
+                                                <td>{row.nombre?.toUpperCase()}</td>
+                                                <td>{row.Objetivo.nombre?.toUpperCase()}</td>
                                                 <td>{row.cantidadSesiones}</td>
                                                 <td className="d-flex justify-content-center">
                                                     <ActionButton

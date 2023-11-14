@@ -130,7 +130,7 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
-                        <p>Filtros de búsqueda</p>
+                        <p style={{ color: 'darkred', fontWeight: '600' }}>Filtros de búsqueda</p>
                         <Card.Body>
                             <Form>
                                 <div className="row">
@@ -159,12 +159,12 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                                                 render={({ field }) => (
                                                     <Form.Control
                                                         type="number"
-                                                        placeholder="Ingresá tu DNI"
+                                                        placeholder="Ingresá el DNI del alumno"
                                                         {...field}
                                                     />
                                                 )}
                                             />
-                                            {errors.dni && <p>{errors.dni.message}</p>}
+                                            {errors.dni && <p style={{ color: 'darkred' }}>{errors.dni.message}</p>}
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
@@ -177,7 +177,7 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                                                     {
                                                         pattern: {
                                                             value: /^[a-zA-Z]+$/,
-                                                            message: 'Porfavor, ingresa solo letras en este campo. Si el nombre tiene una ñ, por favor usa `ni`'
+                                                            message: 'Porfavor, ingresa solo letras en este campo.'
                                                         },
                                                         maxLength: {
                                                             value: 30,
@@ -188,12 +188,12 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                                                 render={({ field }) => (
                                                     <Form.Control
                                                         type="text"
-                                                        placeholder="Ingresá tu nombre"
+                                                        placeholder="Ingresá el nombre del alumno"
                                                         {...field}
                                                     />
                                                 )}
                                             />
-                                            {errors.nombre && <p>{errors.nombre.message}</p>}
+                                            {errors.nombre && <p style={{ color: 'darkred' }}>{errors.nombre.message}</p>}
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
@@ -206,23 +206,23 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                                                     {
                                                         pattern: {
                                                             value: /^[a-zA-Z]+$/,
-                                                            message: 'Porfavor, ingresa solo letras en este campo. Si el apellido tiene una ñ, porfavor usa `ni`'
+                                                            message: 'Porfavor, ingresa solo letras en este campo.'
                                                         },
                                                         maxLength: {
                                                             value: 30,
-                                                            message: 'Maximo 30 caracteres'
+                                                            message: 'Máximo 30 caracteres'
                                                         }
                                                     }
                                                 }
                                                 render={({ field }) => (
                                                     <Form.Control
                                                         type="text"
-                                                        placeholder="Ingresá tu apellido"
+                                                        placeholder="Ingresá el apellido del alumno"
                                                         {...field}
                                                     />
                                                 )}
                                             />
-                                            {errors.apellido && <p>{errors.apellido.message}</p>}
+                                            {errors.apellido && <p style={{ color: 'darkred' }}>{errors.apellido.message}</p>}
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
@@ -241,7 +241,7 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                                                     </Form.Select>
                                                 )}
                                             />
-                                            {errors.genero && <p>{errors.genero.message}</p>}
+                                            {errors.genero && <p style={{ color: 'darkred' }}>{errors.genero.message}</p>}
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
@@ -283,7 +283,7 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
-                        <p>Alumnos Encontrados</p>
+                        <p style={{ color: 'darkred', fontWeight: '600' }}>Alumnos encontrados</p>
                         {alumnosProfe.length !== 0 ? (
                             <div>
                                 <RowsPerPage
@@ -304,9 +304,9 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                                         {currentData.map((row, index) => (
                                             <tr key={index + 1}>
                                                 <td>{row.alumno.dni}</td>
-                                                <td>{row.alumno.nombre}</td>
-                                                <td>{row.alumno.apellido}</td>
-                                                <td>{row.plan ? row.plan.nombre : 'Sin Plan'}</td>
+                                                <td>{row.alumno.nombre?.toUpperCase()}</td>
+                                                <td>{row.alumno.apellido?.toUpperCase()}</td>
+                                                <td>{row.plan ? row.plan.nombre?.toUpperCase() : 'Sin Plan'}</td>
                                                 <td className="d-flex justify-content-center">
                                                     <ActionButton
                                                         tooltipText="Asignar Plan"

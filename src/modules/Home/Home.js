@@ -29,7 +29,7 @@ const Home = ({ showModal, handleOpenModal, handleCloseModal, setUsuarioEnSesion
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
                             <div className="icon-text-container">
-                                <span className='login-button-home' onClick={handleOpenModal}>Iniciar Sesion</span>
+                                <span className='login-button-home' onClick={handleOpenModal}>Iniciar sesión</span>
                                 <i
                                     className="bi bi-person-circle"
                                     style={{ fontSize: '2rem', color: 'white', marginLeft: '8px', cursor: 'pointer' }}

@@ -37,7 +37,7 @@ const ActivarPlan = ({ showModalActivarPlan, handleCloseActivarPlan, setSelected
         <>
             <Modal show={showModalActivarPlan} onHide={() => { handleCloseActivarPlan(); handleClean() }}>
                 <Modal.Header closeButton className='activatePlan-modal-header'>
-                    <Modal.Title className='activatePlan-modal-title'>Activar Plan</Modal.Title>
+                    <Modal.Title className='activatePlan-modal-title'>Activar plan</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -46,8 +46,7 @@ const ActivarPlan = ({ showModalActivarPlan, handleCloseActivarPlan, setSelected
                             <div className='text-center'>
                                 <span className='activatePlan-alertText'>¿Estás seguro de que querés reactivar este plan?</span>
                                 <br></br>
-                                <span className='activatePlan-alertText'>{selectedPlan?.nombre}</span>
-                                <br></br>
+                                <span className='activatePlan-alertText'>{selectedPlan?.nombre?.toUpperCase()}</span>
                                 <br></br>
                                 <br></br>
                                 <span>Todos los datos del plan van a ser reactivados, pero tenés que volver a vincular a los alumnos mnualmente.</span>
@@ -57,10 +56,10 @@ const ActivarPlan = ({ showModalActivarPlan, handleCloseActivarPlan, setSelected
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="danger" onClick={() => { handleCloseActivarPlan(); handleClean() }}>
+                    <Button style={{ backgroundColor: 'grey', marginRight: '8px', border: 'none' }} onClick={() => { handleCloseActivarPlan(); handleClean() }}>
                         Cancelar
                     </Button>
-                    <Button variant="success" onClick={handleSubmit(onSubmit)}>
+                    <Button style={{ backgroundColor: 'darkred', marginRight: '8px', border: 'none' }} onClick={handleSubmit(onSubmit)}>
                         Activar
                     </Button>
                 </Modal.Footer>
@@ -70,21 +69,21 @@ const ActivarPlan = ({ showModalActivarPlan, handleCloseActivarPlan, setSelected
             en el primer modal, el cual simplemente muestra un mensaje */}
             <Modal show={showModalActivado} onHide={() => { handleCloseModalActivado(); }}>
                 <Modal.Header closeButton className='activatePlan-modal-header'>
-                    <Modal.Title className='activatePlan-modal-title'>Activar Plan</Modal.Title>
+                    <Modal.Title className='activatePlan-modal-title'>Activar plan</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                     <Card>
                         <Card.Body>
                             <div className='text-center'>
-                                <span>Activaste el plan correctamente.</span>
+                                <span>Activaste el plan correctamente</span>
                             </div>
                         </Card.Body>
                     </Card>
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="success" onClick={() => { handleCloseModalActivado(); handleClean() }}>
+                    <Button style={{ backgroundColor: 'darkred', marginRight: '8px', border: 'none' }} onClick={() => { handleCloseModalActivado(); handleClean() }}>
                         Cerrar
                     </Button>
                 </Modal.Footer>

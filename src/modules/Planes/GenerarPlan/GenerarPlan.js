@@ -104,10 +104,15 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
             return resultado;
         }, []);
 
+        if (ejerciciosAgrupados.length > cantidadSesionesIndicadas) {
+            setErrorEjercicios(true);
+            return;
+        }
+
         data.sesiones = ejerciciosAgrupados;
         data.objetivo = parseInt(data.objetivo);
         data.dniProfesor = usuarioEnSesion.dni;
-        console.log(data)
+        console.log("a enviar al backend: ", data)
         await axios.post(`${API}/flextrainer/planes/createPlan`, data)
         setErrorEjercicios(false)
 
@@ -120,7 +125,7 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
 
     return (
         <>
-            <NavHeader encabezado='Generar Plan' />
+            <NavHeader encabezado='Generar plan' />
 
             <br></br>
 
@@ -129,7 +134,7 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
                     <Card>
                         <Card.Body >
                             <div className="row">
-                                <p>PLAN</p>
+                                <p style={{ color: 'darkred', fontWeight: '600' }}>Plan</p>
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                         <Form.Label>Nombre*</Form.Label>
@@ -144,7 +149,7 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
                                                     },
                                                     maxLength: {
                                                         value: 256,
-                                                        message: 'Maximo 256 caracteres'
+                                                        message: 'Máximo 256 caracteres'
                                                     }
                                                 }
                                             }
@@ -156,7 +161,7 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
                                                 />
                                             )}
                                         />
-                                        {errors.nombre && <p>{errors.nombre.message}</p>}
+                                        {errors.nombre && <p style={{ color: 'darkred' }}>{errors.nombre.message}</p>}
                                     </Form.Group>
                                 </div>
                                 <div className="col-md-6">
@@ -175,13 +180,13 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
                                                 </Form.Select>
                                             )}
                                         />
-                                        {errors.objetivo && <p>{errors.objetivo.message}</p>}
+                                        {errors.objetivo && <p style={{ color: 'darkred' }}>{errors.objetivo.message}</p>}
                                     </Form.Group>
-                                    {errorObjetivo && <p>Este campo es requerido</p>}
+                                    {errorObjetivo && <p style={{ color: 'darkred' }}>Este campo es requerido</p>}
                                 </div>
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                                        <Form.Label>Cantidad de Sesiones*</Form.Label>
+                                        <Form.Label>Cantidad de sesiones*</Form.Label>
                                         <Controller
                                             name="cantSesiones"
                                             control={control}
@@ -205,7 +210,7 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
                                         />
                                     </Form.Group>
                                 </div>
-                                {errorCantidadSesiones && <p>ERROR. ELEGI UNA CANTIDAD DE SESIONES</p>}
+                                {errorCantidadSesiones && <p style={{ color: 'darkred' }}>Elegí una cantidad de sesiones</p>}
                             </div>
                         </Card.Body>
                     </Card>
@@ -218,14 +223,14 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
                         setEjerciciosAgregados={setEjerciciosAgregados}
                     />
 
-                    {errorEjercicios && <span>Error. Tenes que tener al menos un ejercicio por cada sesion y ademas no podes tener un ejercicio para una sesion que no existe</span>}
+                    {errorEjercicios && <span style={{ color: 'darkred' }}>Tenés que tener al menos un ejercicio por cada sesión y además no podés tener un ejercicio para una sesión que no existe</span>}
 
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '12px' }} onClick={() => handleBack()}>
-                        <Button variant="danger" style={{ marginRight: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '12px' }} >
+                        <Button variant="danger" style={{ margin: '8px', border: 'none', backgroundColor: 'grey' }} onClick={() => handleBack()}>
                             Volver
                         </Button>
-                        <Button variant="success" onClick={handleSubmit(onSubmit)}>
-                            Crear
+                        <Button style={{ margin: '8px', border: 'none', backgroundColor: 'darkred' }} onClick={handleSubmit(onSubmit)}>
+                            Generar
                         </Button>
                     </div>
                 </Form>

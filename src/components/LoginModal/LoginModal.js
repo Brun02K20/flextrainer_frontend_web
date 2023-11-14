@@ -57,12 +57,12 @@ const LoginModal = ({ show, handleClose, setUsuarioEnSesion }) => {
         <Modal show={show} onHide={handleClose}>
             {/* Header del modal */}
             <Modal.Header closeButton className='login-modal-header'>
-                <Modal.Title className='login-modal-title'>Iniciar Sesión</Modal.Title>
+                <Modal.Title className='login-modal-title'>Iniciar sesión</Modal.Title>
             </Modal.Header>
 
             {/* Boton que si el usuario lo presiona, lo redirigira al componente de registrarse, de CrearUsuario.js */}
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '8px' }}>
-                <Button className='botonCrearCuenta' onClick={() => navigate('/registrarse')}>Crear Cuenta</Button>
+                <Button style={{ marginRight: '8px', backgroundColor: 'darkred', border: 'none' }} onClick={() => navigate('/registrarse')}>Crear cuenta</Button>
             </div>
 
             {/* Body del modal, el body es basicamente la parte principal del modal, este caso, va a ser un formulario de login */}

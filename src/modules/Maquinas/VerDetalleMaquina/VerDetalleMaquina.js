@@ -86,7 +86,7 @@ const VerDetalleMaquina = () => {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
-                        <p>Ejercicios</p>
+                        <p style={{ color: 'darkred', fontWeight: '600' }}>Ejercicios</p>
                         {currentData.length !== 0 ? (
                             <div>
                                 <RowsPerPage
@@ -96,16 +96,14 @@ const VerDetalleMaquina = () => {
                                 <Table striped bordered hover responsive>
                                     <thead>
                                         <tr>
-                                            <th>Numero</th>
                                             <th>Nombre</th>
                                             <th>Ver Ejercicio</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {currentData.map((row, index) => (
-                                            <tr key={row.id}>
-                                                <td>{index + 1}</td>
-                                                <td>{row.Ejercicio.nombre}</td>
+                                            <tr key={index}>
+                                                <td>{row.Ejercicio.nombre?.toUpperCase()}</td>
                                                 <td className="d-flex justify-content-center">
                                                     <ActionButton
                                                         tooltipText="Ver Ejercicio"

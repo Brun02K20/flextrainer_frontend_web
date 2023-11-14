@@ -42,7 +42,7 @@ const EliminarPlan = ({ showModalEliminarPlan, handleCloseEliminarPlan, setSelec
             {/* // modales y formualrios ya lo explique en el modal de inicio de sesion, y ante la duda siempre me pueden mandar un wsp */}
             <Modal show={showModalEliminarPlan} onHide={() => { handleCloseEliminarPlan(); handleClean() }}>
                 <Modal.Header closeButton className='deletePlan-modal-header'>
-                    <Modal.Title className='deletePlan-modal-title'>Eliminar Plan</Modal.Title>
+                    <Modal.Title className='deletePlan-modal-title'>Eliminar plan</Modal.Title>
                 </Modal.Header>
 
                 {/* El cuerpo de este modal, tendra 2 textos centrados, de advertencia.  */}
@@ -52,11 +52,12 @@ const EliminarPlan = ({ showModalEliminarPlan, handleCloseEliminarPlan, setSelec
                             <div className='text-center'>
                                 <span className='deletePlan-alertText'>¿Estás seguro de que querés eliminar este plan?</span>
                                 <br></br>
-                                <span className='deletePlan-alertText'>{selectedPlan?.nombre}</span>
+                                <span className='deletePlan-alertText'>{selectedPlan?.nombre?.toUpperCase()}</span>
                                 <br></br>
                                 <br></br>
                                 <br></br>
-                                <span>Todos los datos del plan van a ser borrados, sin embargo, puedes recuperarlos cuando quieras</span>
+                                <span>Todos los datos del plan van a ser borrados, sin embargo, puedes recuperarlos cuando quieras.</span>
+                                <br></br>
                                 <span>Tené en cuenta que los alumnos vinculados a este plan, los vas a tener que volver a vincular</span>
                             </div>
                         </Card.Body>
@@ -65,10 +66,10 @@ const EliminarPlan = ({ showModalEliminarPlan, handleCloseEliminarPlan, setSelec
 
                 {/* Footer del modal, la parte final del mismo, que contendra los botones de cancelar y de eliminar  */}
                 <Modal.Footer>
-                    <Button style={{ backgroundColor: '#555555', marginRight: '8px' }} onClick={() => { handleCloseEliminarPlan(); handleClean() }}>
+                    <Button style={{ backgroundColor: 'grey', marginRight: '8px', border: 'none' }} onClick={() => { handleCloseEliminarPlan(); handleClean() }}>
                         Cancelar
                     </Button>
-                    <Button style={{ backgroundColor: '#910012', marginRight: '8px' }} onClick={handleSubmit(onSubmit)}>
+                    <Button style={{ backgroundColor: 'darkred', marginRight: '8px', border: 'none' }} onClick={handleSubmit(onSubmit)}>
                         Eliminar
                     </Button>
                 </Modal.Footer>
@@ -78,21 +79,21 @@ const EliminarPlan = ({ showModalEliminarPlan, handleCloseEliminarPlan, setSelec
             en el primer modal, el cual simplemente muestra un mensaje */}
             <Modal show={showModalEliminado} onHide={handleCloseModalEliminado}>
                 <Modal.Header closeButton className='deletePlan-modal-header'>
-                    <Modal.Title className='deletePlan-modal-title'>Eliminar Plan</Modal.Title>
+                    <Modal.Title className='deletePlan-modal-title'>Eliminar plan</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                     <Card>
                         <Card.Body>
                             <div className='text-center'>
-                                <span>Eliminaste el plan correctamente.</span>
+                                <span>Eliminaste el plan correctamente</span>
                             </div>
                         </Card.Body>
                     </Card>
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="success" onClick={() => { handleCloseModalEliminado(); handleClean() }}>
+                    <Button style={{ backgroundColor: 'darkred', marginRight: '8px', border: 'none' }} onClick={() => { handleCloseModalEliminado(); handleClean() }}>
                         Cerrar
                     </Button>
                 </Modal.Footer>

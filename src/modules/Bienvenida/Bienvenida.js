@@ -52,8 +52,8 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
                         >
                             <NavDropdown.Item id='opciones-responsive-dropdown-bienvenida-1'>{usuarioEnSesion.nombre.toUpperCase()} {usuarioEnSesion.apellido.toUpperCase()}</NavDropdown.Item>
                             <NavDropdown.Divider id='opciones-responsive-dropdown-bienvenida-2' />
-                            <NavDropdown.Item onClick={() => navigate(`/modificarUsuario/${usuarioEnSesion.dni}`)}>Modificar Datos</NavDropdown.Item>
-                            <NavDropdown.Item onClick={() => { handleOpenModal() }}>Cerrar Sesión</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => navigate(`/modificarUsuario/${usuarioEnSesion.dni}`)}>Modificar datos</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => { handleOpenModal() }}>Cerrar sesión</NavDropdown.Item>
                         </NavDropdown>
                     </Navbar.Collapse>
                 </Container>
@@ -104,7 +104,7 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
                             containerStyles={{ marginRight: '20px' }}
                             buttonClass='btn-top button-bienvenida'
                             goTo={() => navigate('/generarPlan')}
-                            icon='bi bi-people-fill'
+                            icon='bi bi-calendar-plus'
                             legend='Generar Plan'
                         />
 
@@ -130,7 +130,7 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
                             containerStyles={{ marginLeft: '20px' }}
                             buttonClass='btn-right button-bienvenida'
                             goTo={() => navigate('/alumnosProfe')}
-                            icon='bi bi-archive-fill'
+                            icon='bi bi-people-fill'
                             legend='Mis Alumnos'
                         />
                     </div>
@@ -151,7 +151,7 @@ const Bienvenida = ({ showModal, handleCloseModal, handleOpenModal, setUsuarioEn
                             containerStyles={{ marginRight: '12px' }}
                             buttonClass='btn-top button-bienvenida'
                             goTo={() => navigate('/miPlan')}
-                            icon='bi bi-people-fill'
+                            icon='bi  bi-calendar-check'
                             legend='Mi Plan'
                         />
                         <WelcomeButton

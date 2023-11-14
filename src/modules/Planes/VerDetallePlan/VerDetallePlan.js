@@ -41,66 +41,68 @@ const VerDetallePlan = () => {
 
     return (
         <>
-            <NavHeader encabezado={'VER DETALLE PLAN'} />
+            <NavHeader encabezado={'Ver detalle de plan'} />
 
             <br></br>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
-                        <p>Plan</p>
+                        <p style={{ color: 'darkred', fontWeight: '600' }}>Plan</p>
 
-                        <div className="col-md-6">
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                                <Form.Label>Nombre</Form.Label>
-                                <Controller
-                                    name="nombre"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <Form.Control
-                                            type="text"
-                                            placeholder={planTraido.nombre ? planTraido.nombre : ''}
-                                            {...field}
-                                            disabled
-                                        />
-                                    )}
-                                />
-                            </Form.Group>
-                        </div>
+                        <div className='row'>
+                            <div className="col-md-6">
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                                    <Form.Label>Nombre</Form.Label>
+                                    <Controller
+                                        name="nombre"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <Form.Control
+                                                type="text"
+                                                placeholder={planTraido.nombre ? planTraido.nombre?.toUpperCase() : ''}
+                                                {...field}
+                                                disabled
+                                            />
+                                        )}
+                                    />
+                                </Form.Group>
+                            </div>
 
-                        <div className="col-md-6">
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                                <Form.Label>Objetivo</Form.Label>
-                                <Controller
-                                    name="objetivo"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <Form.Control
-                                            type="text"
-                                            placeholder={planTraido.objetivo ? planTraido.objetivo.nombre : ''}
-                                            {...field}
-                                            disabled
-                                        />
-                                    )}
-                                />
-                            </Form.Group>
-                        </div>
-                        <div className="col-md-6">
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                                <Form.Label>Cantidad Sesiones</Form.Label>
-                                <Controller
-                                    name="cantSesiones"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <Form.Control
-                                            type="text"
-                                            placeholder={planTraido.cantSesiones ? planTraido.cantSesiones : ''}
-                                            {...field}
-                                            disabled
-                                        />
-                                    )}
-                                />
-                            </Form.Group>
+                            <div className="col-md-6">
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                                    <Form.Label>Objetivo</Form.Label>
+                                    <Controller
+                                        name="objetivo"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <Form.Control
+                                                type="text"
+                                                placeholder={planTraido.objetivo ? planTraido.objetivo.nombre : ''}
+                                                {...field}
+                                                disabled
+                                            />
+                                        )}
+                                    />
+                                </Form.Group>
+                            </div>
+                            <div className="col-md-6">
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                                    <Form.Label>Cantidad Sesiones</Form.Label>
+                                    <Controller
+                                        name="cantSesiones"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <Form.Control
+                                                type="text"
+                                                placeholder={planTraido.cantSesiones ? planTraido.cantSesiones : ''}
+                                                {...field}
+                                                disabled
+                                            />
+                                        )}
+                                    />
+                                </Form.Group>
+                            </div>
                         </div>
                     </Card.Body>
                 </Card>
@@ -111,12 +113,13 @@ const VerDetallePlan = () => {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
+                        <p style={{ color: 'darkred', fontWeight: '600' }}>Ejercicios</p>
                         {planTraido ? (
                             <>
                                 {planTraido.sesiones && planTraido.sesiones.map((sesion, index) => (
                                     <>
                                         <div key={index}>
-                                            <h3>Tabla Sesion N° {index + 1}</h3>
+                                            <h3>Tabla de Sesión N° {index + 1}</h3>
                                             <Table striped bordered hover responsive>
                                                 <thead>
                                                     <tr>
@@ -125,18 +128,18 @@ const VerDetallePlan = () => {
                                                         <th>Series</th>
                                                         <th>Repeticiones</th>
                                                         <th>Descanso</th>
-                                                        <th>Maquina</th>
+                                                        <th>Máquina</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {sesion.ejercicios && sesion.ejercicios.map((ejercicio, ejercicioIndex) => (
                                                         <tr key={ejercicioIndex}>
-                                                            <td>{ejercicio["Ejercicio.nombre"]}</td>
-                                                            <td>{ejercicio["tiempo"] ? ejercicio["tiempo"] : 'No aplica'}</td>
+                                                            <td>{ejercicio["Ejercicio.nombre"]?.toUpperCase()}</td>
+                                                            <td>{ejercicio["tiempo"] ? ejercicio["tiempo"] + " ' " : 'No aplica'}</td>
                                                             <td>{ejercicio["series"] ? ejercicio["series"] : 'No aplica'}</td>
                                                             <td>{ejercicio["repeticiones"] ? ejercicio["repeticiones"] : 'No aplica'}</td>
-                                                            <td>{ejercicio["descanso"] ? ejercicio["descanso"] : 'No aplica'}</td>
-                                                            <td>{ejercicio["Ejercicio.Maquinas.nombre"] ? ejercicio["Ejercicio.Maquinas.nombre"] : 'No aplica'}</td>
+                                                            <td>{ejercicio["descanso"] ? ejercicio["descanso"] + " '' " : 'No aplica'}</td>
+                                                            <td>{ejercicio["Ejercicio.Maquinas.nombre"] ? ejercicio["Ejercicio.Maquinas.nombre"]?.toUpperCase() : 'No aplica'}</td>
                                                         </tr>
                                                     ))}
                                                 </tbody>

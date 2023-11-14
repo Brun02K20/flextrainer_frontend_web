@@ -148,14 +148,14 @@ const BandejaUsuarios = () => {
     // renderizando todo (NOTA: ESTARIA BUENO MODULAR ESTA SECCION, EN VARIOS ARCHIVOS)
     return (
         <>
-            <NavHeader encabezado="Consultar Usuarios" />
+            <NavHeader encabezado="Consultar usuarios" />
 
             <br></br>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
-                        <p>Filtros de búsqueda</p>
+                        <p style={{ color: 'darkred', fontWeight: '600' }}>Filtros de búsqueda</p>
                         <Card.Body>
                             <Form>
                                 <div className="row">
@@ -173,7 +173,7 @@ const BandejaUsuarios = () => {
                                                         },
                                                         maxLength: {
                                                             value: 8,
-                                                            message: 'El DNI no puede tener mas de 8 caracteres'
+                                                            message: 'El DNI no puede tener más de 8 caracteres'
                                                         },
                                                         minLength: {
                                                             value: 7,
@@ -184,12 +184,12 @@ const BandejaUsuarios = () => {
                                                 render={({ field }) => (
                                                     <Form.Control
                                                         type="number"
-                                                        placeholder="Ingresá tu DNI"
+                                                        placeholder="Ingresá DNI a filtrar"
                                                         {...field}
                                                     />
                                                 )}
                                             />
-                                            {errors.dni && <p>{errors.dni.message}</p>}
+                                            {errors.dni && <p style={{ color: 'darkred' }}>{errors.dni.message}</p>}
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
@@ -202,23 +202,23 @@ const BandejaUsuarios = () => {
                                                     {
                                                         pattern: {
                                                             value: /^[a-zA-Z]+$/,
-                                                            message: 'Porfavor, ingresa solo letras en este campo. Si el nombre tiene una ñ, por favor usa `ni`'
+                                                            message: 'Porfavor, ingresá solo letras en este campo.'
                                                         },
                                                         maxLength: {
                                                             value: 30,
-                                                            message: 'Maximo 30 caracteres'
+                                                            message: 'Máximo 30 caracteres'
                                                         }
                                                     }
                                                 }
                                                 render={({ field }) => (
                                                     <Form.Control
                                                         type="text"
-                                                        placeholder="Ingresá tu nombre"
+                                                        placeholder="Ingresá nombre a filtrar"
                                                         {...field}
                                                     />
                                                 )}
                                             />
-                                            {errors.nombre && <p>{errors.nombre.message}</p>}
+                                            {errors.nombre && <p style={{ color: 'darkred' }}>{errors.nombre.message}</p>}
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
@@ -231,23 +231,23 @@ const BandejaUsuarios = () => {
                                                     {
                                                         pattern: {
                                                             value: /^[a-zA-Z]+$/,
-                                                            message: 'Porfavor, ingresa solo letras en este campo. Si el apellido tiene una ñ, porfavor usa `ni`'
+                                                            message: 'Porfavor, ingresá solo letras en este campo.'
                                                         },
                                                         maxLength: {
                                                             value: 30,
-                                                            message: 'Maximo 30 caracteres'
+                                                            message: 'Máximo 30 caracteres'
                                                         }
                                                     }
                                                 }
                                                 render={({ field }) => (
                                                     <Form.Control
                                                         type="text"
-                                                        placeholder="Ingresá tu apellido"
+                                                        placeholder="Ingresá apellido a filtrar"
                                                         {...field}
                                                     />
                                                 )}
                                             />
-                                            {errors.apellido && <p>{errors.apellido.message}</p>}
+                                            {errors.apellido && <p style={{ color: 'darkred' }}>{errors.apellido.message}</p>}
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
@@ -266,7 +266,7 @@ const BandejaUsuarios = () => {
                                                     </Form.Select>
                                                 )}
                                             />
-                                            {errors.genero && <p>{errors.genero.message}</p>}
+                                            {errors.genero && <p style={{ color: 'darkred' }}>{errors.genero.message}</p>}
                                         </Form.Group>
                                     </div>
                                     <div className="col-md-6">
@@ -285,7 +285,7 @@ const BandejaUsuarios = () => {
                                                     </Form.Select>
                                                 )}
                                             />
-                                            {errors.rol && <p>{errors.rol.message}</p>}
+                                            {errors.rol && <p style={{ color: 'darkred' }}>{errors.rol.message}</p>}
                                         </Form.Group>
                                     </div>
                                     <div className='col-md-6'>
@@ -310,7 +310,7 @@ const BandejaUsuarios = () => {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
-                        <p>Usuarios Encontrados</p>
+                        <p style={{ color: 'darkred', fontWeight: '600' }}>Usuarios encontrados</p>
                         {usuarios.length !== 0 ? (
                             <div>
                                 <RowsPerPage
@@ -332,10 +332,10 @@ const BandejaUsuarios = () => {
                                         {currentData.map((row, index) => (
                                             <tr key={index + 1}>
                                                 <td>{row.dni}</td>
-                                                <td>{row.nombre}</td>
-                                                <td>{row.apellido}</td>
-                                                <td>{row.nombreRol}</td>
-                                                <td>{row.Usuario ? row.Usuario.nombre + ' ' + row.Usuario.apellido : 'No tiene o es Profesor'}</td>
+                                                <td>{row.nombre?.toUpperCase()}</td>
+                                                <td>{row.apellido?.toUpperCase()}</td>
+                                                <td>{row.nombreRol?.toUpperCase()}</td>
+                                                <td>{row.Usuario ? row.Usuario.nombre?.toUpperCase() + ' ' + row.Usuario.apellido?.toUpperCase() : 'No tiene o es Profesor'}</td>
                                                 <td className="d-flex justify-content-center">
                                                     {row.idRol === 4 && (
                                                         <ActionButton
@@ -354,13 +354,13 @@ const BandejaUsuarios = () => {
                                                         />
                                                     )}
                                                     <ActionButton
-                                                        tooltipText="Ver Usuario"
+                                                        tooltipText="Ver usuario"
                                                         color="#EAD85A"
                                                         icon="bi-eye"
                                                         onClickFunction={() => navigate(`/verUsuario/${row.dni}`)}
                                                     />
                                                     <ActionButton
-                                                        tooltipText="Modificar Usuario"
+                                                        tooltipText="Modificar usuario"
                                                         color="#55E14E"
                                                         icon="bi-pencil-square"
                                                         onClickFunction={() => navigate(`/modificarUsuario/${row.dni}`)}
@@ -368,7 +368,7 @@ const BandejaUsuarios = () => {
 
                                                     {row.esActivo === 1 && (
                                                         <ActionButton
-                                                            tooltipText="Eliminar Usuario"
+                                                            tooltipText="Eliminar usuario"
                                                             color="red"
                                                             icon="bi-x"
                                                             onClickFunction={() => { handleRowClick(row); handleShowEliminarUsuario() }}
@@ -376,7 +376,7 @@ const BandejaUsuarios = () => {
                                                     )}
                                                     {row.esActivo === 0 && (
                                                         <ActionButton
-                                                            tooltipText="Activar Usuario"
+                                                            tooltipText="Activar usuario"
                                                             color="green"
                                                             icon="bi-check-lg"
                                                             onClickFunction={() => { handleRowClick(row); handleShowActivarUsuario() }}

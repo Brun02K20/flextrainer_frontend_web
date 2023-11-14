@@ -47,14 +47,14 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
 
     return (
         <>
-            <NavHeader encabezado="Ver Detalle Alumno" />
+            <NavHeader encabezado="Ver detalle de alumno" />
 
             <br></br>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
-                        <p>Alumno</p>
+                        <p style={{ color: 'darkred', fontWeight: '600' }}>Alumno</p>
 
                         <div className='row'>
                             <div className="col-md-6">
@@ -83,7 +83,7 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
                                         render={({ field }) => (
                                             <Form.Control
                                                 type="text"
-                                                placeholder={alumnoTraido.alumno ? alumnoTraido.alumno.nombre : ''}
+                                                placeholder={alumnoTraido.alumno ? alumnoTraido.alumno.nombre?.toUpperCase() : ''}
                                                 {...field}
                                                 disabled
                                             />
@@ -100,7 +100,7 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
                                         render={({ field }) => (
                                             <Form.Control
                                                 type="text"
-                                                placeholder={alumnoTraido.alumno ? alumnoTraido.alumno.apellido : ''}
+                                                placeholder={alumnoTraido.alumno ? alumnoTraido.alumno.apellido?.toUpperCase() : ''}
                                                 {...field}
                                                 disabled
                                             />
@@ -118,7 +118,7 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Navbar style={{ backgroundColor: 'darkred', width: '96%', borderRadius: '12px' }}>
                     <Link onClick={() => handleLinkClick('Plan')} style={{ marginLeft: '24px', color: 'white', textDecoration: 'none' }}>Plan</Link>
-                    <Link onClick={() => handleLinkClick('Alumno')} style={{ marginLeft: '24px', color: 'white', textDecoration: 'none' }}>Informacion</Link>
+                    <Link onClick={() => handleLinkClick('Alumno')} style={{ marginLeft: '24px', color: 'white', textDecoration: 'none' }}>Información</Link>
 
                 </Navbar>
             </div>
@@ -134,17 +134,17 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
                                     <Card border="danger" style={{ width: '96%' }}>
                                         <Card.Body>
                                             <div className='row'>
-                                                <p style={{ textAlign: 'left' }}>Plan</p>
-                                                <div className="col-md-6">
+                                                <p style={{ textAlign: 'left', color: 'darkred', fontWeight: '600' }}>Plan</p>
+                                                <div className="col-md-6" style={{ textAlign: 'left' }}>
                                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput8">
-                                                        <Form.Label>Nombre</Form.Label>
+                                                        <Form.Label >Nombre</Form.Label>
                                                         <Controller
                                                             name="nombre"
                                                             control={control}
                                                             render={({ field }) => (
                                                                 <Form.Control
                                                                     type="text"
-                                                                    placeholder={alumnoTraido.plan ? alumnoTraido.plan.nombre : ''}
+                                                                    placeholder={alumnoTraido.plan ? alumnoTraido.plan.nombre?.toUpperCase() : ''}
                                                                     {...field}
                                                                     disabled
                                                                 />
@@ -152,9 +152,9 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
                                                         />
                                                     </Form.Group>
                                                 </div>
-                                                <div className="col-md-6">
+                                                <div className="col-md-6" style={{ textAlign: 'left' }}>
                                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput8">
-                                                        <Form.Label>Cantidad de Sesiones</Form.Label>
+                                                        <Form.Label>Cantidad de sesiones</Form.Label>
                                                         <Controller
                                                             name="cantSesiones"
                                                             control={control}
@@ -169,9 +169,9 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
                                                         />
                                                     </Form.Group>
                                                 </div>
-                                                <div className="col-md-6">
+                                                <div className="col-md-6" style={{ textAlign: 'left' }}>
                                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput8">
-                                                        <Form.Label>Objetivo del Plan</Form.Label>
+                                                        <Form.Label>Objetivo del plan</Form.Label>
                                                         <Controller
                                                             name="objPlan"
                                                             control={control}
@@ -188,7 +188,7 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
                                                 </div>
                                             </div>
                                             <div className='row'>
-                                                <div className="col-md-12">
+                                                <div className="col-md-12" style={{ textAlign: 'left' }}>
                                                     <Form.Group className="mb-6" controlId="exampleForm.ControlInput8">
                                                         <Form.Label>Observaciones</Form.Label>
                                                         <Controller
@@ -215,12 +215,13 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <Card border="danger" style={{ width: '96%' }}>
                                         <Card.Body>
+                                            <p style={{ color: 'darkred', fontWeight: '600', textAlign: 'left' }}>Ejercicios</p>
                                             {alumnoTraido ? (
                                                 <>
                                                     {alumnoTraido.plan && alumnoTraido.plan.sesiones && alumnoTraido.plan.sesiones.map((sesion, index) => (
                                                         <>
-                                                            <div key={index}>
-                                                                <h3>Tabla Sesion N° {index + 1}</h3>
+                                                            <div key={index} style={{ textAlign: 'left' }}>
+                                                                <h3>Tabla de Sesión N° {index + 1}</h3>
                                                                 <Table striped bordered hover responsive>
                                                                     <thead>
                                                                         <tr>
@@ -229,18 +230,18 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
                                                                             <th>Series</th>
                                                                             <th>Repeticiones</th>
                                                                             <th>Descanso</th>
-                                                                            <th>Maquina</th>
+                                                                            <th>Máquina</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                         {sesion.ejercicios && sesion.ejercicios.map((ejercicio, ejercicioIndex) => (
                                                                             <tr key={ejercicioIndex}>
-                                                                                <td>{ejercicio["Ejercicio.nombre"]}</td>
-                                                                                <td>{ejercicio["tiempo"] ? ejercicio["tiempo"] : 'No aplica'}</td>
+                                                                                <td>{ejercicio["Ejercicio.nombre"]?.toUpperCase()}</td>
+                                                                                <td>{ejercicio["tiempo"] ? ejercicio["tiempo"] + " ' " : 'No aplica'}</td>
                                                                                 <td>{ejercicio["series"] ? ejercicio["series"] : 'No aplica'}</td>
                                                                                 <td>{ejercicio["repeticiones"] ? ejercicio["repeticiones"] : 'No aplica'}</td>
-                                                                                <td>{ejercicio["descanso"] ? ejercicio["descanso"] : 'No aplica'}</td>
-                                                                                <td>{ejercicio["Ejercicio.Maquinas.nombre"] ? ejercicio["Ejercicio.Maquinas.nombre"] : 'No aplica'}</td>
+                                                                                <td>{ejercicio["descanso"] ? ejercicio["descanso"] + " '' " : 'No aplica'}</td>
+                                                                                <td>{ejercicio["Ejercicio.Maquinas.nombre"] ? ejercicio["Ejercicio.Maquinas.nombre"]?.toUpperCase() : 'No aplica'}</td>
                                                                             </tr>
                                                                         ))}
                                                                     </tbody>
@@ -265,7 +266,7 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
                             <Card border="danger" style={{ width: '96%' }}>
                                 <Card.Body>
                                     <div className='row'>
-                                        <div className="col-md-6">
+                                        <div className="col-md-6" style={{ textAlign: 'left' }}>
                                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                                                 <Form.Label>Género</Form.Label>
                                                 <Controller
@@ -282,7 +283,7 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
                                                 />
                                             </Form.Group>
                                         </div>
-                                        <div className="col-md-6">
+                                        <div className="col-md-6" style={{ textAlign: 'left' }}>
                                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                                                 <Form.Label>Correo Electrónico</Form.Label>
                                                 <Controller
@@ -299,7 +300,7 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
                                                 />
                                             </Form.Group>
                                         </div>
-                                        <div className="col-md-6">
+                                        <div className="col-md-6" style={{ textAlign: 'left' }}>
                                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                                                 <Form.Label>Celular</Form.Label>
                                                 <Controller

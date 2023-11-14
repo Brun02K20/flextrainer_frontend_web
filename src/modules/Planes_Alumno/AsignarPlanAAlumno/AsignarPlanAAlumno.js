@@ -130,20 +130,20 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
         delete data.cantSesiones
         console.log(data)
 
-        await axios.post(`${API}/flextrainer/planesAlumnos/asignarPlanAAlumno`, data)
+        // await axios.post(`${API}/flextrainer/planesAlumnos/asignarPlanAAlumno`, data)
         navigate('/alumnosProfe')
     }
 
     return (
         <>
-            <NavHeader encabezado="Asignar Plan a alumno" />
+            <NavHeader encabezado="Asignar plan a alumno" />
 
             <br></br>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
-                        <p>Alumno</p>
+                        <p style={{ color: 'darkred', fontWeight: '600' }}>Alumno</p>
 
                         <div className='row'>
                             <div className="col-md-6">
@@ -172,7 +172,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
                                         render={({ field }) => (
                                             <Form.Control
                                                 type="text"
-                                                placeholder={alumnoTraido.alumno ? alumnoTraido.alumno.nombre : ''}
+                                                placeholder={alumnoTraido.alumno ? alumnoTraido.alumno.nombre?.toUpperCase() : ''}
                                                 {...field}
                                                 disabled
                                             />
@@ -189,7 +189,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
                                         render={({ field }) => (
                                             <Form.Control
                                                 type="text"
-                                                placeholder={alumnoTraido.alumno ? alumnoTraido.alumno.apellido : ''}
+                                                placeholder={alumnoTraido.alumno ? alumnoTraido.alumno.apellido?.toUpperCase() : ''}
                                                 {...field}
                                                 disabled
                                             />
@@ -209,6 +209,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
                         <div className='row'>
+                            <p style={{ color: 'darkred', fontWeight: '600' }}>Plan a asignar</p>
                             <div className="col-md-6">
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                                     <Form.Label>Plan*</Form.Label>
@@ -225,9 +226,9 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
                                             </Form.Select>
                                         )}
                                     />
-                                    {errors.idPlan && <p>{errors.idPlan.message}</p>}
+                                    {errors.idPlan && <p style={{ color: 'darkred' }}>{errors.idPlan.message}</p>}
                                 </Form.Group>
-                                {errorPlan && <p>Este campo es requerido</p>}
+                                {errorPlan && <p style={{ color: 'darkred' }}>Este campo es requerido</p>}
 
 
                             </div>
@@ -250,7 +251,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
                             </div>
                             <div className="col-md-6">
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                                    <Form.Label>Cantidad Sesiones</Form.Label>
+                                    <Form.Label>Cantidad de sesiones</Form.Label>
                                     <Controller
                                         name="cantSesiones"
                                         control={control}
@@ -268,7 +269,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
 
                             <div className="col-md-6">
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                                    <Form.Label>Fecha de Inicio*</Form.Label>
+                                    <Form.Label>Fecha de inicio</Form.Label>
                                     <Controller
                                         name='fechaInicio'
                                         control={control}
@@ -279,13 +280,13 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
                                             </div>
                                         )}
                                     />
-                                    {errors.fechaInicio && <p>{errors.fechaInicio.message}</p>}
+                                    {errors.fechaInicio && <p style={{ color: 'darkred' }}>{errors.fechaInicio.message}</p>}
                                 </Form.Group>
                             </div>
 
                             <div className="col-md-6">
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                                    <Form.Label>Fecha de Finalización*</Form.Label>
+                                    <Form.Label>Fecha de finalización</Form.Label>
                                     <Controller
                                         name='fechaFin'
                                         control={control}
@@ -297,10 +298,10 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
                                         )}
                                     />
                                     {/* en estos campos fecha me los crea con formato: yyyy-mm-dd */}
-                                    {errors.fechaFin && <p>{errors.fechaFin.message}</p>}
+                                    {errors.fechaFin && <p style={{ color: 'darkred' }}>{errors.fechaFin.message}</p>}
 
                                 </Form.Group>
-                                {errorFecha && <p>{errorFecha}</p>}
+                                {errorFecha && <p style={{ color: 'darkred' }}>{errorFecha}</p>}
                             </div>
 
                             <div className="col-md-12">
@@ -320,20 +321,20 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
                                         render={({ field }) => (
                                             <Form.Control
                                                 as='textarea'
-                                                placeholder="Ingresá tu nombre"
+                                                placeholder="Ingresá observaciones de este alumno"
                                                 {...field}
                                             />
                                         )}
                                     />
-                                    {errors.observaciones && <p>{errors.observaciones.message}</p>}
+                                    {errors.observaciones && <p style={{ color: 'darkred' }}>{errors.observaciones.message}</p>}
                                 </Form.Group>
                             </div>
                         </div>
                         <Nav style={{ backgroundColor: '#F2F2F2', borderRadius: '12px', marginTop: '8px' }} className="justify-content-end">
-                            <Button style={{ backgroundColor: '#555555' }} onClick={() => handleBack()} >
+                            <Button style={{ backgroundColor: 'grey', border: 'none', margin: '8px' }} onClick={() => handleBack()} >
                                 Cancelar
                             </Button>
-                            <Button style={{ backgroundColor: '#910012' }} onClick={handleSubmit(onSubmit)}>
+                            <Button style={{ backgroundColor: 'darkred', border: 'none', margin: '8px' }} onClick={handleSubmit(onSubmit)}>
                                 Registrar
                             </Button>
                         </Nav>
@@ -346,12 +347,13 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
+                        <p style={{ color: 'darkred', fontWeight: '600', textAlign: 'left' }}>Ejercicios</p>
                         {planElegido !== null ? (
                             <>
                                 {planElegido.sesiones && planElegido.sesiones.map((sesion, index) => (
 
                                     <div key={index}>
-                                        <h3>Tabla Sesion N° {index + 1}</h3>
+                                        <h3>Tabla de Sesión N° {index + 1}</h3>
                                         <Table striped bordered hover responsive>
                                             <thead>
                                                 <tr>
@@ -360,18 +362,18 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
                                                     <th>Series</th>
                                                     <th>Repeticiones</th>
                                                     <th>Descanso</th>
-                                                    <th>Maquina</th>
+                                                    <th>Máquina</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {sesion.ejercicios && sesion.ejercicios.map((ejercicio, ejercicioIndex) => (
                                                     <tr key={ejercicioIndex}>
-                                                        <td>{ejercicio["Ejercicio.nombre"]}</td>
-                                                        <td>{ejercicio["tiempo"] ? ejercicio["tiempo"] : 'No aplica'}</td>
+                                                        <td>{ejercicio["Ejercicio.nombre"]?.toUpperCase()}</td>
+                                                        <td>{ejercicio["tiempo"] ? ejercicio["tiempo"] + " ' " : 'No aplica'}</td>
                                                         <td>{ejercicio["series"] ? ejercicio["series"] : 'No aplica'}</td>
                                                         <td>{ejercicio["repeticiones"] ? ejercicio["repeticiones"] : 'No aplica'}</td>
-                                                        <td>{ejercicio["descanso"] ? ejercicio["descanso"] : 'No aplica'}</td>
-                                                        <td>{ejercicio["Ejercicio.Maquinas.nombre"] ? ejercicio["Ejercicio.Maquinas.nombre"] : 'No aplica'}</td>
+                                                        <td>{ejercicio["descanso"] ? ejercicio["descanso"] + " '' " : 'No aplica'}</td>
+                                                        <td>{ejercicio["Ejercicio.Maquinas.nombre"] ? ejercicio["Ejercicio.Maquinas.nombre"]?.toUpperCase() : 'No aplica'}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>

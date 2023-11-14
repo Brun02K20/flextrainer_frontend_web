@@ -83,14 +83,14 @@ const ConsultarMaquinas = () => {
 
     return (
         <>
-            <NavHeader encabezado='Consultar Maquinas y Equipamientos' />
+            <NavHeader encabezado='Consultar máquinas y equipamientos' />
 
             <br></br>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
-                        <p>Filtros de búsqueda</p>
+                        <p style={{ color: 'darkred', fontWeight: '600' }}>Filtros de búsqueda</p>
                         <Card.Body>
                             <Form>
                                 <div className="row">
@@ -105,7 +105,7 @@ const ConsultarMaquinas = () => {
                                                         {
                                                             pattern: {
                                                                 value: /^[a-zA-Z]+$/,
-                                                                message: 'Por favor, ingresa solo letras en este campo. Si el nombre de la máquina tiene una ñ, por favor usa `ni`'
+                                                                message: 'Por favor, ingresá solo letras en este campo.'
                                                             },
                                                             maxLength: {
                                                                 value: 30,
@@ -121,7 +121,7 @@ const ConsultarMaquinas = () => {
                                                         />
                                                     )}
                                                 />
-                                                {errors.nombre && <p>{errors.nombre.message}</p>}
+                                                {errors.nombre && <p style={{ color: 'darkred' }}>{errors.nombre.message}</p>}
                                             </Form.Group>
                                         </div>
                                         <br></br>
@@ -147,7 +147,7 @@ const ConsultarMaquinas = () => {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
                     <Card.Body>
-                        <p>Maquinas Encontradas</p>
+                        <p style={{ color: 'darkred', fontWeight: '600' }}>Máquinas encontradas</p>
                         {maquinas.length !== 0 ? (
                             <div>
                                 <RowsPerPage
@@ -164,7 +164,7 @@ const ConsultarMaquinas = () => {
                                     <tbody>
                                         {currentData.map((row, index) => (
                                             <tr key={index + 1}>
-                                                <td>{row.nombre}</td>
+                                                <td>{row.nombre?.toUpperCase()}</td>
                                                 <td className="d-flex justify-content-center">
                                                     <ActionButton
                                                         tooltipText="Ver Detalle"
