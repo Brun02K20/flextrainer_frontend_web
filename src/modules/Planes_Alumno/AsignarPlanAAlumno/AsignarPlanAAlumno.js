@@ -353,7 +353,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
                                 {planElegido.sesiones && planElegido.sesiones.map((sesion, index) => (
 
                                     <div key={index}>
-                                        <h3>Tabla de Sesión N° {index + 1}</h3>
+                                        <h3>Sesión N° {index + 1}</h3>
                                         <Table striped bordered hover responsive>
                                             <thead>
                                                 <tr>

@@ -464,7 +464,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                     <>
                                         {Array.from({ length: cantidadSesionesIndicadas }).map((_, index) => (
                                             <div key={index}>
-                                                <h2>Tabla de Sesión N° {index + 1}</h2>
+                                                <h2>Sesión N° {index + 1}</h2>
                                                 <Table striped bordered hover responsive key={index}>
                                                     <thead>
                                                         <tr>

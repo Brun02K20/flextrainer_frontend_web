@@ -341,7 +341,7 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                             </div>
                         ) : (
                             <div className='col s12 center'>
-                                <h3 style={{ textAlign: 'center' }}>NO HAY PLANES QUE CUMPLAN CON LO QUE INGRESASTE</h3>
+                                <h3 style={{ textAlign: 'center' }}>NO HAY ALUMNOS QUE CUMPLAN CON LO QUE INGRESASTE</h3>
                             </div>
                         )}
                     </Card.Body>
