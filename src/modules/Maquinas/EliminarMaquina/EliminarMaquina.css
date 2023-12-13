@@ -1,0 +1,17 @@
+.deleteMaquina-modal-header {
+    background-color: #881313;
+}
+
+.deleteMaquina-modal-header closeButton {
+    color: white
+}
+
+.deleteMaquina-modal-title {
+    color: white
+}
+
+.deleteMaquina-alertText {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+}

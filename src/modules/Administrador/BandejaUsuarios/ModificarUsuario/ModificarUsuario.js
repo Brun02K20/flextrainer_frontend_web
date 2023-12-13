@@ -44,8 +44,6 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
         }
     }, [setValue, user]);
 
-    // NOTA: VER QUE HACER CON EL CMAPO DE DNI, POR SE PK
-
     // funcion que se ejecutara en cuanto el usuario pulse REGISTRARSE, la cual procesara los datos ingresados, 
     // levara a cabo las respectivas validaciones, y enviara los datos al backend si dichas validaciones son todas exitosas
     const onSubmit = async (data) => {
@@ -81,7 +79,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
         }
     };
 
-    // funcion que se va a ejecutar en cuanto el usuario pulse el boton de volver, la cual lo llevara al componente Home (NO logueado)
+    // funcion que se va a ejecutar en cuanto el usuario pulse el boton de volver
     const handleBack = () => {
         navigate(-1);
     };
@@ -336,7 +334,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
                                 Cancelar
                             </Button>
                             <Button style={{ backgroundColor: '#910012', margin: '8px', border: 'none' }} onClick={handleSubmit(onSubmit)}>
-                                Registrar
+                                Modificar
                             </Button>
                         </Modal.Footer>
                     </Card>

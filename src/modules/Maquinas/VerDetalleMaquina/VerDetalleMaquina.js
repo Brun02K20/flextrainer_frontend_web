@@ -71,6 +71,11 @@ const VerDetalleMaquina = () => {
         console.log("por que no andaaaaaa?: ", API)
     }, [API])
 
+    const [imagenCargada, setImagenCargada] = useState(false);
+    const handleImagenCarga = () => {
+        setImagenCargada(true);
+    };
+
     return (
         <>
             <NavHeader encabezado={maquina.nombre ? maquina.nombre.toUpperCase() : ''} />
@@ -78,7 +83,7 @@ const VerDetalleMaquina = () => {
             <br></br>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <img src='https://http2.mlstatic.com/D_NQ_NP_810616-MLA52061690613_102022-O.webp' width='200' height='200'></img>
+                <img src={maquina.urlFoto ? maquina.urlFoto : ''} width='200' height='200'></img>
             </div>
 
             <br></br>

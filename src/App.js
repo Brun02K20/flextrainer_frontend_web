@@ -32,6 +32,8 @@ import { ConsultarAlumnosProfe } from './modules/Planes_Alumno/ConsultarAlumnosP
 import { VerDetalleAlumno } from './modules/Planes_Alumno/VerDetalleAlumno/VerDetalleAlumno.js';
 import { AsignarPlanAAlumno } from './modules/Planes_Alumno/AsignarPlanAAlumno/AsignarPlanAAlumno.js';
 import { MiPlan } from './modules/Alumno/MiPlan/MiPlan.js';
+import { RegistrarMaquina } from './modules/Maquinas/RegistrarMaquina/RegistrarMaquina.js';
+import { ModificarMaquina } from './modules/Maquinas/ModificarMaquina/ModificarMaquina.js';
 
 
 // declaro la funcion principal de la aplicacion
@@ -188,6 +190,20 @@ function App() {
             <MiPlan
               usuarioEnSesion={usuarioEnSesion}
             />
+          }
+        />
+
+        <Route
+          path='/registrarMaquina'
+          element={
+            <RegistrarMaquina />
+          }
+        />
+
+        <Route
+          path='/modificarMaquina/:id'
+          element={
+            <ModificarMaquina />
           }
         />
       </Routes>

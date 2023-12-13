@@ -1,0 +1,17 @@
+.activateMaquina-modal-header {
+    background-color: rgb(9, 78, 9);
+}
+
+.activateMaquina-modal-header closeButton {
+    color: white
+}
+
+.activateMaquina-modal-title {
+    color: white
+}
+
+.activateMaquina-alertText {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+}

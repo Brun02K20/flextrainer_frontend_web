@@ -5,7 +5,7 @@ import { useForm, Controller } from 'react-hook-form'; // importando funcionalid
 // importo componentes de estilos propios de la libreria react-bootstrap
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import { Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import axios from 'axios';
 import { NavHeader } from '../../../components/NavHeader/NavHeader';
 import { BackButton } from '../../../components/BackButton/BackButton';
@@ -15,6 +15,8 @@ import { SearchNavBar } from '../../../components/SearchNavbar/SearchNavBar.js';
 import { Paginator } from '../../../components/Pagination/Pagination.js';
 import { RowsPerPage } from '../../../components/Pagination/RowsPerPage.js';
 import { ActionButton } from '../../../components/ActionButton/ActionButton.js';
+import { EliminarMaquina } from '../EliminarMaquina/EliminarMaquina.js';
+import { ActivarMaquina } from '../ActivarMaquina/ActivarMaquina.js';
 
 
 const ConsultarMaquinas = () => {
@@ -25,11 +27,11 @@ const ConsultarMaquinas = () => {
     const [maquinas, setMaquinas] = useState([]); // estado para almacenar las maquinas que provengan del backend
 
     // trayendo inicialmente las maquinas del backend
+    const traerMaquinas = async () => {
+        const response = await axios.post(`${API}/flextrainer/maquinas/byFilters`);
+        setMaquinas(response.data)
+    }
     useEffect(() => {
-        const traerMaquinas = async () => {
-            const response = await axios.post(`${API}/flextrainer/maquinas/byFilters`);
-            setMaquinas(response.data)
-        }
         traerMaquinas()
     }, [])
 
@@ -40,6 +42,10 @@ const ConsultarMaquinas = () => {
             data.dadosBaja = 1;
         } else {
             data.dadosBaja = 0;
+        }
+
+        if (data.peso) {
+            data.peso = parseInt(data.peso)
         }
 
         console.log(data); // mostrando por consola que voy a enviar al backend
@@ -81,11 +87,35 @@ const ConsultarMaquinas = () => {
         setCurrentPage(1); // Reiniciar a la primera página cuando cambia el número de elementos por página
     };
 
+    // gestion del modal de Eliminar Maquina
+    const [showModalEliminarMaquina, setShowModalEliminarMaquina] = useState(false);
+    const handleCloseEliminarMaquina = () => setShowModalEliminarMaquina(false);
+    const handleShowEliminarMaquina = () => setShowModalEliminarMaquina(true);
+
+    // para que me muestre los datos de la maquina en el modal que yo elija
+    const [selectedMaquina, setSelectedMaquina] = useState(null);
+    const [isMaquinaSelected, setIsMaquinaSelected] = useState(false);
+    const handleRowClick = (plan) => {
+        setSelectedMaquina(plan);
+        setIsMaquinaSelected(true);
+    };
+
+    // gestion del modal de Activar Maquina
+    const [showModalActivarMaquina, setShowModalActivarMaquina] = useState(false);
+    const handleCloseActivarMaquina = () => setShowModalActivarMaquina(false);
+    const handleShowActivarMaquina = () => setShowModalActivarMaquina(true);
+
     return (
         <>
             <NavHeader encabezado='Consultar máquinas y equipamientos' />
 
             <br></br>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: '6%' }}>
+                <Button style={{ backgroundColor: 'darkred', border: 'none', marginBottom: '8px' }} onClick={() => navigate('/registrarMaquina')}>
+                    Nuevo
+                </Button>
+            </div>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
@@ -94,46 +124,107 @@ const ConsultarMaquinas = () => {
                         <Card.Body>
                             <Form>
                                 <div className="row">
-                                    <div className="col-md-12">
-                                        <div className="col-md-12">
-                                            <Form.Group className="mb-12" controlId="exampleForm.ControlInput1">
-                                                <Form.Label>Nombre</Form.Label>
-                                                <Controller
-                                                    name="nombre"
-                                                    control={control}
-                                                    rules={
-                                                        {
-                                                            pattern: {
-                                                                value: /^[a-zA-Z]+$/,
-                                                                message: 'Por favor, ingresá solo letras en este campo.'
-                                                            },
-                                                            maxLength: {
-                                                                value: 30,
-                                                                message: 'Máximo 30 caracteres'
-                                                            }
+                                    <div className="col-md-6">
+                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                            <Form.Label>Nombre</Form.Label>
+                                            <Controller
+                                                name="nombre"
+                                                control={control}
+                                                rules={
+                                                    {
+                                                        pattern: {
+                                                            value: /^[a-zA-Z]+$/,
+                                                            message: 'Por favor, ingresá solo letras en este campo.'
+                                                        },
+                                                        maxLength: {
+                                                            value: 30,
+                                                            message: 'Máximo 30 caracteres'
                                                         }
                                                     }
-                                                    render={({ field }) => (
-                                                        <Form.Control
-                                                            type="text"
-                                                            placeholder="Ingresá el nombre de la máquina que estás buscando"
-                                                            {...field}
-                                                        />
-                                                    )}
-                                                />
-                                                {errors.nombre && <p style={{ color: 'darkred' }}>{errors.nombre.message}</p>}
-                                            </Form.Group>
-                                        </div>
-                                        <br></br>
-                                        <div className='col-md-6'>
-                                            <Form.Check
-                                                type='checkbox'
-                                                id='checkbox-busqueda-maquinas'
-                                                label='Incluir dados de baja'
-                                                {...register('dadosBaja')}
+                                                }
+                                                render={({ field }) => (
+                                                    <Form.Control
+                                                        type="text"
+                                                        placeholder="Ingresá el nombre de la máquina que estás buscando"
+                                                        {...field}
+                                                    />
+                                                )}
                                             />
-                                        </div>
+                                            {errors.nombre && <p style={{ color: 'darkred' }}>{errors.nombre.message}</p>}
+                                        </Form.Group>
                                     </div>
+
+                                    <div className="col-md-6">
+                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                                            <Form.Label>Peso</Form.Label>
+                                            <Controller
+                                                name="peso"
+                                                control={control}
+                                                rules={
+                                                    {
+                                                        maxLength: {
+                                                            value: 3,
+                                                            message: 'El peso no puede tener mas de 3 caracteres'
+                                                        },
+                                                        pattern: {
+                                                            value: /^[0-9]+$/,
+                                                            message: 'Solo se permiten números positivos en este campo'
+                                                        }
+                                                    }
+                                                }
+                                                render={({ field }) => (
+                                                    <Form.Control
+                                                        type="number"
+                                                        placeholder="Ingresá un peso mínimo"
+                                                        {...field}
+                                                    />
+                                                )}
+                                            />
+                                            {errors.peso && <p style={{ color: 'darkred' }}>{errors.peso.message}</p>}
+                                        </Form.Group>
+                                    </div>
+
+                                    <div className="col-md-6">
+                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                            <Form.Label>Marca</Form.Label>
+                                            <Controller
+                                                name="marca"
+                                                control={control}
+                                                rules={
+                                                    {
+                                                        pattern: {
+                                                            value: /^[a-zA-Z]+$/,
+                                                            message: 'Por favor, ingresá solo letras en este campo.'
+                                                        },
+                                                        maxLength: {
+                                                            value: 30,
+                                                            message: 'Máximo 30 caracteres'
+                                                        }
+                                                    }
+                                                }
+                                                render={({ field }) => (
+                                                    <Form.Control
+                                                        type="text"
+                                                        placeholder="Ingresá el nombre de la marca de la máquina que estás buscando"
+                                                        {...field}
+                                                    />
+                                                )}
+                                            />
+                                            {errors.marca && <p style={{ color: 'darkred' }}>{errors.marca.message}</p>}
+                                        </Form.Group>
+                                    </div>
+
+                                    <br></br>
+
+                                    <div className='col-md-6'>
+                                        <Form.Check
+                                            type='checkbox'
+                                            id='checkbox-busqueda-maquinas'
+                                            label='Incluir dados de baja'
+                                            {...register('dadosBaja')}
+                                        />
+                                    </div>
+
                                 </div>
                                 <SearchNavBar handleClean={handleClean} handleSubmit={handleSubmit(onSubmit)} />
                             </Form>
@@ -158,6 +249,8 @@ const ConsultarMaquinas = () => {
                                     <thead>
                                         <tr>
                                             <th>Nombre</th>
+                                            <th>Marca</th>
+                                            <th>Peso</th>
                                             <th>Ver Detalle</th>
                                         </tr>
                                     </thead>
@@ -165,13 +258,37 @@ const ConsultarMaquinas = () => {
                                         {currentData.map((row, index) => (
                                             <tr key={index + 1}>
                                                 <td>{row.nombre?.toUpperCase()}</td>
+                                                <td>{row.marca?.toUpperCase()}</td>
+                                                <td>{row.peso} kg</td>
                                                 <td className="d-flex justify-content-center">
                                                     <ActionButton
                                                         tooltipText="Ver Detalle"
-                                                        color="#881313"
-                                                        icon="bi-grid-3x2"
+                                                        color="#EAD85A"
+                                                        icon="bi-eye"
                                                         onClickFunction={() => navigate(`/maquina/${row.id}`)}
                                                     />
+                                                    <ActionButton
+                                                        tooltipText="Modificar Máquina"
+                                                        color="#55E14E"
+                                                        icon="bi-pencil-square"
+                                                        onClickFunction={() => navigate(`/modificarMaquina/${row.id}`)}
+                                                    />
+                                                    {row.esActivo === 1 && (
+                                                        <ActionButton
+                                                            tooltipText="Eliminar Máquina"
+                                                            color="red"
+                                                            icon="bi-x"
+                                                            onClickFunction={() => { handleRowClick(row); handleShowEliminarMaquina() }}
+                                                        />
+                                                    )}
+                                                    {(row.esActivo === 0) && (
+                                                        <ActionButton
+                                                            tooltipText="Activar Máquina"
+                                                            color="green"
+                                                            icon="bi-check-lg"
+                                                            onClickFunction={() => { handleRowClick(row); handleShowActivarMaquina() }}
+                                                        />
+                                                    )}
                                                 </td>
                                             </tr>
                                         ))}
@@ -195,6 +312,26 @@ const ConsultarMaquinas = () => {
             <br></br>
 
             <BackButton handleBack={handleBack} />
+
+            <EliminarMaquina
+                showModalEliminarMaquina={showModalEliminarMaquina}
+                handleCloseEliminarMaquina={handleCloseEliminarMaquina}
+                setSelectedMaquina={setSelectedMaquina}
+                setIsMaquinaSelected={setIsMaquinaSelected}
+                selectedMaquina={selectedMaquina}
+                traerMaquinas={traerMaquinas}
+                handleClean={handleClean}
+            />
+
+            <ActivarMaquina
+                showModalActivarMaquina={showModalActivarMaquina}
+                handleCloseActivarMaquina={handleCloseActivarMaquina}
+                setSelectedMaquina={setSelectedMaquina}
+                setIsMaquinaSelected={setIsMaquinaSelected}
+                selectedMaquina={selectedMaquina}
+                traerMaquinas={traerMaquinas}
+                handleClean={handleClean}
+            />
         </>
     );
 }

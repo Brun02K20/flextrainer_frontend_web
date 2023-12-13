@@ -348,7 +348,7 @@ const BandejaUsuarios = () => {
                                                     {row.idRol === 2 && (
                                                         <ActionButton
                                                             tooltipText="Asignar profe"
-                                                            color="blue"
+                                                            color="darkgrey"
                                                             icon="bi-person-circle"
                                                             onClickFunction={() => { handleRowClick(row); handleShowAsignarProfe() }}
                                                         />
