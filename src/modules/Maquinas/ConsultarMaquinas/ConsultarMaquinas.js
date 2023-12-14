@@ -111,11 +111,25 @@ const ConsultarMaquinas = () => {
 
             <br></br>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: '6%' }}>
-                <Button style={{ backgroundColor: 'darkred', border: 'none', marginBottom: '8px' }} onClick={() => navigate('/registrarMaquina')}>
+
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', paddingRight: '6%', paddingLeft: '6%' }}>
+                <Button
+                    variant="secondary"
+                    style={{ backgroundColor: "darkred", border: 'none', borderRadius: '50%', marginBottom: '8px' }}
+                    onClick={() => navigate("/probarQR")}
+                >
+                    <i
+                        className={`bi bi-qr-code-scan`}
+                        style={{ fontSize: '24px' }}
+                    />
+                </Button>
+
+                <Button style={{ backgroundColor: 'darkred', border: 'none', marginBottom: '16px', marginLeft: 'auto' }} onClick={() => navigate('/registrarMaquina')}>
                     Nuevo
                 </Button>
             </div>
+
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>

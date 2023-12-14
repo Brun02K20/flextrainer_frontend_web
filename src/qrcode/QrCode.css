@@ -1,0 +1,10 @@
+.qr-code-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    /* Ajusta esto según tus necesidades para que ocupe el 100% del alto de la pantalla */
+}
+
+/* Otros estilos que desees agregar */
