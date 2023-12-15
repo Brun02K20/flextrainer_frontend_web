@@ -278,7 +278,7 @@ const ConsultarPlanesProfe = ({ usuarioEnSesion }) => {
                                                         tooltipText="Modificar Plan"
                                                         color="#55E14E"
                                                         icon="bi-pencil-square"
-                                                        onClickFunction={() => console.log("AUN NO TA HECHO ESTO")}
+                                                        onClickFunction={() => navigate(`/modificarPlan/${row.id}`)}
                                                     />
 
                                                     {row.esActivo === 1 && (

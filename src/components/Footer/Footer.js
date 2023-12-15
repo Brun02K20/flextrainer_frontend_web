@@ -7,7 +7,7 @@ const Footer = ({ navId, spanText }) => {
     return (
         <Nav className="justify-content-center" id={navId}>
             <Nav.Item>
-                <Nav.Link>
+                <Nav.Link href='https://www.facebook.com/profile.php?id=61554508115919' target="_blank">
                     <div className="icon-text-container">
                         <i
                             className="bi bi-facebook"

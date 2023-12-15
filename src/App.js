@@ -35,6 +35,7 @@ import { MiPlan } from './modules/Alumno/MiPlan/MiPlan.js';
 import { RegistrarMaquina } from './modules/Maquinas/RegistrarMaquina/RegistrarMaquina.js';
 import { ModificarMaquina } from './modules/Maquinas/ModificarMaquina/ModificarMaquina.js';
 import { QrCode } from './qrcode/QrCode.js';
+import { ModificarPlan } from './modules/Planes/ModificarPlan/ModificarPlan.js';
 
 
 // declaro la funcion principal de la aplicacion
@@ -212,6 +213,13 @@ function App() {
           path='/probarQR'
           element={
             <QrCode />
+          }
+        />
+
+        <Route
+          path='/modificarPlan/:id'
+          element={
+            <ModificarPlan />
           }
         />
       </Routes>
