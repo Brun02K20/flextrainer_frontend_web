@@ -31,7 +31,7 @@ const QrCode = () => {
                     style={{ width: '75%' }}
                 />
                 <br></br>
-                <p style={{ textAlign: 'center' }}>Ingresá al siguiente link para ver la máquina: <a href={result?.text} target='_blank'>{result?.text}</a></p>
+                <p style={{ textAlign: 'center' }}>Ingresá al siguiente link para ver la máquina: <a href={result?.text}>{result?.text}</a></p>
 
                 <br></br>
                 <BackButton handleBack={handleBack} />
