@@ -6,11 +6,13 @@ import { useNavigate } from 'react-router-dom';
 
 const QrCode = () => {
     const [result, setResult] = useState(null); // Estado para almacenar el resultado del escaneo
+    const [pathAfterDomain, setPathAfterDomain] = useState(null)
     const navigate = useNavigate()
 
     const handleScan = data => {
         if (data) {
             setResult(data);
+            setPathAfterDomain(result?.text.replace(/^(https?:\/\/[^/]+)?/, ''))
         }
     }
 
@@ -20,6 +22,7 @@ const QrCode = () => {
 
     const handleBack = () => {
         navigate(-1)
+        setResult(null)
     }
 
     return (
@@ -31,7 +34,10 @@ const QrCode = () => {
                     style={{ width: '75%' }}
                 />
                 <br></br>
-                <p style={{ textAlign: 'center' }}>Ingresá al siguiente link para ver la máquina: <a href={result?.text}>{result?.text}</a></p>
+                {result && pathAfterDomain && (
+                    <p style={{ textAlign: 'center' }} onClick={() => { navigate(pathAfterDomain) }}>Ingresá al siguiente link para ver la máquina: <a>{result?.text}</a></p>
+                )}
+
 
                 <br></br>
                 <BackButton handleBack={handleBack} />
