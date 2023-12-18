@@ -7,6 +7,7 @@ import Card from 'react-bootstrap/Card';
 import { useForm, Controller } from 'react-hook-form';
 import { Button, Modal, Alert, Spinner } from 'react-bootstrap';
 import axios from 'axios';
+import { API } from '../../../constants/api.js';
 
 const RegistrarMaquina = () => {
     const { handleSubmit, reset, setValue, control, formState: { errors }, register } = useForm();
@@ -25,7 +26,7 @@ const RegistrarMaquina = () => {
 
             console.log("a enviar los datos: ", formData)
 
-            const response = await axios.post('http://localhost:4001/flextrainer/maquinas/upload', formData, {
+            const response = await axios.post(`${API}/flextrainer/maquinas/upload`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
