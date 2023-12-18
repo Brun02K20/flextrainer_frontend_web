@@ -44,7 +44,9 @@ const LoginModal = ({ show, handleClose, setUsuarioEnSesion }) => {
         console.log(data); // consoleando los datos ingresados por el usuario
 
         // haciendo la peticion de login al backend a traves de axios
-        const user = await axios.post(`${API}/flextrainer/usuarios/login`, data);
+        const user = await axios.post(`${API}/flextrainer/usuarios/login`, data, {
+            timeout: 500000
+        });
         console.log(user.data); // imprime la respuesta por consola
 
         // si el backend devuelve un error, me setea el estado de error, como el valor correspondiente, y corta la funcion de peticion
@@ -59,8 +61,6 @@ const LoginModal = ({ show, handleClose, setUsuarioEnSesion }) => {
 
     return (
         <>
-            // declarando que habra un modal en el compoennte, que recibe 2 propiedades, el show, que es un booleano, donde
-            // si es true, muestra el modal, y si es falso, se cierra. handleClose basicamente setea ese booleando en false
             <Modal show={show} onHide={handleClose}>
                 {/* Header del modal */}
                 <Modal.Header closeButton className='login-modal-header'>
@@ -90,7 +90,7 @@ const LoginModal = ({ show, handleClose, setUsuarioEnSesion }) => {
                                         },
                                         maxLength: {
                                             value: 8,
-                                            message: 'El DNI no puede tener mas de 8 caracteres'
+                                            message: 'El DNI no puede tener más de 8 caracteres'
                                         },
                                         minLength: {
                                             value: 7,
@@ -113,7 +113,7 @@ const LoginModal = ({ show, handleClose, setUsuarioEnSesion }) => {
                                 )}
                             />
                             {/* si alguna validacion declarada en el objeto rules no funciona, se muestra el respectivo mensaje */}
-                            {errors.dni && <p>{errors.dni.message}</p>}
+                            {errors.dni && <p style={{ color: 'darkred' }}>{errors.dni.message}</p>}
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
@@ -129,7 +129,7 @@ const LoginModal = ({ show, handleClose, setUsuarioEnSesion }) => {
                                         },
                                         maxLength: {
                                             value: 15,
-                                            message: 'La contraseña no puede tener mas de 15 caracteres'
+                                            message: 'La contraseña no puede tener más de 15 caracteress'
                                         },
                                         minLength: {
                                             value: 8,
@@ -161,8 +161,8 @@ const LoginModal = ({ show, handleClose, setUsuarioEnSesion }) => {
                                     </div>
                                 )}
                             />
-                            {errors.password && <p>{errors.password.message}</p>}
-                            {errorLoginBack && <p>{errorLoginBack}</p>}
+                            {errors.password && <p style={{ color: 'darkred' }}>{errors.password.message}</p>}
+                            {errorLoginBack && <p style={{ color: 'darkred' }}>{errorLoginBack}</p>}
                         </Form.Group>
                     </Form>
 
@@ -182,8 +182,6 @@ const LoginModal = ({ show, handleClose, setUsuarioEnSesion }) => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
-
 
             {/* Si es verdadero el estado de SHOWMODAL, que renderice el Modal de Inicio de Sesion */}
             <RecoverPassword

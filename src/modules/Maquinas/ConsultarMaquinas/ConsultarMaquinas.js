@@ -19,7 +19,7 @@ import { EliminarMaquina } from '../EliminarMaquina/EliminarMaquina.js';
 import { ActivarMaquina } from '../ActivarMaquina/ActivarMaquina.js';
 
 
-const ConsultarMaquinas = () => {
+const ConsultarMaquinas = ({ usuarioEnSesion }) => {
     // declaro las funcionalidades necesarias para gestionar formularios, en este caso, tendremos un formulario de
     // busqueda, que se utilizara como un filtrador de datos
     const { handleSubmit, control, formState: { errors }, register, setValue, reset } = useForm();
@@ -28,7 +28,7 @@ const ConsultarMaquinas = () => {
 
     // trayendo inicialmente las maquinas del backend
     const traerMaquinas = async () => {
-        const response = await axios.post(`${API}/flextrainer/maquinas/byFilters`);
+        const response = await axios.post(`${API}/flextrainer/maquinas/byFilters`, null, { timeout: 500000 });
         setMaquinas(response.data)
     }
     useEffect(() => {
@@ -53,7 +53,7 @@ const ConsultarMaquinas = () => {
         }
 
         console.log(data); // mostrando por consola que voy a enviar al backend
-        const response = await axios.post(`${API}/flextrainer/maquinas/byFilters`, data); // haciendo la peticion
+        const response = await axios.post(`${API}/flextrainer/maquinas/byFilters`, data, { timeout: 500000 }); // haciendo la peticion
         setCurrentPage(1); // seteando l pagina que se va amostrar de la grilla
         setMaquinas(response.data); // seteo el estado de usuarios, como lo devuelto por la api
     }
@@ -115,8 +115,6 @@ const ConsultarMaquinas = () => {
 
             <br></br>
 
-
-
             <div style={{ display: 'flex', justifyContent: 'space-between', paddingRight: '6%', paddingLeft: '6%' }}>
                 <Button
                     variant="secondary"
@@ -129,11 +127,12 @@ const ConsultarMaquinas = () => {
                     />
                 </Button>
 
-                <Button style={{ backgroundColor: 'darkred', border: 'none', marginBottom: '16px', marginLeft: 'auto' }} onClick={() => navigate('/registrarMaquina')}>
-                    Nuevo
-                </Button>
+                {usuarioEnSesion.idRol === 3 &&
+                    <Button style={{ backgroundColor: 'darkred', border: 'none', marginBottom: '16px', marginLeft: 'auto' }} onClick={() => navigate('/registrarMaquina')}>
+                        Nuevo
+                    </Button>
+                }
             </div>
-
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Card border="danger" style={{ width: '96%' }}>
@@ -150,10 +149,6 @@ const ConsultarMaquinas = () => {
                                                 control={control}
                                                 rules={
                                                     {
-                                                        pattern: {
-                                                            value: /^[a-zA-Z]+$/,
-                                                            message: 'Por favor, ingresá solo letras en este campo.'
-                                                        },
                                                         maxLength: {
                                                             value: 30,
                                                             message: 'Máximo 30 caracteres'
@@ -187,6 +182,10 @@ const ConsultarMaquinas = () => {
                                                         pattern: {
                                                             value: /^[0-9]+$/,
                                                             message: 'Solo se permiten números positivos en este campo'
+                                                        },
+                                                        max: {
+                                                            value: 999,
+                                                            message: "El valor maximo a ingresar es de 999 kg"
                                                         }
                                                     }
                                                 }
@@ -210,10 +209,6 @@ const ConsultarMaquinas = () => {
                                                 control={control}
                                                 rules={
                                                     {
-                                                        pattern: {
-                                                            value: /^[a-zA-Z]+$/,
-                                                            message: 'Por favor, ingresá solo letras en este campo.'
-                                                        },
                                                         maxLength: {
                                                             value: 30,
                                                             message: 'Máximo 30 caracteres'
@@ -242,7 +237,6 @@ const ConsultarMaquinas = () => {
                                             {...register('dadosBaja')}
                                         />
                                     </div>
-
                                 </div>
                                 <SearchNavBar handleClean={handleClean} handleSubmit={handleSubmit(onSubmit)} />
                             </Form>
@@ -285,13 +279,15 @@ const ConsultarMaquinas = () => {
                                                         icon="bi-eye"
                                                         onClickFunction={() => navigate(`/maquina/${row.id}`)}
                                                     />
-                                                    <ActionButton
-                                                        tooltipText="Modificar Máquina"
-                                                        color="#55E14E"
-                                                        icon="bi-pencil-square"
-                                                        onClickFunction={() => navigate(`/modificarMaquina/${row.id}`)}
-                                                    />
-                                                    {row.esActivo === 1 && (
+                                                    {usuarioEnSesion.idRol === 3 &&
+                                                        <ActionButton
+                                                            tooltipText="Modificar Máquina"
+                                                            color="#55E14E"
+                                                            icon="bi-pencil-square"
+                                                            onClickFunction={() => navigate(`/modificarMaquina/${row.id}`)}
+                                                        />
+                                                    }
+                                                    {row.esActivo === 1 && usuarioEnSesion.idRol === 3 && (
                                                         <ActionButton
                                                             tooltipText="Eliminar Máquina"
                                                             color="red"
@@ -299,7 +295,7 @@ const ConsultarMaquinas = () => {
                                                             onClickFunction={() => { handleRowClick(row); handleShowEliminarMaquina() }}
                                                         />
                                                     )}
-                                                    {(row.esActivo === 0) && (
+                                                    {(row.esActivo === 0 && usuarioEnSesion.idRol === 3) && (
                                                         <ActionButton
                                                             tooltipText="Activar Máquina"
                                                             color="green"

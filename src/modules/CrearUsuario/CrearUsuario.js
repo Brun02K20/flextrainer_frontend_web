@@ -49,7 +49,7 @@ const CrearUsuario = () => {
         data.dni = parseInt(data.dni);
         console.log(data);
 
-        const response = await axios.post(`${API}/flextrainer/usuarios/`, data);
+        const response = await axios.post(`${API}/flextrainer/usuarios/`, data, { timeout: 500000 });
         console.log("rta creacion: ", response.data)
 
         if (response.data.error) {
@@ -189,7 +189,7 @@ const CrearUsuario = () => {
                                                         message: 'Este campo es requerido'
                                                     },
                                                     pattern: {
-                                                        value: /^[a-zA-Z]+$/,
+                                                        value: /^[a-zA-ZÁÉÍÓÚÜÑáéíóúüñ\s]+$/,
                                                         message: 'Porfavor, ingresá solo letras en este campo.'
                                                     },
                                                     maxLength: {
@@ -222,7 +222,7 @@ const CrearUsuario = () => {
                                                         message: 'Este campo es requerido'
                                                     },
                                                     pattern: {
-                                                        value: /^[a-zA-Z]+$/,
+                                                        value: /^[a-zA-ZÁÉÍÓÚÜÑáéíóúüñ\s]+$/,
                                                         message: 'Porfavor, ingresá solo letras en este campo.'
                                                     },
                                                     maxLength: {
@@ -288,7 +288,7 @@ const CrearUsuario = () => {
                             <div className='row'>
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput6">
-                                        <Form.Label>Correo Electrónico</Form.Label>
+                                        <Form.Label>Correo Electrónico*</Form.Label>
                                         <Controller
                                             name="correoElectronico"
                                             control={control}

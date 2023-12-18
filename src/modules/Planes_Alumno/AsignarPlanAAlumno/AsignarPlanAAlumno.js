@@ -37,7 +37,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
 
     useEffect(() => {
         const traerAlumno = async () => {
-            const response = await axios.get(`${API}/flextrainer/planesAlumnos/alumnoProfe/${usuarioEnSesion.dni}/${dniAlumno}`)
+            const response = await axios.get(`${API}/flextrainer/planesAlumnos/alumnoProfe/${usuarioEnSesion.dni}/${dniAlumno}`, { timeout: 500000 })
             setAlumnoTraido(response.data)
         }
         traerAlumno()
@@ -71,7 +71,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
     useEffect(() => {
         if (idElegido) {
             const traerDetailPlan = async () => {
-                const planazo = await axios.get(`${API}/flextrainer/planes/plan/${idElegido}`)
+                const planazo = await axios.get(`${API}/flextrainer/planes/plan/${idElegido}`, { timeout: 500000 })
                 setPlanElegido(planazo.data)
             }
             traerDetailPlan()
@@ -130,7 +130,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
         delete data.cantSesiones
         console.log(data)
 
-        await axios.post(`${API}/flextrainer/planesAlumnos/asignarPlanAAlumno`, data)
+        await axios.post(`${API}/flextrainer/planesAlumnos/asignarPlanAAlumno`, data, { timeout: 500000 })
         navigate('/alumnosProfe')
     }
 
@@ -269,7 +269,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
 
                             <div className="col-md-6">
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                                    <Form.Label>Fecha de inicio</Form.Label>
+                                    <Form.Label>Fecha de inicio*</Form.Label>
                                     <Controller
                                         name='fechaInicio'
                                         control={control}
@@ -286,7 +286,7 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
 
                             <div className="col-md-6">
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                                    <Form.Label>Fecha de finalización</Form.Label>
+                                    <Form.Label>Fecha de finalización*</Form.Label>
                                     <Controller
                                         name='fechaFin'
                                         control={control}
@@ -313,8 +313,8 @@ const AsignarPlanAAlumno = ({ usuarioEnSesion }) => {
                                         rules={
                                             {
                                                 maxLength: {
-                                                    value: 200,
-                                                    message: 'Maximo 200 caracteres'
+                                                    value: 900,
+                                                    message: 'Maximo 900 caracteres'
                                                 }
                                             }
                                         }

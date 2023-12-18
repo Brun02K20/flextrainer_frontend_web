@@ -15,7 +15,7 @@ const VerDetalleEjercicio = ({ show, handleClose, idEjercicioElegido, setIdEjerc
     useEffect(() => {
         const traerEjercicio = async () => {
             if (idEjercicioElegido !== null && idEjercicioElegido !== 0 && show) {
-                const response = await axios.get(`${API}/flextrainer/ejercicios/ejercicio/${idEjercicioElegido}`);
+                const response = await axios.get(`${API}/flextrainer/ejercicios/ejercicio/${idEjercicioElegido}`, { timeout: 500000 });
                 setEjercicio(response.data)
             }
         }

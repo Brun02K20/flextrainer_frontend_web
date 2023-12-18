@@ -1,11 +1,11 @@
-.me-modal-header {
+.ae-modal-header {
     background-color: darkred;
 }
 
-.me-modal-header closeButton {
+.ae-modal-header closeButton {
     color: white
 }
 
-.me-modal-title {
+.ae-modal-title {
     color: white
 }

@@ -25,7 +25,7 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
 
     useEffect(() => {
         const traerAlumno = async () => {
-            const response = await axios.get(`${API}/flextrainer/planesAlumnos/alumnoProfe/${usuarioEnSesion.dni}/${id}`)
+            const response = await axios.get(`${API}/flextrainer/planesAlumnos/alumnoProfe/${usuarioEnSesion.dni}/${id}`, { timeout: 500000 })
             setAlumnoTraido(response.data)
         }
         traerAlumno()
@@ -237,11 +237,11 @@ const VerDetalleAlumno = ({ usuarioEnSesion }) => {
                                                                         {sesion.ejercicios && sesion.ejercicios.map((ejercicio, ejercicioIndex) => (
                                                                             <tr key={ejercicioIndex}>
                                                                                 <td>{ejercicio["Ejercicio.nombre"]?.toUpperCase()}</td>
-                                                                                <td>{ejercicio["tiempo"] ? ejercicio["tiempo"] + " ' " : 'No aplica'}</td>
-                                                                                <td>{ejercicio["series"] ? ejercicio["series"] : 'No aplica'}</td>
-                                                                                <td>{ejercicio["repeticiones"] ? ejercicio["repeticiones"] : 'No aplica'}</td>
-                                                                                <td>{ejercicio["descanso"] ? ejercicio["descanso"] + " '' " : 'No aplica'}</td>
-                                                                                <td>{ejercicio["Ejercicio.Maquinas.nombre"] ? ejercicio["Ejercicio.Maquinas.nombre"]?.toUpperCase() : 'No aplica'}</td>
+                                                                                <td>{ejercicio["tiempo"] ? ejercicio["tiempo"] + " ' " : '--------'}</td>
+                                                                                <td>{ejercicio["series"] ? ejercicio["series"] : '--------'}</td>
+                                                                                <td>{ejercicio["repeticiones"] ? ejercicio["repeticiones"] : '--------'}</td>
+                                                                                <td>{ejercicio["descanso"] ? ejercicio["descanso"] + " '' " : '--------'}</td>
+                                                                                <td>{ejercicio["Ejercicio.Maquinas.nombre"] ? ejercicio["Ejercicio.Maquinas.nombre"]?.toUpperCase() : '--------'}</td>
                                                                             </tr>
                                                                         ))}
                                                                     </tbody>

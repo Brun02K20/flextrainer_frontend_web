@@ -33,7 +33,7 @@ const VerDetalleMaquina = () => {
     useEffect(() => {
         const traerMaquina = async () => {
             if (id !== null && id != 0 && !showME && idEjercicioElegido == 0) {
-                const response = await axios.get(`${API}/flextrainer/maquinas/maquina/${id}`)
+                const response = await axios.get(`${API}/flextrainer/maquinas/maquina/${id}`, { timeout: 500000 })
                 setMaquina(response.data)
             }
         }

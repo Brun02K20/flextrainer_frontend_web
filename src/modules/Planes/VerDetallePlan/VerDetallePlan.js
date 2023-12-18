@@ -24,7 +24,7 @@ const VerDetallePlan = () => {
 
     useEffect(() => {
         const traerPlan = async () => {
-            const response = await axios.get(`${API}/flextrainer/planes/plan/${id}`)
+            const response = await axios.get(`${API}/flextrainer/planes/plan/${id}`, { timeout: 500000 })
             setPlanTraido(response.data)
         }
         traerPlan()
@@ -135,11 +135,11 @@ const VerDetallePlan = () => {
                                                     {sesion.ejercicios && sesion.ejercicios.map((ejercicio, ejercicioIndex) => (
                                                         <tr key={ejercicioIndex}>
                                                             <td>{ejercicio["Ejercicio.nombre"]?.toUpperCase()}</td>
-                                                            <td>{ejercicio["tiempo"] ? ejercicio["tiempo"] + " ' " : 'No aplica'}</td>
-                                                            <td>{ejercicio["series"] ? ejercicio["series"] : 'No aplica'}</td>
-                                                            <td>{ejercicio["repeticiones"] ? ejercicio["repeticiones"] : 'No aplica'}</td>
-                                                            <td>{ejercicio["descanso"] ? ejercicio["descanso"] + " '' " : 'No aplica'}</td>
-                                                            <td>{ejercicio["Ejercicio.Maquinas.nombre"] ? ejercicio["Ejercicio.Maquinas.nombre"]?.toUpperCase() : 'No aplica'}</td>
+                                                            <td>{ejercicio["tiempo"] ? ejercicio["tiempo"] + " ' " : '--------'}</td>
+                                                            <td>{ejercicio["series"] ? ejercicio["series"] : '--------'}</td>
+                                                            <td>{ejercicio["repeticiones"] ? ejercicio["repeticiones"] : '--------'}</td>
+                                                            <td>{ejercicio["descanso"] ? ejercicio["descanso"] + " '' " : '--------'}</td>
+                                                            <td>{ejercicio["Ejercicio.Maquinas.nombre"] ? ejercicio["Ejercicio.Maquinas.nombre"]?.toUpperCase() : '--------'}</td>
                                                         </tr>
                                                     ))}
                                                 </tbody>

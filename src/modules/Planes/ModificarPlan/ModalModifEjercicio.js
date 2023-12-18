@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import { Controller, useForm } from 'react-hook-form'
+import "./ModificarPlan.css"
 
 const ModalModifEjercicio = ({
     show,
@@ -32,6 +33,8 @@ const ModalModifEjercicio = ({
             if (ejercicioAModificar.descanso) {
                 setValue("descanso", ejercicioAModificar.descanso)
             }
+        } else {
+            reset()
         }
     }, [ejercicioAModificar, nuevosValores])
 
@@ -52,6 +55,9 @@ const ModalModifEjercicio = ({
         // Clonar el objeto planTraido para evitar mutaciones directas
         const nuevoPlanTraido = { ...planTraido };
 
+        console.log("indice de la sesion: ", sesionIndexMod)
+        console.log("que carajo pasa con el plan traido: ", nuevoPlanTraido.sesiones)
+
         // Actualizar los valores del ejercicio
         nuevoPlanTraido.sesiones[sesionIndexMod].ejercicios[ejercicioIndexMod].tiempo = data.tiempo;
         nuevoPlanTraido.sesiones[sesionIndexMod].ejercicios[ejercicioIndexMod].series = data.series;
@@ -70,7 +76,6 @@ const ModalModifEjercicio = ({
         console.log("indice sesion: ", sesionIndexMod)
         console.log("indice ejercicio: ", ejercicioIndexMod)
     }, [sesionIndexMod, ejercicioIndexMod])
-
 
     return (
         <>
@@ -91,26 +96,20 @@ const ModalModifEjercicio = ({
                                             <Controller
                                                 name='tiempo'
                                                 control={control}
-                                                rules={
-                                                    {
-                                                        required: {
-                                                            value: true,
-                                                            message: "El campo es requerido"
-                                                        },
-                                                        pattern: {
-                                                            value: /^[0-9]+$/,
-                                                            message: 'Solo se permiten números positivos en este campo'
-                                                        },
-                                                        max: {
-                                                            value: 99,
-                                                            message: "El valor maximo es 99"
-                                                        },
-                                                        min: {
-                                                            value: 1,
-                                                            message: "El valor minimo es 1"
-                                                        }
+                                                rules={{
+                                                    required: {
+                                                        value: true,
+                                                        message: 'Ingresá el tiempo del ejercicio en minutos'
+                                                    },
+                                                    pattern: {
+                                                        value: /^[1-9][0-9]*$/,
+                                                        message: 'Por favor, ingresá solo números positivos en este campo.'
+                                                    },
+                                                    max: {
+                                                        value: 59,
+                                                        message: "La máxima cantidad de minutos permitidos es 59"
                                                     }
-                                                }
+                                                }}
                                                 render={({ field }) => (
                                                     // Form.Control es el campo que se va a mostrar por pantalla, y render es la funcion que permite mostrarlo
                                                     <Form.Control
@@ -131,26 +130,16 @@ const ModalModifEjercicio = ({
                                             <Controller
                                                 name='series'
                                                 control={control}
-                                                rules={
-                                                    {
-                                                        required: {
-                                                            value: true,
-                                                            message: "El campo es requerido"
-                                                        },
-                                                        pattern: {
-                                                            value: /^[0-9]+$/,
-                                                            message: 'Solo se permiten números positivos en este campo'
-                                                        },
-                                                        max: {
-                                                            value: 99,
-                                                            message: "El valor maximo es 99"
-                                                        },
-                                                        min: {
-                                                            value: 1,
-                                                            message: "El valor minimo es 1"
-                                                        }
-                                                    }
-                                                }
+                                                rules={{
+                                                    required: {
+                                                        value: true,
+                                                        message: 'Ingresá las series'
+                                                    },
+                                                    pattern: {
+                                                        value: /^(?:[1-9]|[1-9][0-9])$/,
+                                                        message: 'Por favor, ingresá un número entre 1 y 99.'
+                                                    },
+                                                }}
                                                 render={({ field }) => (
                                                     // Form.Control es el campo que se va a mostrar por pantalla, y render es la funcion que permite mostrarlo
                                                     <Form.Control
@@ -171,26 +160,16 @@ const ModalModifEjercicio = ({
                                             <Controller
                                                 name='repeticiones'
                                                 control={control}
-                                                rules={
-                                                    {
-                                                        required: {
-                                                            value: true,
-                                                            message: "El campo es requerido"
-                                                        },
-                                                        pattern: {
-                                                            value: /^[0-9]+$/,
-                                                            message: 'Solo se permiten números positivos en este campo'
-                                                        },
-                                                        max: {
-                                                            value: 99,
-                                                            message: "El valor maximo es 99"
-                                                        },
-                                                        min: {
-                                                            value: 1,
-                                                            message: "El valor minimo es 1"
-                                                        }
-                                                    }
-                                                }
+                                                rules={{
+                                                    required: {
+                                                        value: true,
+                                                        message: 'Ingresá las repeticiones'
+                                                    },
+                                                    pattern: {
+                                                        value: /^(?:[1-9]|[1-9][0-9])$/,
+                                                        message: 'Por favor, ingresá un número entre 1 y 99.'
+                                                    },
+                                                }}
                                                 render={({ field }) => (
                                                     // Form.Control es el campo que se va a mostrar por pantalla, y render es la funcion que permite mostrarlo
                                                     <Form.Control
@@ -211,26 +190,20 @@ const ModalModifEjercicio = ({
                                             <Controller
                                                 name='descanso'
                                                 control={control}
-                                                rules={
-                                                    {
-                                                        required: {
-                                                            value: true,
-                                                            message: "El campo es requerido"
-                                                        },
-                                                        pattern: {
-                                                            value: /^[0-9]+$/,
-                                                            message: 'Solo se permiten números positivos en este campo'
-                                                        },
-                                                        max: {
-                                                            value: 99,
-                                                            message: "El valor maximo es 99"
-                                                        },
-                                                        min: {
-                                                            value: 1,
-                                                            message: "El valor minimo es 1"
-                                                        }
+                                                rules={{
+                                                    required: {
+                                                        value: true,
+                                                        message: 'Ingresá el tiempo de descanso del ejercicio'
+                                                    },
+                                                    pattern: {
+                                                        value: /^[1-9][0-9]*$/,
+                                                        message: 'Por favor, ingresá solo números positivos en este campo.'
+                                                    },
+                                                    max: {
+                                                        value: 300,
+                                                        message: "La máxima cantidad de segundos permitidos es 300"
                                                     }
-                                                }
+                                                }}
                                                 render={({ field }) => (
                                                     // Form.Control es el campo que se va a mostrar por pantalla, y render es la funcion que permite mostrarlo
                                                     <Form.Control

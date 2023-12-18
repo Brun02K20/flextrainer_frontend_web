@@ -81,7 +81,7 @@ const AgregarModificarEjercicios = ({ planTraido, setPlanTraido }) => {
             setIdEjercicioElegido('')
             setEjercicioElegido({})
             setEjericiosByZC([])
-            const response = await axios.get(`${API}/flextrainer/ejercicios/byZC/${zonaCuerpoIndicada}`)
+            const response = await axios.get(`${API}/flextrainer/ejercicios/byZC/${zonaCuerpoIndicada}`, { timeout: 500000 })
             setEjericiosByZC(response.data)
         }
         traerEjerciciosByZC();
@@ -91,7 +91,7 @@ const AgregarModificarEjercicios = ({ planTraido, setPlanTraido }) => {
     useEffect(() => {
         const traerDatosEjercicioElegido = async () => {
             if (idEjercicioElegido !== 0 && idEjercicioElegido !== '') {
-                const response = await axios.get(`${API}/flextrainer/ejercicios/ejercicio/${idEjercicioElegido}`)
+                const response = await axios.get(`${API}/flextrainer/ejercicios/ejercicio/${idEjercicioElegido}`, { timeout: 500000 })
                 setEjercicioElegido(response.data)
             }
         }
@@ -276,11 +276,11 @@ const AgregarModificarEjercicios = ({ planTraido, setPlanTraido }) => {
                                             </div>
                                         )}
 
-                                        {(idEjercicioElegido !== 0 && zonaCuerpoIndicada !== 0 && ejercicioElegido && ejerciciosByZC.length !== 0) && (
+                                        {(idEjercicioElegido !== 0 && zonaCuerpoIndicada !== 0 && ejercicioElegido && ejerciciosByZC.length !== 0 && sesionIndicada !== 0) && (
                                             <>
                                                 <div className="col-md-6">
                                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput7">
-                                                        <Form.Label>Máquina/Elemento*</Form.Label>
+                                                        <Form.Label>Máquina/Elemento</Form.Label>
                                                         <Controller
                                                             name="nombreMaquina"
                                                             control={control}
@@ -295,7 +295,6 @@ const AgregarModificarEjercicios = ({ planTraido, setPlanTraido }) => {
                                                                 <Form.Control
                                                                     type="text"
                                                                     placeholder={ejercicioElegido.Maquina ? ejercicioElegido.Maquina.nombre : ''}
-
                                                                     disabled
                                                                     {...field}
                                                                 />
@@ -304,8 +303,6 @@ const AgregarModificarEjercicios = ({ planTraido, setPlanTraido }) => {
                                                         {errors.nombreMaquina && <p style={{ color: 'darkred' }}>{errors.nombreMaquina.message}</p>}
                                                     </Form.Group>
                                                 </div>
-
-
 
                                                 <div className='row'>
                                                     <div className='col-md-6'>
@@ -324,10 +321,14 @@ const AgregarModificarEjercicios = ({ planTraido, setPlanTraido }) => {
                                                                             value: /^[1-9][0-9]*$/,
                                                                             message: 'Por favor, ingresá solo números positivos en este campo.'
                                                                         },
+                                                                        max: {
+                                                                            value: 59,
+                                                                            message: "La máxima cantidad de minutos permitidos es 59"
+                                                                        }
                                                                     }}
                                                                     render={({ field }) => (
                                                                         <Form.Control
-                                                                            type="text"
+                                                                            type="number"
                                                                             placeholder="Ingresá el tiempo del ejercicio"
                                                                             {...field}
                                                                         />
@@ -355,7 +356,7 @@ const AgregarModificarEjercicios = ({ planTraido, setPlanTraido }) => {
                                                                     }}
                                                                     render={({ field }) => (
                                                                         <Form.Control
-                                                                            type="text"
+                                                                            type="number"
                                                                             placeholder="Ingresá la cantidad de series del ejercicio"
                                                                             {...field}
                                                                         />
@@ -382,7 +383,7 @@ const AgregarModificarEjercicios = ({ planTraido, setPlanTraido }) => {
                                                                     }}
                                                                     render={({ field }) => (
                                                                         <Form.Control
-                                                                            type="text"
+                                                                            type="number"
                                                                             placeholder="Ingresá las repeticiones de las series"
                                                                             {...field}
                                                                         />
@@ -406,10 +407,14 @@ const AgregarModificarEjercicios = ({ planTraido, setPlanTraido }) => {
                                                                             value: /^[1-9][0-9]*$/,
                                                                             message: 'Por favor, ingresá solo números positivos en este campo.'
                                                                         },
+                                                                        max: {
+                                                                            value: 300,
+                                                                            message: "La máxima cantidad de segundos permitidos es 300"
+                                                                        }
                                                                     }}
                                                                     render={({ field }) => (
                                                                         <Form.Control
-                                                                            type="text"
+                                                                            type="number"
                                                                             placeholder="Ingresá el tiempo de descanso del ejercicio en segundos"
                                                                             {...field}
                                                                         />
@@ -451,11 +456,11 @@ const AgregarModificarEjercicios = ({ planTraido, setPlanTraido }) => {
                                                 {sesion.ejercicios && sesion.ejercicios.map((ejercicio, ejercicioIndex) => (
                                                     <tr key={ejercicioIndex}>
                                                         <td>{ejercicio["Ejercicio.nombre"] ? ejercicio["Ejercicio.nombre"]?.toUpperCase() : (ejercicio.Ejercicio.nombre?.toUpperCase())}</td>
-                                                        <td>{ejercicio["tiempo"] ? ejercicio["tiempo"] + " ' " : 'No aplica'}</td>
-                                                        <td>{ejercicio["series"] ? ejercicio["series"] : 'No aplica'}</td>
-                                                        <td>{ejercicio["repeticiones"] ? ejercicio["repeticiones"] : 'No aplica'}</td>
-                                                        <td>{ejercicio["descanso"] ? ejercicio["descanso"] + " '' " : 'No aplica'}</td>
-                                                        <td>{ejercicio["Ejercicio.Maquinas.nombre"] ? ejercicio["Ejercicio.Maquinas.nombre"]?.toUpperCase() : (ejercicio.Maquina ? ejercicio.Maquina.nombre?.toUpperCase() : 'No aplica')}</td>
+                                                        <td>{ejercicio["tiempo"] ? ejercicio["tiempo"] + " ' " : '--------'}</td>
+                                                        <td>{ejercicio["series"] ? ejercicio["series"] : '--------'}</td>
+                                                        <td>{ejercicio["repeticiones"] ? ejercicio["repeticiones"] : '--------'}</td>
+                                                        <td>{ejercicio["descanso"] ? ejercicio["descanso"] + " '' " : '--------'}</td>
+                                                        <td>{ejercicio["Ejercicio.Maquinas.nombre"] ? ejercicio["Ejercicio.Maquinas.nombre"]?.toUpperCase() : (ejercicio.Maquina ? ejercicio.Maquina.nombre?.toUpperCase() : '--------')}</td>
                                                         <td >
                                                             <>
                                                                 <OverlayTrigger
@@ -470,12 +475,10 @@ const AgregarModificarEjercicios = ({ planTraido, setPlanTraido }) => {
                                                                         <i className="bi bi-x" style={{ fontSize: '16px' }}></i>
                                                                     </Button>
                                                                 </OverlayTrigger>
-
-
                                                                 <OverlayTrigger
                                                                     placement='top'
                                                                     overlay={
-                                                                        <Tooltip id='intentandoesto2'>
+                                                                        <Tooltip id='intentandoesto'>
                                                                             <strong>Modificar ejercicio</strong>.
                                                                         </Tooltip>
                                                                     }

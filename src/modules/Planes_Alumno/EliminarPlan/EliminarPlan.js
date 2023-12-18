@@ -28,7 +28,7 @@ const EliminarPlan = ({ showModalEliminarPlan, handleCloseEliminarPlan, setSelec
     const onSubmit = async (data) => {
         data.id = selectedPlan.id
         console.log(data);
-        await axios.delete(`${API}/flextrainer/planes/plan/delete/${data.id}`);
+        await axios.delete(`${API}/flextrainer/planes/plan/delete/${data.id}`, { timeout: 500000 });
         setSelectedPlan({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         setIsPlanSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         handleCloseEliminarPlan(); // cierro el primer modal de eliminacion de usuario 

@@ -24,7 +24,7 @@ const RecoverPassword = ({ showModalRecover, handleCloseModalRecover }) => {
     const onSubmit = async (data) => {
         data.dni = parseInt(data.dni)
         console.log(data)
-        const response = await axios.get(`${API}/flextrainer/usuarios/usuario/getRecover/${data.dni}/${data.correoElectronico}/${data.numeroTelefono}`)
+        const response = await axios.get(`${API}/flextrainer/usuarios/usuario/getRecover/${data.dni}/${data.correoElectronico}/${data.numeroTelefono}`, { timeout: 500000 })
         console.log("rta: ", response)
 
         if (response.data.error) {

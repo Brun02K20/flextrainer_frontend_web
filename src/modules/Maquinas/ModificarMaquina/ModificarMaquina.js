@@ -24,7 +24,7 @@ const ModificarMaquina = () => {
     // traer los datos de la maquina a modificar desde el backend
     useEffect(() => {
         const traerMaquina = async () => {
-            const response = await axios.get(`${API}/flextrainer/maquinas/maquina/${id}`);
+            const response = await axios.get(`${API}/flextrainer/maquinas/maquina/${id}`, { timeout: 500000 });
             setMaquina(response.data);
         }
         traerMaquina();
@@ -54,7 +54,7 @@ const ModificarMaquina = () => {
         data.id = parseInt(id);
 
         console.log("a ebviar al back: ", data); // consoleando lo que voy a enviar al backend
-        const response = await axios.put(`${API}/flextrainer/maquinas/update`, data); // llevando a cabo la peticion
+        const response = await axios.put(`${API}/flextrainer/maquinas/update`, data, { timeout: 500000 }); // llevando a cabo la peticion
 
         // si hay un error en la respuesta, desde el backend, que active el estado de error al actualizar, y detenga la funcion onSubmit
         if (response.data.error) {
@@ -92,10 +92,6 @@ const ModificarMaquina = () => {
                                                             value: true,
                                                             message: 'Este campo es requerido'
                                                         },
-                                                        // pattern: {
-                                                        //     value: /^[a-zA-Z]+$/,
-                                                        //     message: 'Porfavor, ingresá solo letras en este campo.'
-                                                        // },
                                                         maxLength: {
                                                             value: 30,
                                                             message: 'Máximo 30 caracteres'
@@ -115,6 +111,44 @@ const ModificarMaquina = () => {
                                     </div>
 
                                     <div className="col-md-6">
+                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                            <Form.Label>Peso (en kg)</Form.Label>
+                                            <Controller
+                                                name="peso"
+                                                control={control}
+                                                rules={
+                                                    {
+                                                        maxLength: {
+                                                            value: 3,
+                                                            message: 'El peso no puede tener mas de 3 caracteres'
+                                                        },
+                                                        minLength: {
+                                                            value: 1,
+                                                            message: 'El peso no puede tener menos de 1 caracter'
+                                                        },
+                                                        pattern: {
+                                                            value: /^[0-9]+$/,
+                                                            message: 'Solo se permiten números positivos en este campo'
+                                                        },
+                                                        max: {
+                                                            value: 999,
+                                                            message: "El valor maximo a ingresar es de 999 kg"
+                                                        }
+                                                    }
+                                                }
+                                                render={({ field }) => (
+                                                    <Form.Control
+                                                        type="number"
+                                                        placeholder="Ingresá el peso de la máquina"
+                                                        {...field}
+                                                    />
+                                                )}
+                                            />
+                                            {errors.peso && <p style={{ color: 'darkred' }}>{errors.peso.message}</p>}
+                                        </Form.Group>
+                                    </div>
+
+                                    <div className="col-md-6">
                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                                             <Form.Label>Marca*</Form.Label>
                                             <Controller
@@ -125,10 +159,6 @@ const ModificarMaquina = () => {
                                                         required: {
                                                             value: true,
                                                             message: 'Este campo es requerido'
-                                                        },
-                                                        pattern: {
-                                                            value: /^[a-zA-Z]+$/,
-                                                            message: 'Porfavor, ingresá solo letras en este campo.'
                                                         },
                                                         maxLength: {
                                                             value: 30,
@@ -147,49 +177,6 @@ const ModificarMaquina = () => {
                                             {errors.marca && <p style={{ color: 'darkred' }}>{errors.marca.message}</p>}
                                         </Form.Group>
                                     </div>
-
-                                    <div className="col-md-6">
-                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                            <Form.Label>Peso (en kg)*</Form.Label>
-                                            <Controller
-                                                name="peso"
-                                                control={control}
-                                                rules={
-                                                    {
-                                                        required: {
-                                                            value: true,
-                                                            message: 'Este campo es requerido'
-                                                        },
-                                                        maxLength: {
-                                                            value: 3,
-                                                            message: 'El peso no puede tener mas de 3 caracteres'
-                                                        },
-                                                        minLength: {
-                                                            value: 1,
-                                                            message: 'El peso no puede tener menos de 1 caracter'
-                                                        },
-                                                        pattern: {
-                                                            value: /^[0-9]+$/,
-                                                            message: 'Solo se permiten números positivos en este campo'
-                                                        },
-                                                        max: {
-                                                            value: 250,
-                                                            message: "El valor maximo a ingresar es de 250 kg"
-                                                        }
-                                                    }
-                                                }
-                                                render={({ field }) => (
-                                                    <Form.Control
-                                                        type="number"
-                                                        placeholder="Ingresá el peso de la máquina"
-                                                        {...field}
-                                                    />
-                                                )}
-                                            />
-                                            {errors.peso && <p style={{ color: 'darkred' }}>{errors.peso.message}</p>}
-                                        </Form.Group>
-                                    </div>
-
                                 </div>
                             </Card>
                         </Card.Body>

@@ -33,7 +33,7 @@ const BandejaUsuarios = () => {
 
     // funcion que trae a los usuarios del backend para almacenarlos en el estado.
     const traerUsuarios = async () => {
-        const usuariosTraidos = await axios.get(`${API}/flextrainer/usuarios/`);
+        const usuariosTraidos = await axios.get(`${API}/flextrainer/usuarios/`, { timeout: 500000 });
         console.log('Trayendo los cambios');
         setUsuarios(usuariosTraidos.data);
     };
@@ -71,7 +71,7 @@ const BandejaUsuarios = () => {
         data.idRol = parseInt(data.idRol); // parseando el rol ingresado por el usuario
         console.log(data); // consoleando lo que voy a enviar al backend
 
-        const response = await axios.post(`${API}/flextrainer/usuarios/byFilters`, data); // haciendo la peticion
+        const response = await axios.post(`${API}/flextrainer/usuarios/byFilters`, data, { timeout: 500000 }); // haciendo la peticion
         setCurrentPage(1); // seteando l pagina que se va amostrar de la grilla
         setUsuarios(response.data); // seteo el estado de usuarios, como lo devuelto por la api
     };
@@ -201,7 +201,7 @@ const BandejaUsuarios = () => {
                                                 rules={
                                                     {
                                                         pattern: {
-                                                            value: /^[a-zA-Z]+$/,
+                                                            value: /^[a-zA-ZÁÉÍÓÚÜÑáéíóúüñ\s]+$/,
                                                             message: 'Porfavor, ingresá solo letras en este campo.'
                                                         },
                                                         maxLength: {
@@ -230,7 +230,7 @@ const BandejaUsuarios = () => {
                                                 rules={
                                                     {
                                                         pattern: {
-                                                            value: /^[a-zA-Z]+$/,
+                                                            value: /^[a-zA-ZÁÉÍÓÚÜÑáéíóúüñ\s]+$/,
                                                             message: 'Porfavor, ingresá solo letras en este campo.'
                                                         },
                                                         maxLength: {
@@ -294,7 +294,6 @@ const BandejaUsuarios = () => {
                                             id='checkbox-busqueda-usuarios'
                                             label='Incluir dados de baja'
                                             {...register('dadosBaja')}
-                                        // style={{ border: '4px red solid' }}
                                         />
                                     </div>
                                 </div>
@@ -335,7 +334,7 @@ const BandejaUsuarios = () => {
                                                 <td>{row.nombre?.toUpperCase()}</td>
                                                 <td>{row.apellido?.toUpperCase()}</td>
                                                 <td>{row.nombreRol?.toUpperCase()}</td>
-                                                <td>{row.Usuario ? row.Usuario.nombre?.toUpperCase() + ' ' + row.Usuario.apellido?.toUpperCase() : 'No tiene o es Profesor'}</td>
+                                                <td>{row.Usuario ? row.Usuario.nombre?.toUpperCase() + ' ' + row.Usuario.apellido?.toUpperCase() : 'Sin profesor'}</td>
                                                 <td className="d-flex justify-content-center">
                                                     {row.idRol === 4 && (
                                                         <ActionButton

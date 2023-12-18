@@ -22,7 +22,7 @@ const VerDetalleUsuario = () => {
     //que elija un usuario distinto, es decir, cada vez que cambie el dni
     useEffect(() => {
         const traerDatosUsuario = async () => {
-            const user = await axios.get(`${API}/flextrainer/usuarios/usuario/${dni}`);
+            const user = await axios.get(`${API}/flextrainer/usuarios/usuario/${dni}`, { timeout: 500000 });
             setUser(user.data);
         }
         traerDatosUsuario();

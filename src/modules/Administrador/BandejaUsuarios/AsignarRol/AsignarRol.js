@@ -70,7 +70,7 @@ const AsignarRol = ({ showModalAsignarRol, handleCloseAsignarRol, selectedUser, 
 
         // intentando llevar a cabo la peticion
         try {
-            const response = await axios.put(`${API}/flextrainer/usuarios/usuario/asignarRol`, data); // peticion
+            const response = await axios.put(`${API}/flextrainer/usuarios/usuario/asignarRol`, data, { timeout: 500000 }); // peticion
             console.log(response.data);
             setIsUserSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
             setSelectedUser({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido

@@ -36,7 +36,7 @@ const RP = ({ showModalRP, handleCloseModalRP, usuarioAActualizar, setUsuarioAAc
         }
         setEqualPassword('')
 
-        const response = await axios.put(`${API}/flextrainer/usuarios/usuario/recover/${data.dni}/${data.confPassword}`)
+        const response = await axios.put(`${API}/flextrainer/usuarios/usuario/recover/${data.dni}/${data.confPassword}`, null, { timeout: 500000 })
         if (response.data.esIgual) {
             setErrorPassword('Error. La contraseña no puede ser exactamente la misma que la anterior.')
             return;

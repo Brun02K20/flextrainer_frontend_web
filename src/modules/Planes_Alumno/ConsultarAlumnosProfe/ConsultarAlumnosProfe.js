@@ -32,13 +32,13 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
     }
 
     const traerAlumnosDelProfesor = async () => {
-        const alumnos = await axios.post(`${API}/flextrainer/planesAlumnos/alumnosProfeFiltrados/${usuarioEnSesion.dni}`, { dadosBaja: 1 })
+        const alumnos = await axios.post(`${API}/flextrainer/planesAlumnos/alumnosProfeFiltrados/${usuarioEnSesion.dni}`, { dadosBaja: 1 }, { timeout: 500000 })
         setAlumnosProfe(alumnos.data)
     }
 
     useEffect(() => {
         const traerPlanesProfesor = async () => {
-            const planes = await axios.get(`${API}/flextrainer/planes/byProfesor/${usuarioEnSesion.dni}`)
+            const planes = await axios.get(`${API}/flextrainer/planes/byProfesor/${usuarioEnSesion.dni}`, { timeout: 500000 })
             setPlanesTraidos(planes.data)
         }
         traerPlanesProfesor()
@@ -90,7 +90,7 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
             data.dadosBaja = 0;
         }
         console.log(data)
-        const response = await axios.post(`${API}/flextrainer/planesAlumnos/alumnosProfeFiltrados/${usuarioEnSesion.dni}`, data); // llevo a cabo la peticion
+        const response = await axios.post(`${API}/flextrainer/planesAlumnos/alumnosProfeFiltrados/${usuarioEnSesion.dni}`, data, { timeout: 500000 }); // llevo a cabo la peticion
         console.log("rta: ", response.data); // muestro por consola la respuesta
         setAlumnosProfe(response.data)
         setCurrentPage(1); // seteo la pagina actual como la primera
@@ -176,7 +176,7 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                                                 rules={
                                                     {
                                                         pattern: {
-                                                            value: /^[a-zA-Z]+$/,
+                                                            value: /^[a-zA-ZÁÉÍÓÚÜÑáéíóúüñ\s]+$/,
                                                             message: 'Porfavor, ingresa solo letras en este campo.'
                                                         },
                                                         maxLength: {
@@ -205,7 +205,7 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                                                 rules={
                                                     {
                                                         pattern: {
-                                                            value: /^[a-zA-Z]+$/,
+                                                            value: /^[a-zA-ZÁÉÍÓÚÜÑáéíóúüñ\s]+$/,
                                                             message: 'Porfavor, ingresa solo letras en este campo.'
                                                         },
                                                         maxLength: {
@@ -306,7 +306,7 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                                                 <td>{row.alumno.dni}</td>
                                                 <td>{row.alumno.nombre?.toUpperCase()}</td>
                                                 <td>{row.alumno.apellido?.toUpperCase()}</td>
-                                                <td>{row.plan ? row.plan.nombre?.toUpperCase() : 'Sin Plan'}</td>
+                                                <td>{row.plan ? row.plan.nombre?.toUpperCase() : 'Sin plan'}</td>
                                                 <td className="d-flex justify-content-center">
                                                     <ActionButton
                                                         tooltipText="Asignar Plan"
@@ -316,7 +316,7 @@ const ConsultarAlumnosProfe = ({ usuarioEnSesion }) => {
                                                     />
 
                                                     <ActionButton
-                                                        tooltipText="Ver mas info."
+                                                        tooltipText="Ver más info."
                                                         color="#EAD85A"
                                                         icon="bi-eye"
                                                         onClickFunction={() => navigate(`/alumnoProfe/${row.alumno.dni}`)}

@@ -29,6 +29,7 @@ const RegistrarMaquina = () => {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
+                timeout: 500000
             });
 
             console.log(response.data);
@@ -68,10 +69,6 @@ const RegistrarMaquina = () => {
                                                         value: true,
                                                         message: 'Este campo es requerido'
                                                     },
-                                                    pattern: {
-                                                        value: /^[a-zA-Z]+$/,
-                                                        message: 'Porfavor, ingresá solo letras en este campo.'
-                                                    },
                                                     maxLength: {
                                                         value: 30,
                                                         message: 'Máximo 30 caracteres'
@@ -92,16 +89,12 @@ const RegistrarMaquina = () => {
 
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                        <Form.Label>Peso (en kg)*</Form.Label>
+                                        <Form.Label>Peso (en kg)</Form.Label>
                                         <Controller
                                             name="peso"
                                             control={control}
                                             rules={
                                                 {
-                                                    required: {
-                                                        value: true,
-                                                        message: 'Este campo es requerido'
-                                                    },
                                                     maxLength: {
                                                         value: 3,
                                                         message: 'El peso no puede tener mas de 3 caracteres'
@@ -115,8 +108,8 @@ const RegistrarMaquina = () => {
                                                         message: 'Solo se permiten números positivos en este campo'
                                                     },
                                                     max: {
-                                                        value: 250,
-                                                        message: "El valor maximo a ingresar es de 250 kg"
+                                                        value: 999,
+                                                        message: "El valor maximo a ingresar es de 999 kg"
                                                     }
                                                 }
                                             }
@@ -144,10 +137,6 @@ const RegistrarMaquina = () => {
                                                         value: true,
                                                         message: 'Este campo es requerido'
                                                     },
-                                                    pattern: {
-                                                        value: /^[a-zA-Z]+$/,
-                                                        message: 'Porfavor, ingresá solo letras en este campo.'
-                                                    },
                                                     maxLength: {
                                                         value: 30,
                                                         message: 'Máximo 30 caracteres'
@@ -168,7 +157,7 @@ const RegistrarMaquina = () => {
 
                                 <div className='col-md-6'>
                                     <Form.Group controlId="formFile" className="mb-3">
-                                        <Form.Label>Ingresá una foto de la máquina</Form.Label>
+                                        <Form.Label>Ingresá una foto de la máquina*</Form.Label>
                                         <Form.Control
                                             type="file"
                                             {...register('file', {

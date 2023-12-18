@@ -44,7 +44,7 @@ const ConsultarPlanesProfe = ({ usuarioEnSesion }) => {
     }, [])
 
     const traerPlanesAlumnos = async () => {
-        const response = await axios.post(`${API}/flextrainer/planes/getByProfeByFilters/${usuarioEnSesion.dni}`, { dadosBaja: 1 });
+        const response = await axios.post(`${API}/flextrainer/planes/getByProfeByFilters/${usuarioEnSesion.dni}`, { dadosBaja: 1 }, { timeout: 500000 });
         setPlanesAlumnos(response.data);
     }
 
@@ -82,7 +82,7 @@ const ConsultarPlanesProfe = ({ usuarioEnSesion }) => {
             data.dadosBaja = 0;
         }
         console.log("a enviar al backend", data); // muestro los datos a enviar al backend
-        const response = await axios.post(`${API}/flextrainer/planes/getByProfeByFilters/${usuarioEnSesion.dni}`, data); // llevo a cabo la peticion
+        const response = await axios.post(`${API}/flextrainer/planes/getByProfeByFilters/${usuarioEnSesion.dni}`, data, { timeout: 500000 }); // llevo a cabo la peticion
         console.log("rta: ", response.data); // muestro por consola la respuesta
         setCurrentPage(1); // seteo la pagina actual como la primera
         setPlanesAlumnos(response.data); // seteo los planes traidos como el valor de la respuesta de la api
@@ -222,7 +222,6 @@ const ConsultarPlanesProfe = ({ usuarioEnSesion }) => {
                                         </Form.Group>
                                     </div>
 
-
                                     <div className='col-md-6'>
                                         <Form.Check
                                             type='checkbox'
@@ -268,7 +267,7 @@ const ConsultarPlanesProfe = ({ usuarioEnSesion }) => {
                                                 <td>{row.cantidadSesiones}</td>
                                                 <td className="d-flex justify-content-center">
                                                     <ActionButton
-                                                        tooltipText="Ver mas info."
+                                                        tooltipText="Ver más info."
                                                         color="#EAD85A"
                                                         icon="bi-eye"
                                                         onClickFunction={() => navigate(`/verPlan/${row.id}`)}

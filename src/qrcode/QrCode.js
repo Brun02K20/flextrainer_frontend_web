@@ -37,13 +37,9 @@ const QrCode = () => {
                 {result && pathAfterDomain && (
                     <p style={{ textAlign: 'center' }} onClick={() => { navigate(pathAfterDomain) }}>Ingresá al siguiente link para ver la máquina: <a>{result?.text}</a></p>
                 )}
-
-
                 <br></br>
                 <BackButton handleBack={handleBack} />
             </div>
-
-
         </>
     );
 }

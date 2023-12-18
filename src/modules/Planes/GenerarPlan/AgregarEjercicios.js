@@ -14,6 +14,7 @@ import { useForm, Controller, set } from 'react-hook-form';
 import { cuerpoZonasServices } from '../services/cuerpoZonas.service.js';
 
 import { API } from '../../../constants/api.js';
+import './AgregarEjercicios.css'
 
 const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, setEjerciciosAgregados }) => {
     const { formState: { errors }, register, setValue, handleSubmit, control, reset } = useForm();
@@ -57,7 +58,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
             setIdEjercicioElegido('')
             setEjercicioElegido({})
             setEjericiosByZC([])
-            const response = await axios.get(`${API}/flextrainer/ejercicios/byZC/${zonaCuerpoIndicada}`)
+            const response = await axios.get(`${API}/flextrainer/ejercicios/byZC/${zonaCuerpoIndicada}`, { timeout: 500000 })
             setEjericiosByZC(response.data)
         }
         traerEjerciciosByZC();
@@ -71,7 +72,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
     useEffect(() => {
         const traerDatosEjercicioElegido = async () => {
             if (idEjercicioElegido !== 0 && idEjercicioElegido !== '') {
-                const response = await axios.get(`${API}/flextrainer/ejercicios/ejercicio/${idEjercicioElegido}`)
+                const response = await axios.get(`${API}/flextrainer/ejercicios/ejercicio/${idEjercicioElegido}`, { timeout: 500000 })
                 setEjercicioElegido(response.data)
             }
         }
@@ -130,25 +131,25 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
     const [errorModifDescanso, setErrorModifDescanso] = useState(false);
 
     const aplicarCambios = () => {
-        if (!/^\d+$/.test(modificarValores.tiempo) && !camposVaciosIniciales.tiempo) {
+        if (!/^[1-9][0-9]*$/.test(modificarValores.tiempo) && !camposVaciosIniciales.tiempo) {
             setErrorModifTiempo(true)
             return;
         }
         setErrorModifTiempo(false)
 
-        if (!/^\d+$/.test(modificarValores.series) && !camposVaciosIniciales.series) {
+        if (!/^(?:[1-9]|[1-9][0-9])$/.test(modificarValores.series) && !camposVaciosIniciales.series) {
             setErrorModifSeries(true)
             return;
         }
         setErrorModifSeries(false)
 
-        if (!/^\d+$/.test(modificarValores.reps) && !camposVaciosIniciales.reps) {
+        if (!/^(?:[1-9]|[1-9][0-9])$/.test(modificarValores.reps) && !camposVaciosIniciales.reps) {
             setErrorModifReps(true)
             return;
         }
         setErrorModifReps(false)
 
-        if (!/^\d+$/.test(modificarValores.descanso) && !camposVaciosIniciales.descanso) {
+        if (!/^[1-9][0-9]*$/.test(modificarValores.descanso) && !camposVaciosIniciales.descanso) {
             setErrorModifDescanso(true)
             return;
         }
@@ -227,7 +228,6 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                     <Card.Body>
                         <div className="row">
                             <p style={{ color: 'darkred', fontWeight: '600' }}>Ejercicios</p>
-
                             {cantidadSesionesIndicadas !== 0 && (
                                 <>
                                     <div className="col-md-6">
@@ -255,7 +255,6 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                         </Form.Group>
                                         {errorSesionIndicada && <span style={{ color: 'darkred' }}>Elegí la sesión</span>}
                                     </div>
-
 
                                     {sesionIndicada !== 0 && (
                                         <div className="col-md-6">
@@ -289,7 +288,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                         </div>
                                     )}
 
-                                    {zonaCuerpoIndicada !== 0 && (
+                                    {zonaCuerpoIndicada !== 0 && sesionIndicada !== 0 && (
                                         <div className="col-md-6">
                                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
                                                 <Form.Label>Ejercicio*</Form.Label>
@@ -311,11 +310,11 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                         </div>
                                     )}
 
-                                    {(idEjercicioElegido !== 0 && zonaCuerpoIndicada !== 0 && ejercicioElegido && ejerciciosByZC.length !== 0) && (
+                                    {(idEjercicioElegido !== 0 && zonaCuerpoIndicada !== 0 && ejercicioElegido && ejerciciosByZC.length !== 0 && sesionIndicada !== 0) && (
                                         <>
                                             <div className="col-md-6">
                                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput7">
-                                                    <Form.Label>Máquina/Elemento*</Form.Label>
+                                                    <Form.Label>Máquina/Elemento</Form.Label>
                                                     <Controller
                                                         name="nombreMaquina"
                                                         control={control}
@@ -331,8 +330,6 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                     {errors.nombreMaquina && <p style={{ color: 'darkred' }}>{errors.nombreMaquina.message}</p>}
                                                 </Form.Group>
                                             </div>
-
-
 
                                             <div className='row'>
                                                 <div className='col-md-6'>
@@ -351,10 +348,14 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                                         value: /^[1-9][0-9]*$/,
                                                                         message: 'Por favor, ingresá solo números positivos en este campo.'
                                                                     },
+                                                                    max: {
+                                                                        value: 59,
+                                                                        message: "La máxima cantidad de minutos permitidos es 59"
+                                                                    }
                                                                 }}
                                                                 render={({ field }) => (
                                                                     <Form.Control
-                                                                        type="text"
+                                                                        type="number"
                                                                         placeholder="Ingresá el tiempo del ejercicio"
                                                                         {...field}
                                                                     />
@@ -363,7 +364,6 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                             {errors.tiempoEjercicio && <p style={{ color: 'darkred' }}>{errors.tiempoEjercicio.message}</p>}
                                                         </Form.Group>
                                                     )}
-
                                                     {(ejercicioElegido && ejercicioElegido.Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio && ejercicioElegido.Ejercicio.Categoria_Ejercicio.tieneSeries === true) && (
                                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput8">
                                                             <Form.Label>Series*</Form.Label>
@@ -373,7 +373,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                                 rules={{
                                                                     required: {
                                                                         value: true,
-                                                                        message: 'Ingresá las series'
+                                                                        message: 'Ingresá la cantidad de series del ejercicio'
                                                                     },
                                                                     pattern: {
                                                                         value: /^(?:[1-9]|[1-9][0-9])$/,
@@ -382,7 +382,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                                 }}
                                                                 render={({ field }) => (
                                                                     <Form.Control
-                                                                        type="text"
+                                                                        type="number"
                                                                         placeholder="Ingresá la cantidad de series del ejercicio"
                                                                         {...field}
                                                                     />
@@ -400,7 +400,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                                 rules={{
                                                                     required: {
                                                                         value: true,
-                                                                        message: 'Ingresá las repeticiones'
+                                                                        message: 'Ingresá la cantidad de repeticiones por serie del ejercicio'
                                                                     },
                                                                     pattern: {
                                                                         value: /^(?:[1-9]|[1-9][0-9])$/,
@@ -409,7 +409,7 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                                 }}
                                                                 render={({ field }) => (
                                                                     <Form.Control
-                                                                        type="text"
+                                                                        type="number"
                                                                         placeholder="Ingresá las repeticiones de las series"
                                                                         {...field}
                                                                     />
@@ -433,10 +433,14 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                                         value: /^[1-9][0-9]*$/,
                                                                         message: 'Por favor, ingresá solo números positivos en este campo.'
                                                                     },
+                                                                    max: {
+                                                                        value: 300,
+                                                                        message: "La máxima cantidad de segundos permitidos es 300"
+                                                                    }
                                                                 }}
                                                                 render={({ field }) => (
                                                                     <Form.Control
-                                                                        type="text"
+                                                                        type="number"
                                                                         placeholder="Ingresá el tiempo de descanso del ejercicio en segundos"
                                                                         {...field}
                                                                     />
@@ -458,7 +462,6 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                 </>
                             )}
 
-
                             <div className="col-md-12">
                                 {cantidadSesionesIndicadas !== 0 && (
                                     <>
@@ -468,8 +471,6 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                 <Table striped bordered hover responsive key={index}>
                                                     <thead>
                                                         <tr>
-                                                            {/* <th>Indice</th>
-                                                            <th>Sesion</th> */}
                                                             <th>Ejercicio</th>
                                                             <th>Tiempo</th>
                                                             <th>Series</th>
@@ -477,7 +478,6 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                             <th>Descanso</th>
                                                             <th>Máquina</th>
                                                             <th>Acciones</th>
-
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -487,16 +487,13 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                                 .filter((row) => row.sesion === index + 1)
                                                                 .map((row, index) => (
                                                                     <tr key={index + 1}>
-                                                                        {/* <td>{index}</td>
-                                                                        <td>{row.sesion}</td> */}
                                                                         <td>{row.ejercicio.Ejercicio.nombre?.toUpperCase()}</td>
-                                                                        <td>{row.tiempoEjercicio ? row.tiempoEjercicio + " ' " : 'No aplica'}</td>
-                                                                        <td>{row.seriesEjercicio ? row.seriesEjercicio : 'No aplica'}</td>
-                                                                        <td>{row.repsEjercicio ? row.repsEjercicio : 'No aplica'}</td>
-                                                                        <td>{row.descanso ? row.descanso + " '' " : 'No aplica'}</td>
-                                                                        <td>{row.ejercicio.Maquina ? row.ejercicio.Maquina.nombre?.toUpperCase() : 'No aplica'}</td>
+                                                                        <td>{row.tiempoEjercicio ? row.tiempoEjercicio + " ' " : '--------'}</td>
+                                                                        <td>{row.seriesEjercicio ? row.seriesEjercicio : '--------'}</td>
+                                                                        <td>{row.repsEjercicio ? row.repsEjercicio : '--------'}</td>
+                                                                        <td>{row.descanso ? row.descanso + " '' " : '--------'}</td>
+                                                                        <td>{row.ejercicio.Maquina ? row.ejercicio.Maquina.nombre?.toUpperCase() : '--------'}</td>
                                                                         <td >
-
                                                                             <>
                                                                                 <OverlayTrigger
                                                                                     placement='top'
@@ -510,12 +507,10 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
                                                                                         <i className="bi bi-x" style={{ fontSize: '16px' }}></i>
                                                                                     </Button>
                                                                                 </OverlayTrigger>
-
-
                                                                                 <OverlayTrigger
                                                                                     placement='top'
                                                                                     overlay={
-                                                                                        <Tooltip id='intentandoesto2'>
+                                                                                        <Tooltip id='intentandoesto'>
                                                                                             <strong>Modificar ejercicio</strong>.
                                                                                         </Tooltip>
                                                                                     }
@@ -542,15 +537,15 @@ const AgregarEjercicios = ({ cantidadSesionesIndicadas, ejerciciosAgregados, set
             </Form>
 
             <Modal show={modalOpen} onHide={() => setModalOpen(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Modificar ejercicio</Modal.Title>
+                <Modal.Header className='ae-modal-header' closeButton>
+                    <Modal.Title className='ae-modal-title'>Modificar ejercicio</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {(ejercicioAModificar !== null && !camposVaciosIniciales.tiempo) && (
                         <Form.Group>
                             <Form.Label>Tiempo (en minutos)*</Form.Label>
                             <Form.Control
-                                type="text"
+                                type="number"
                                 value={modificarValores.tiempo}
                                 onChange={(e) =>
                                     setModificarValores({

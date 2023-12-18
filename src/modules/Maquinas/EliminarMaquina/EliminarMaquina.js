@@ -28,7 +28,7 @@ const EliminarMaquina = ({ showModalEliminarMaquina, handleCloseEliminarMaquina,
     const onSubmit = async (data) => {
         data.id = selectedMaquina.id
         console.log(data);
-        await axios.delete(`${API}/flextrainer/maquinas/delete/${data.id}`);
+        await axios.delete(`${API}/flextrainer/maquinas/delete/${data.id}`, { timeout: 500000 });
         setSelectedMaquina({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         setIsMaquinaSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         handleCloseEliminarMaquina(); // cierro el primer modal de eliminacion de usuario 

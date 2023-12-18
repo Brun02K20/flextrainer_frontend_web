@@ -122,7 +122,9 @@ function App() {
         <Route
           path='/maquinas'
           element={
-            <ConsultarMaquinas />
+            <ConsultarMaquinas
+              usuarioEnSesion={usuarioEnSesion}
+            />
           }
         />
 

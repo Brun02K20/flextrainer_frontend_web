@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { Card } from 'react-bootstrap';
-import { useForm, Controller } from 'react-hook-form';
 
 // importo axios para llevar a cabo la peticion de login al backend
-import axios from 'axios';
-import { API } from '../../constants/api.js';
 import './RecoverPassword.css'
 
 const RPExitoso = ({ showModalRPExitoso, handleCloseModalRPExitoso, setUsuarioAActualizar }) => {

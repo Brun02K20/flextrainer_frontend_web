@@ -30,7 +30,7 @@ const ModificarPlan = () => {
     // traer el plan a modificar desde el backend
     useEffect(() => {
         const traerPlan = async () => {
-            const response = await axios.get(`${API}/flextrainer/planes/plan/${id}`)
+            const response = await axios.get(`${API}/flextrainer/planes/plan/${id}`, { timeout: 500000 })
             setPlanTraido(response.data)
         }
         traerPlan()
@@ -82,7 +82,7 @@ const ModificarPlan = () => {
 
         console.log(data) // consolea los datos
 
-        const response = await axios.put(`${API}/flextrainer/planes/plan/update`, planConId)
+        const response = await axios.put(`${API}/flextrainer/planes/plan/update`, planConId, { timeout: 500000 })
         console.log("respouesta de axios: ", response.data)
         handleBack()
     }
@@ -121,8 +121,8 @@ const ModificarPlan = () => {
                                                     message: 'Este campo es requerido'
                                                 },
                                                 maxLength: {
-                                                    value: 256,
-                                                    message: 'Máximo 256 caracteres'
+                                                    value: 30,
+                                                    message: 'Máximo 30 caracteres'
                                                 }
                                             }
                                         }

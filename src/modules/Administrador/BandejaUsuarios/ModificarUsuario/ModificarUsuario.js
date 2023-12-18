@@ -25,7 +25,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
     // traer los datos del usaurio a modificar desde el backend
     useEffect(() => {
         const traerUser = async () => {
-            const response = await axios.get(`${API}/flextrainer/usuarios/usuario/${dni}`);
+            const response = await axios.get(`${API}/flextrainer/usuarios/usuario/${dni}`, { timeout: 500000 });
             setUser(response.data);
         }
         traerUser();
@@ -62,7 +62,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
         }
         setErrorFecha(''); // si supera la validacion desactiva el estado
         console.log("a ebviar al back: ", data); // consoleando lo que voy a enviar al backend
-        const response = await axios.put(`${API}/flextrainer/usuarios/usuario/update`, data); // llevando a cabo la peticion
+        const response = await axios.put(`${API}/flextrainer/usuarios/usuario/update`, data, { timeout: 500000 }); // llevando a cabo la peticion
 
         // si hay un error en la respuesta, desde el backend, que active el estado de error al actualizar, y detenga la funcion onSubmit
         if (response.data.error) {
@@ -160,7 +160,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
                                                             message: 'Este campo es requerido'
                                                         },
                                                         pattern: {
-                                                            value: /^[a-zA-Z]+$/,
+                                                            value: /^[a-zA-ZÁÉÍÓÚÜÑáéíóúüñ\s]+$/,
                                                             message: 'Porfavor, ingresá solo letras en este campo.'
                                                         },
                                                         maxLength: {
@@ -193,7 +193,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
                                                             message: 'Este campo es requerido'
                                                         },
                                                         pattern: {
-                                                            value: /^[a-zA-Z]+$/,
+                                                            value: /^[a-zA-ZÁÉÍÓÚÜÑáéíóúüñ\s]+$/,
                                                             message: 'Porfavor, ingresá solo letras en este campo.'
                                                         },
                                                         maxLength: {
@@ -260,7 +260,7 @@ const ModificarUsuario = ({ usuarioEnSesion, setUsuarioEnSesion }) => {
                                 <div className='row'>
                                     <div className="col-md-6">
                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput6">
-                                            <Form.Label>Correo Electrónico</Form.Label>
+                                            <Form.Label>Correo Electrónico*</Form.Label>
                                             <Controller
                                                 name="correoElectronico"
                                                 control={control}

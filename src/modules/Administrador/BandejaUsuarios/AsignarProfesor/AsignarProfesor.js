@@ -37,7 +37,7 @@ const AsignarProfesor = ({ showModalAsignarProfe, handleCloseAsignarProfe, selec
         try {
             data.entrenador = parseInt(data.entrenador)
             data.dniUser = selectedUser.dni
-            const response = await axios.put(`${API}/flextrainer/usuarios/usuario/asignarProfe`, data); // peticion
+            const response = await axios.put(`${API}/flextrainer/usuarios/usuario/asignarProfe`, data, { timeout: 500000 }); // peticion
             console.log(response.data);
             setIsUserSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
             setSelectedUser({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
@@ -60,9 +60,9 @@ const AsignarProfesor = ({ showModalAsignarProfe, handleCloseAsignarProfe, selec
             <Modal.Body>
                 <Modal.Title>DNI: {selectedUser?.dni}</Modal.Title>
                 <br></br>
-                <Modal.Title>Nombres: {selectedUser?.nombre}</Modal.Title>
+                <Modal.Title>Nombres: {selectedUser?.nombre?.toUpperCase()}</Modal.Title>
                 <br></br>
-                <Modal.Title>Apellidos: {selectedUser?.apellido}</Modal.Title>
+                <Modal.Title>Apellidos: {selectedUser?.apellido?.toUpperCase()}</Modal.Title>
                 <br></br>
                 <Form>
                     <>
@@ -84,7 +84,7 @@ const AsignarProfesor = ({ showModalAsignarProfe, handleCloseAsignarProfe, selec
                                         </Form.Select>
                                     )}
                                 />
-                                {errors.entrenador && <p>{errors.entrenador.message}</p>}
+                                {errors.entrenador && <p style={{ color: 'darkred' }}>{errors.entrenador.message}</p>}
                             </Form.Group>
                         )}
                     </>

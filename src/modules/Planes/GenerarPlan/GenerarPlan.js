@@ -3,17 +3,13 @@ import React, { useEffect, useState } from 'react';
 // importando componentes de react-bootstrap necesarios
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import { Nav, Table, Pagination } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
 
 import axios from 'axios'; // importo axios para llevar a cabo las peticiones al backend
 import { NavHeader } from '../../../components/NavHeader/NavHeader.js';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller, set } from 'react-hook-form';
 import { objetivosServices } from '../services/objetivos.service.js';
-import { cuerpoZonasServices } from '../services/cuerpoZonas.service.js';
 import { AgregarEjercicios } from './AgregarEjercicios.js';
 
 import { API } from '../../../constants/api.js';
@@ -113,7 +109,7 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
         data.objetivo = parseInt(data.objetivo);
         data.dniProfesor = usuarioEnSesion.dni;
         console.log("a enviar al backend: ", data)
-        await axios.post(`${API}/flextrainer/planes/createPlan`, data)
+        await axios.post(`${API}/flextrainer/planes/createPlan`, data, { timeout: 500000 })
         setErrorEjercicios(false)
 
         // NOTA: EL PARSEO DEL TIEMPO, SERIES, REPS, Y DESCANSO, LO VOY A HACER EN EL BACKEND
@@ -148,8 +144,8 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
                                                         message: 'Este campo es requerido'
                                                     },
                                                     maxLength: {
-                                                        value: 256,
-                                                        message: 'Máximo 256 caracteres'
+                                                        value: 30,
+                                                        message: 'Máximo 30 caracteres'
                                                     }
                                                 }
                                             }
@@ -211,6 +207,8 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
                                     </Form.Group>
                                 </div>
                                 {errorCantidadSesiones && <p style={{ color: 'darkred' }}>Elegí una cantidad de sesiones</p>}
+                                {/* {errorEjercicios && <span style={{ color: 'darkred' }}>Tenés que tener al menos un ejercicio por cada sesión y además no podés tener un ejercicio para una sesión que no existe</span>} */}
+                                {errorEjercicios && <span style={{ color: 'darkred' }}>Tenés que tener al menos un ejercicio por cada sesión</span>}
                             </div>
                         </Card.Body>
                     </Card>
@@ -222,8 +220,6 @@ const GenerarPlan = ({ usuarioEnSesion }) => {
                         ejerciciosAgregados={ejerciciosAgregados}
                         setEjerciciosAgregados={setEjerciciosAgregados}
                     />
-
-                    {errorEjercicios && <span style={{ color: 'darkred' }}>Tenés que tener al menos un ejercicio por cada sesión y además no podés tener un ejercicio para una sesión que no existe</span>}
 
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '12px' }} >
                         <Button variant="danger" style={{ margin: '8px', border: 'none', backgroundColor: 'grey' }} onClick={() => handleBack()}>

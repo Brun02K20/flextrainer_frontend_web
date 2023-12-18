@@ -28,7 +28,7 @@ const EliminarUsuario = ({ showModalEliminarUsuario, handleCloseEliminarUsuario,
     const onSubmit = async (data) => {
         data.dni = selectedUser.dni;
         console.log(data);
-        await axios.delete(`${API}/flextrainer/usuarios/usuario/delete/${data.dni}`);
+        await axios.delete(`${API}/flextrainer/usuarios/usuario/delete/${data.dni}`, { timeout: 500000 });
         setSelectedUser({}); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         setIsUserSelected(false); // indico que mis acciones con este usuario ya finalizaron, indicando que ya no hay un usuario elegido
         handleCloseEliminarUsuario(); // cierro el primer modal de eliminacion de usuario 
